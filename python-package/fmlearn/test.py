@@ -3,6 +3,7 @@
 # @Author : naihai
 import pandas as pd
 from fmlearn import DMatrix
+import xlearn
 
 if __name__ == '__main__':
     data = pd.read_csv("E:\Scala\projects\Recommend\data\house_price_train.txt", sep='\t', header=None)
