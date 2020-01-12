@@ -3,6 +3,7 @@
 //
 #include "c_api.h"
 #include "../data/data.h"
+#include "c_api_error.h"
 #include <iostream>
 #include <memory>
 
@@ -27,6 +28,7 @@ FM_DLL int FMPredict(FM *model, DataHandle *X) {
 
 // 创建DMatrix
 FM_DLL int FMCreateDataFromMat(const float *data, int rows, int cols, const float *label, DataHandle *out) {
+  API_BEGIN();
   // 使用智能指针管理DMatrix
   std::unique_ptr<DMatrix> matrix(new DMatrix());
 
@@ -52,14 +54,14 @@ FM_DLL int FMCreateDataFromMat(const float *data, int rows, int cols, const floa
   }
 
   *out = matrix.release();
-
-  return 0;
+  API_END();
 }
 
 FM_DLL int FMDataFree(DataHandle *out) {
+  API_BEGIN();
   // 强制类型转换为DMatrix
   DMatrix *matrix = reinterpret_cast<DMatrix *>(out);
   matrix->Free();
   delete matrix;
-  return 0;
+  API_END();
 }

@@ -36,6 +36,9 @@ FM_DLL int FMPredict(FM *model, DataHandle *X);
 FM_DLL int FMCreateDataFromMat(const float *data, int rows, int cols, const float *label, DataHandle *out);
 FM_DLL int FMDataFree(DataHandle *out);
 
+// Handle error
+FM_DLL const char * FMGetLastError();
+
 class FactorizationMachine {
  public:
   // Constructor and Destructor

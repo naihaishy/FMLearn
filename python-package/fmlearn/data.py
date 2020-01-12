@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import ctypes
 
-from .base import _LIB
+from .base import _LIB, _check_call
 
 
 class DMatrix(object):
@@ -65,11 +65,12 @@ class DMatrix(object):
                 label_ptr = label.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
             else:
                 raise ValueError("Input label must be list or numpy.ndarray or pandas.DataFrame/Series")
-        _LIB.FMCreateDataFromMat(data_ptr,
-                                 ctypes.c_uint64(n_rows),
-                                 ctypes.c_uint64(n_cols),
-                                 label_ptr,
-                                 ctypes.byref(self.__handle))
+
+        _check_call(_LIB.FMCreateDataFromMat(data_ptr,
+                                             ctypes.c_uint64(n_rows),
+                                             ctypes.c_uint64(n_cols),
+                                             label_ptr,
+                                             ctypes.byref(self.__handle)))
 
     @property
     def handle(self):
@@ -79,5 +80,5 @@ class DMatrix(object):
         """
         release the resource of DMatrix
         """
-        _LIB.FMDataFree(ctypes.byref(self.__handle))
+        _check_call(_LIB.FMDataFree(ctypes.byref(self.__handle)))
         self.__handle = None
