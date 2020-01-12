@@ -2,8 +2,8 @@
 // Created by naihai on 2020/1/12.
 //
 
-#ifndef FM__C_API_H_
-#define FM__C_API_H_
+#ifndef FMLEARN__C_API_H_
+#define FMLEARN__C_API_H_
 
 
 #ifdef __cplusplus

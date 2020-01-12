@@ -2,8 +2,8 @@
 // Created by naihai on 2020/1/12.
 //
 
-#ifndef FM__DATA_H_
-#define FM__DATA_H_
+#ifndef FMLEARN__DATA_H_
+#define FMLEARN__DATA_H_
 
 #include <vector>
 #include <iostream>
@@ -74,4 +74,4 @@ void DMatrix::Free() {
   this->row_length = 0;
 }
 
-#endif //FM__DATA_H_
+#endif //FMLEARN__DATA_H_
