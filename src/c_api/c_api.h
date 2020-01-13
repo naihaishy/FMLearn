@@ -25,19 +25,19 @@
 FM_DLL void hello();
 
 /* Handle to FMLearn */
-typedef void *FM;
-typedef void *DataHandle;
+typedef void* FM;
+typedef void* DataHandle;
 
-FM_DLL int FMCreate(FM *out);
-FM_DLL int FMFit(FM *model, DataHandle *X, DataHandle *y, int *iterations);
-FM_DLL int FMPredict(FM *model, DataHandle *X);
+FM_DLL int FMCreate(FM* out);
+FM_DLL int FMFit(FM* model, DataHandle* X, DataHandle* y, int iterations);
+FM_DLL int FMPredict(FM* model, DataHandle* X);
 
 // Handle data matrix for FMLearn
-FM_DLL int FMCreateDataFromMat(const float *data, int rows, int cols, const float *label, DataHandle *out);
-FM_DLL int FMDataFree(DataHandle *out);
+FM_DLL int FMMatrixCreateFromMat(const float* data, int rows, int cols, const float* label, DataHandle* out);
+FM_DLL int FMMatrixFree(DataHandle* out);
 
 // Handle error
-FM_DLL const char * FMGetLastError();
+FM_DLL const char* FMGetLastError();
 
 class FactorizationMachine {
  public:

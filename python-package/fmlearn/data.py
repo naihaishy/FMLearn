@@ -66,11 +66,11 @@ class DMatrix(object):
             else:
                 raise ValueError("Input label must be list or numpy.ndarray or pandas.DataFrame/Series")
 
-        _check_call(_LIB.FMCreateDataFromMat(data_ptr,
-                                             ctypes.c_uint64(n_rows),
-                                             ctypes.c_uint64(n_cols),
-                                             label_ptr,
-                                             ctypes.byref(self.__handle)))
+        _check_call(_LIB.FMMatrixCreateFromMat(data_ptr,
+                                               ctypes.c_uint64(n_rows),
+                                               ctypes.c_uint64(n_cols),
+                                               label_ptr,
+                                               ctypes.byref(self.__handle)))
 
     @property
     def handle(self):
@@ -80,5 +80,5 @@ class DMatrix(object):
         """
         release the resource of DMatrix
         """
-        _check_call(_LIB.FMDataFree(ctypes.byref(self.__handle)))
+        _check_call(_LIB.FMMatrixFree(ctypes.byref(self.__handle)))
         self.__handle = None

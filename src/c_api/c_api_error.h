@@ -27,7 +27,7 @@
 // FM_DLL const char * FMGetLastError(); // 需要暴露出去的接口函数
 
 // Set the last error message needed by C API
-void FMAPISetLastError(const char * msg);
+void FMAPISetLastError(const char* msg);
 
 inline int FMAPIHandleException(const std::runtime_error &e){
   FMAPISetLastError(e.what());
