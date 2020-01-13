@@ -2,8 +2,13 @@
 // Created by naihai on 2020/1/12.
 //
 
-#ifndef FMLEARN__C_API_H_
-#define FMLEARN__C_API_H_
+#ifndef FMLEARN_C_API_H_
+#define FMLEARN_C_API_H_
+
+#include "../data/data.h"
+#include "../core/model.h"
+#include "../common/common.h"
+#include "c_api_error.h"
 
 
 #ifdef __cplusplus
@@ -25,29 +30,21 @@
 FM_DLL void hello();
 
 /* Handle to FMLearn */
-typedef void* FM;
-typedef void* DataHandle;
-
-FM_DLL int FMCreate(FM* out);
-FM_DLL int FMFit(FM* model, DataHandle* X, DataHandle* y, int iterations);
-FM_DLL int FMPredict(FM* model, DataHandle* X);
+typedef void * FM;
+typedef void * DataHandle;
 
 // Handle data matrix for FMLearn
 FM_DLL int FMMatrixCreateFromMat(const float* data, int rows, int cols, const float* label, DataHandle* out);
 FM_DLL int FMMatrixFree(DataHandle* out);
 
+// Handle FactorizationMachine
+FM_DLL int FMCreate(FM* out, int task, int n_features, int n_factors,
+					float lr, float reg_w0, float reg_W, float reg_V,
+					float mean, float stddev);
+FM_DLL int FMFit(FM* out, DataHandle* data, int iterations);
+FM_DLL int FMPredict(FM* out, DataHandle* data, DataHandle* results);
+
 // Handle error
 FM_DLL const char* FMGetLastError();
 
-class FactorizationMachine {
- public:
-  // Constructor and Destructor
-  FactorizationMachine() {};
-  ~FactorizationMachine() {};
-  FactorizationMachine(const FactorizationMachine &other) = delete;
-  void operator=(const FactorizationMachine &) = delete;
-};
-
-
-
-#endif //FM__C_API_H_
+#endif //FMLEARN_C_API_H_

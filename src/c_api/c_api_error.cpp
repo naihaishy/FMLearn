@@ -10,7 +10,7 @@ struct FMAPIErrorEntry {
 
 static FMAPIErrorEntry entry;
 
-FM_DLL const char* FMGetLastError() {
+const char* FMGetLastError() {
   return entry.last_error.c_str();
 }
 

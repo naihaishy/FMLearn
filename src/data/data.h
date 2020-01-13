@@ -1,9 +1,8 @@
 //
 // Created by naihai on 2020/1/12.
 //
-
-#ifndef FMLEARN__DATA_H_
-#define FMLEARN__DATA_H_
+#ifndef FMLEARN_DATA_H_
+#define FMLEARN_DATA_H_
 
 #include <vector>
 #include <iostream>
@@ -11,9 +10,14 @@
 // 单个节点定义 一个样本
 struct Node {
   Node(int feature_id, float feature_val) :
-	  feature_id(feature_id), feature_val(feature_val) {}
+	  feature_id(feature_id), feature_val(feature_val) {};
   int feature_id; // 从0开始
   float feature_val;
+  // 重载输出运算符
+  friend std::ostream& operator<<(std::ostream& out, Node& node) {
+	out << "feature_id: " << node.feature_id << "\t" << "feature_val: " << node.feature_val;
+	return out;
+  };
 };
 
 typedef std::vector<Node> SparseRow;
@@ -21,11 +25,11 @@ typedef std::vector<Node> SparseRow;
 // Data Matrix 稀疏矩阵
 class DMatrix {
  public:
-  DMatrix():row_length(0), rows(0), labels(0), has_label(false), norms(0){}
+  DMatrix() : row_length(0), rows(0), labels(0), has_label(false), norms(0) {}
   ~DMatrix() = default;
 
-  DMatrix(const DMatrix &other) = delete;
-  void operator=(const DMatrix &other) = delete;
+  DMatrix(const DMatrix& other) = delete;
+  void operator=(const DMatrix& other) = delete;
 
   void AddNode(int row_id, int feature_id, float feature_val);
   void AddRow();
@@ -33,7 +37,7 @@ class DMatrix {
   int row_length = 0;
   bool has_label = false;
 
-  std::vector<SparseRow *> rows; // 使用指针 防止内容拷贝
+  std::vector<SparseRow*> rows; // 使用指针 防止内容拷贝
   std::vector<float> labels;
   std::vector<float> norms; // L2归一化
 };
@@ -61,17 +65,15 @@ void DMatrix::Free() {
 
   // delete nodes
   for (int i = 0; i < this->row_length; ++i) {
-	SparseRow *row = this->rows[i];
+	SparseRow* row = this->rows[i];
 	if (nullptr != row) {
-	  for (auto it = row->begin(); it != row->end(); ++it) {
-		delete &it;
-	  }
+	  delete row;
 	}
   }
 
   // delete rows
-  std::vector<SparseRow *>().swap(this->rows);
+  std::vector<SparseRow*>().swap(this->rows);
   this->row_length = 0;
 }
 
-#endif //FMLEARN__DATA_H_
+#endif //FMLEARN_DATA_H_

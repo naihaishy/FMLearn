@@ -3,13 +3,11 @@
 // 定义了C API 错误处理 主要参考自xgboost和xlearn
 /* This file defines the error handling for C API. */
 
-#ifndef FMLEARN_C_API_C_API_ERROR_H_
-#define FMLEARN_C_API_C_API_ERROR_H_
+#ifndef FMLEARN_C_API_ERROR_H_
+#define FMLEARN_C_API_ERROR_H_
 
-#include "c_api.h"
-#include <stdexcept>
 #include <string>
-
+#include <stdexcept>
 /**
  * 宏定义 监控所有的API函数
  */
@@ -34,4 +32,4 @@ inline int FMAPIHandleException(const std::runtime_error &e){
   return -1;
 }
 
-#endif //FMLEARN_C_API_C_API_ERROR_H_
+#endif //FMLEARN_C_API_ERROR_H_

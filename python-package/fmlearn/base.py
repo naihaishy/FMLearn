@@ -5,7 +5,7 @@ import ctypes
 
 
 def load_lib():
-    return ctypes.cdll.LoadLibrary("E:\CLion\Projects\FMLearn\cmake-build-debug\FMLearn.dll")
+    return ctypes.cdll.LoadLibrary("E:\CLion\Projects\FMLearn\cmake-build-debug\libFMLearn.dll")
 
 
 _LIB = load_lib()
