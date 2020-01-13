@@ -59,6 +59,7 @@ FM_DLL int FMMatrixFree(DataHandle* out) {
 	auto matrix = reinterpret_cast<DMatrix*>(*out);
 	matrix->Free();
 	delete matrix;
+	LOG_INFO("data matrix free succeed")
   API_END()
 }
 
@@ -73,6 +74,7 @@ FM_DLL int FMCreate(FM* out, int task, int n_features, int n_factors,
 	auto model = new FactorizationMachine(task, n_features, n_factors,
 										  lr, reg_w0, reg_W, reg_V, mean, stddev);
 	*out = model;
+	LOG_INFO("FMCreate succeed")
   API_END()
 }
 
@@ -89,6 +91,7 @@ FM_DLL int FMFit(FM* out, DataHandle* data, int iterations) {
 	// 数据类型转换
 	auto train_data = reinterpret_cast<DMatrix*>(*data);
 	model->Fit(train_data, iterations);
+	LOG_INFO("FMFit succeed")
   API_END()
 }
 
@@ -100,6 +103,7 @@ FM_DLL int FMPredict(FM* out, DataHandle* data, DataHandle* out_result) {
 	auto test_data = reinterpret_cast<DMatrix*>(*data);
 	auto results = reinterpret_cast<const float**>(*out_result);
 	model->Predict(test_data, results);
+	LOG_INFO("FMPredict succeed")
   API_END()
 }
 

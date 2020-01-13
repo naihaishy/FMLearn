@@ -25,7 +25,7 @@ typedef std::vector<Node> SparseRow;
 // Data Matrix 稀疏矩阵
 class DMatrix {
  public:
-  DMatrix() : row_length(0), rows(0), labels(0), has_label(false), norms(0) {}
+  DMatrix() : row_length(0), rows(0), labels(0), has_label(true), norms(0) {}
   ~DMatrix() = default;
 
   DMatrix(const DMatrix& other) = delete;
@@ -35,45 +35,13 @@ class DMatrix {
   void AddRow();
   void Free(); // free memory for DMatrix
   int row_length = 0;
-  bool has_label = false;
+  bool has_label = true;
 
   std::vector<SparseRow*> rows; // 使用指针 防止内容拷贝
   std::vector<float> labels;
   std::vector<float> norms; // L2归一化
 };
 
-void DMatrix::AddNode(int row_id, int feature_id, float feature_val) {
-  if (this->rows[row_id] == nullptr) {
-	this->rows[row_id] = new SparseRow();
-  }
-  Node node(feature_id, feature_val);
-  this->rows[row_id]->emplace_back(node);
-}
 
-void DMatrix::AddRow() {
-  this->row_length++;
-  this->rows.emplace_back(nullptr);
-  this->norms.emplace_back(1.0);
-  this->labels.emplace_back(0.0);
-}
-
-void DMatrix::Free() {
-  // delete labels
-  std::vector<float>().swap(this->labels);
-  // delete norms
-  std::vector<float>().swap(this->norms);
-
-  // delete nodes
-  for (int i = 0; i < this->row_length; ++i) {
-	SparseRow* row = this->rows[i];
-	if (nullptr != row) {
-	  delete row;
-	}
-  }
-
-  // delete rows
-  std::vector<SparseRow*>().swap(this->rows);
-  this->row_length = 0;
-}
 
 #endif //FMLEARN_DATA_H_

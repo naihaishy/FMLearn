@@ -6,6 +6,7 @@
 #define FMLEARN_CORE_MODEL_H_
 
 #include "../data/data.h"
+#include "../common/common.h"
 
 #define REGRESSION 0
 #define CLASSIFICATION 1
@@ -21,7 +22,7 @@ class FMModel {
   ~FMModel() {};
 
   // 从checkpoint file中初始化模型
-  explicit FMModel(const std::string& filename);
+  // explicit FMModel(const std::string& filename);
 
   /**
    * 初始化FMModel
@@ -41,6 +42,7 @@ class FMModel {
 	this->n_features_ = n_features;
 	this->n_factors_ = n_factors;
 	this->InitWeights(mean, stddev);
+	LOG_INFO("FMModel Construct succeed")
   }
 
   void InitWeights(float mean, float stddev);
@@ -85,9 +87,7 @@ class FactorizationMachine {
   void Predict(DMatrix* data, const float** out);
 
  private:
-
   float PredictInstance(SparseRow* x, float* inter_sum = nullptr);
-
   FMParam* hyper_param_;
   FMModel* model_;
 };

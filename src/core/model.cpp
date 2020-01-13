@@ -3,6 +3,7 @@
 //
 #include "model.h"
 #include "../common/common.h"
+#include "../c_api/c_api_error.h"
 #include <random>
 #include <cassert>
 
@@ -20,7 +21,7 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
   float reg_V = this->hyper_param_->reg_V;
 
   for (int epoch = 0; epoch < epochs; ++epoch) {
-    LOG_INFO("epoch " + std::to_string(epoch))
+	LOG_INFO("epoch " + std::to_string(epoch))
 
 	for (int m = 0; m < data->row_length; ++m) {
 	  auto& x = data->rows[m];
@@ -110,6 +111,7 @@ FactorizationMachine::FactorizationMachine(int task,
 										   float reg_V,
 										   float mean,
 										   float stddev) {
+  LOG_INFO("FactorizationMachine Construct Start!")
   this->model_ = new FMModel(task, n_features, n_factors, mean, stddev);
   this->hyper_param_ = new FMParam();
   this->hyper_param_->learning_rate = lr;
@@ -123,34 +125,38 @@ FactorizationMachine::~FactorizationMachine() {
   this->model_->Free();
   delete this->model_;
   delete this->hyper_param_;
-}
-
-FMModel::FMModel(const std::string& filename) {
-  FMModel();
+  LOG_INFO("FactorizationMachine Deconstruct succeed")
 }
 
 void FMModel::InitWeights(float mean, float stddev) {
-  // 分配内存
-  this->W_ = (float*)malloc(this->n_features_ * sizeof(float));
-  this->V_ = (float*)malloc(this->n_features_ * this->n_factors_ * sizeof(float));
+  try {
+	// 分配内存
+	this->W_ = new float[n_features_];
+	this->V_ = new float[this->n_features_ * this->n_factors_];
 
-  // 值初始化
-  this->w0_ = 0.0;
-  for (int i = 0; i < this->n_features_; ++i) {
-	this->W_[i] = 0.0;
-  }
-  std::default_random_engine generator;
-  std::uniform_real_distribution<float> distribution(0.0, 1.0);
-
-  for (int i = 0; i < this->n_features_; ++i) {
-	for (int j = 0; j < this->n_factors_; ++j) {
-	  this->V_[i * n_factors_ + j] = distribution(generator);
+	// 值初始化
+	this->w0_ = 0.0;
+	for (int i = 0; i < this->n_features_; ++i) {
+	  this->W_[i] = 0.0;
 	}
+	std::default_random_engine generator;
+	std::uniform_real_distribution<float> distribution(0.0, 1.0);
+
+	for (int i = 0; i < this->n_features_; ++i) {
+	  for (int j = 0; j < this->n_factors_; ++j) {
+		this->V_[i * n_factors_ + j] = distribution(generator);
+	  }
+	}
+  } catch (std::bad_alloc& e) {
+	LOG_INFO(e.what());
   }
+
+  LOG_INFO("FMModel InitWeights succeed")
 }
 
 void FMModel::Free() {
-  free(this->W_);
-  free(this->V_);
+  delete[] this->W_;
+  delete[] this->V_;
+  LOG_INFO("FMModel Free succeed")
 }
 

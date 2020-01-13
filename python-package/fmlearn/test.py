@@ -14,3 +14,4 @@ if __name__ == '__main__':
     fm = FactorizationMachine(0, n_features, 100, 0.1, [0.1, 0.1, 0.1])
     fm.fit(X, y, 100)
 
+

@@ -14,6 +14,8 @@ from .base import _LIB, _check_call
 
 class FactorizationMachine(object):
     def __init__(self, task, n_features, n_factors, lr, reg, init_mean=0.0, init_stddev=0.1):
+        self.__handle = ctypes.c_void_p()  # 指向C++ FactorizationMachine对象的内存区域
+
         self.init_stddev = init_stddev
         self.init_mean = init_mean
         self.reg_w0 = reg[0]
@@ -23,7 +25,7 @@ class FactorizationMachine(object):
         self.n_factors = n_factors
         self.n_features = n_features
         self.task = task
-        self.__handle = ctypes.c_void_p()
+
         _check_call(_LIB.FMCreate(ctypes.byref(self.__handle),
                                   ctypes.c_int(self.task),
                                   ctypes.c_int(self.n_features),
@@ -37,4 +39,6 @@ class FactorizationMachine(object):
 
     def fit(self, X, y, n_iterations):
         data = DMatrix(data=X, label=y)
-        _check_call(_LIB.FMFit(ctypes.byref(self.__handle), ctypes.byref(data.handle), ctypes.c_int(n_iterations)))
+        _check_call(_LIB.FMFit(ctypes.byref(self.__handle),
+                               ctypes.byref(data.handle),
+                               ctypes.c_int(n_iterations)))
