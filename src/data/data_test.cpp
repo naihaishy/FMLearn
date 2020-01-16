@@ -44,23 +44,11 @@ TEST(DMATRIX_TEST, AddData) {
 	  EXPECT_FLOAT_EQ(it->feature_val, 12.12);
 	}
   }
-
-
 }
 
 int main(int argc, char* argv[]) {
 
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
-
-  const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
-						1.0, 2.0, 3.0, 4.0, 5.0,
-						1.0, 2.0, 3.0, 4.0, 5.0,
-						1.0, 2.0, 3.0, 4.0, 5.0,
-  };
-  const float label[] = {1.0, 2.0, 3.0};
-  void** out = nullptr;
-  FMMatrixCreateFromMat(data, 3, 5, label, out);
-  return 0;
 }
 
