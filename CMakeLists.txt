@@ -8,6 +8,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -static-libgcc -static-libstdc++
 
 set(BUILD_UNIT_TEST true)
 
+
+
 include_directories(
         "${PROJECT_SOURCE_DIR}"
         "${PROJECT_BINARY_DIR}"
@@ -35,7 +37,6 @@ add_library(fm_learn SHARED
 
 # Set properties
 set_target_properties(fm_learn PROPERTIES OUTPUT_NAME "fm_learn")
-set_target_properties(fm_learn PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 set_target_properties(fm_learn PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 
 install(TARGETS fm_learn DESTINATION ${PROJECT_SOURCE_DIR}/build)
