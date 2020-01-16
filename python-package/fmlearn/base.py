@@ -2,10 +2,19 @@
 # @Time : 2020/1/12 20:43
 # @Author : naihai
 import ctypes
+import os
 
 
 def load_lib():
-    return ctypes.cdll.LoadLibrary("E:\Projects\CLion\Projects\FMLearn\cmake-build-debug\libFMLearn.dll")
+    lib_path = "E:\Projects\CLion\Projects\FMLearn\\build\libfm_learn.dll"
+
+    if not os.path.exists(lib_path):
+        print("lib don't exist")
+        raise ValueError("fuck dll")
+    else:
+        print("lib is ok")
+
+    return ctypes.cdll.LoadLibrary(lib_path)
 
 
 _LIB = load_lib()
