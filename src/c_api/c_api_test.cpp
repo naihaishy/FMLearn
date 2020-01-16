@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     };
     const float label[] = {1.0, 2.0, 3.0};
     DMatrix *dMatrix = new DMatrix();
-    DataHandle* out = reinterpret_cast<DataHandle *>(dMatrix);
+    DataHandle* out = reinterpret_cast<DataHandle *>(&dMatrix);
     FMMatrixCreateFromMat(data, 3, 5, label, out);
 
 }
