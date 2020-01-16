@@ -4,9 +4,12 @@
 import ctypes
 import os
 
+from fmlearn.libpath import find_lib_path
+
 
 def load_lib():
-    lib_path = "E:\Projects\CLion\Projects\FMLearn\\build\libfm_learn.dll"
+    lib_path = find_lib_path()
+    print("lib path is " + str(lib_path))
 
     if not os.path.exists(lib_path):
         print("lib don't exist")
