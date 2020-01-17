@@ -26,15 +26,15 @@ class FMModel {
   // explicit FMModel(const std::string& filename);
 
   explicit FMModel(int task, int n_features, int n_factors, float w0, float* W, float* V) :
-		  task_(task), n_features_(n_features),
-		  n_factors_(n_factors), w0_(w0), W_(W), V_(V) {};
+      task_(task), n_features_(n_features),
+      n_factors_(n_factors), w0_(w0), W_(W), V_(V) {};
 
   FMModel(int task, int n_features, int n_factors, float mean, float stddev) {
-	  this->task_ = task;
-	  this->n_features_ = n_features;
-	  this->n_factors_ = n_factors;
-	  this->InitWeights(mean, stddev);
-	  LOG_INFO("FMModel Construct succeed")
+    this->task_ = task;
+    this->n_features_ = n_features;
+    this->n_factors_ = n_factors;
+    this->InitWeights(mean, stddev);
+    LOG_INFO("FMModel Construct succeed")
   }
 
   void InitWeights(float mean, float stddev);
@@ -69,8 +69,8 @@ class FactorizationMachine {
  public:
   // Constructor and Destructor
   FactorizationMachine(int task, int n_features, int n_factors,
-					   float lr, float reg_w0, float reg_W, float reg_V,
-					   float mean, float stddev);
+                       float lr, float reg_w0, float reg_W, float reg_V,
+                       float mean, float stddev);
 
   ~FactorizationMachine();
   FactorizationMachine(const FactorizationMachine& other) = delete;
@@ -80,7 +80,7 @@ class FactorizationMachine {
   void Predict(DMatrix* data, const float** out);
 
   FMHyperParam* GetHyperParam();
-  FMModel * GetModel();
+  FMModel* GetModel();
 
  private:
   float PredictInstance(SparseRow* x, float* inter_sum = nullptr);

@@ -10,7 +10,6 @@
 #include "../common/common.h"
 #include "c_api_error.h"
 
-
 #ifdef __cplusplus
 #define FM_EXTERN_C extern "C"
 #include <cstdio>
@@ -30,8 +29,8 @@
 FM_DLL void hello();
 
 /* Handle to FMLearn */
-typedef void * FM;
-typedef void * DataHandle;
+typedef void* FM;
+typedef void* DataHandle;
 
 // Handle data matrix for FMLearn
 FM_DLL int FMMatrixCreateFromMat(const float* data, int rows, int cols, const float* label, DataHandle* out);
@@ -39,8 +38,8 @@ FM_DLL int FMMatrixFree(DataHandle* out);
 
 // Handle FactorizationMachine
 FM_DLL int FMCreate(FM* out, int task, int n_features, int n_factors,
-					float lr, float reg_w0, float reg_W, float reg_V,
-					float mean, float stddev);
+                    float lr, float reg_w0, float reg_W, float reg_V,
+                    float mean, float stddev);
 FM_DLL int FMFit(FM* out, DataHandle* data, int iterations);
 FM_DLL int FMPredict(FM* out, DataHandle* data, DataHandle* results);
 

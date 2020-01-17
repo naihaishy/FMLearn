@@ -133,7 +133,7 @@ void DMatrix::Free() {
  * @param other DMatrix
  * @return bool
  */
-bool DMatrix::operator == (const DMatrix& other) const {
+bool DMatrix::operator==(const DMatrix& other) const {
   if (this == &other) return true;
   if (this->has_label != other.has_label) return false;
   if (this->row_length != other.row_length) return false;

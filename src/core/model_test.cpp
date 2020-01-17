@@ -51,6 +51,58 @@ TEST(MODEL_TEST, FactorizationMachine) {
   EXPECT_TRUE(fm->GetHyperParam() != nullptr);
 }
 
+TEST(MODEL_TEST, FactorizationMachineFit) {
+
+  // fm
+  FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
+                                                      0.1, 0.1, 0.1, 0.1,
+                                                      0.0, 0.1);
+
+  // build data
+  const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
+                        1.0, 2.0, 3.0, 4.0, 5.0,
+                        1.0, 2.0, 3.0, 4.0, 5.0,
+  };
+  const float label[] = {1.0, 2.0, 3.0};
+
+  int n_rows = 3;
+  DMatrix* matrix = new DMatrix(data, label, n_rows, 5);
+
+  // fit
+  fm->Fit(matrix, 100);
+}
+
+TEST(MODEL_TEST, FactorizationMachinePredict){
+  // fm
+  FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
+                                                      0.1, 0.1, 0.1, 0.1,
+                                                      0.0, 0.1);
+
+  // build data
+  const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
+                        1.0, 2.0, 3.0, 4.0, 5.0,
+                        1.0, 2.0, 3.0, 4.0, 5.0,
+  };
+  const float label[] = {1.0, 2.0, 3.0};
+
+  int n_rows = 3;
+  DMatrix* train_matrix = new DMatrix(data, label, n_rows, 5);
+
+  // fit
+  fm->Fit(train_matrix, 100);
+
+  // build test data
+  std::vector<std::vector<float >> test_data;
+  test_data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
+  test_data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
+  test_data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
+  DMatrix* test_matrix = new DMatrix(&test_data, nullptr);
+
+  const float* out = new float[3];
+
+  fm->Predict(test_matrix, &out);
+}
+
 int main(int argc, char* argv[]) {
 
   testing::InitGoogleTest(&argc, argv);

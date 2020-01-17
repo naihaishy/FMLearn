@@ -27,7 +27,7 @@
 // Set the last error message needed by C API
 void FMAPISetLastError(const char* msg);
 
-inline int FMAPIHandleException(const std::runtime_error &e){
+inline int FMAPIHandleException(const std::runtime_error& e) {
   FMAPISetLastError(e.what());
   return -1;
 }
