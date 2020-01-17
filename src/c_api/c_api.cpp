@@ -21,29 +21,7 @@ FM_DLL void hello() {
 FM_DLL int FMMatrixCreateFromMat(const float* data, int rows, int cols, const float* label, DataHandle* out) {
   API_BEGIN()
 	// 使用智能指针管理DMatrix
-	std::unique_ptr<DMatrix> matrix(new DMatrix());
-
-	for (int i = 0; i < rows; ++i) {
-	  matrix->AddRow();
-	  float norm = 0.0;
-	  for (int j = 0; j < cols; ++j) {
-		float value = data[i * cols + j];
-		matrix->AddNode(i, j, value);
-		norm += value * value;
-	  }
-	  norm = 1.0f / norm;
-	  matrix->norms[i] = norm;
-	}
-
-	if (nullptr == label) {
-	  matrix->has_label = false;
-	} else {
-	  matrix->has_label = true;
-	  for (int i = 0; i < rows; ++i) {
-		matrix->labels[i] = label[i];
-	  }
-	}
-
+	std::unique_ptr<DMatrix> matrix(new DMatrix(data, label, rows, cols));
 	*out = matrix.release();
 	LOG_INFO("data matrix created succeed")
   API_END()

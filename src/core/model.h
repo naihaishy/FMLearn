@@ -15,34 +15,26 @@
 
 /**
  * FM 模型
+ * 主要用于存储参数矩阵
  */
 class FMModel {
  public:
-  FMModel() {};
-  ~FMModel() {};
+  FMModel() = default;;
+  ~FMModel() = default;;
 
   // 从checkpoint file中初始化模型
   // explicit FMModel(const std::string& filename);
 
-  /**
-   * 初始化FMModel
-   * @param task
-   * @param n_features
-   * @param n_factors
-   * @param w0
-   * @param W
-   * @param V
-   */
   explicit FMModel(int task, int n_features, int n_factors, float w0, float* W, float* V) :
-	  task_(task), n_features_(n_features),
-	  n_factors_(n_factors), w0_(w0), W_(W), V_(V) {};
+		  task_(task), n_features_(n_features),
+		  n_factors_(n_factors), w0_(w0), W_(W), V_(V) {};
 
   FMModel(int task, int n_features, int n_factors, float mean, float stddev) {
-	this->task_ = task;
-	this->n_features_ = n_features;
-	this->n_factors_ = n_factors;
-	this->InitWeights(mean, stddev);
-	LOG_INFO("FMModel Construct succeed")
+	  this->task_ = task;
+	  this->n_features_ = n_features;
+	  this->n_factors_ = n_factors;
+	  this->InitWeights(mean, stddev);
+	  LOG_INFO("FMModel Construct succeed")
   }
 
   void InitWeights(float mean, float stddev);
@@ -59,8 +51,8 @@ class FMModel {
 /**
  * FM 超参数
  */
-struct FMParam {
-  bool is_train = true;
+struct FMHyperParam {
+  bool is_train = false;
   bool on_disk = false;
   bool quiet = false;
 
@@ -72,6 +64,7 @@ struct FMParam {
   bool norm = true;
 };
 
+// Entry class for FM FM的入口类
 class FactorizationMachine {
  public:
   // Constructor and Destructor
@@ -86,10 +79,14 @@ class FactorizationMachine {
   void Fit(DMatrix* data, int epochs);
   void Predict(DMatrix* data, const float** out);
 
+  FMHyperParam* GetHyperParam();
+  FMModel * GetModel();
+
  private:
   float PredictInstance(SparseRow* x, float* inter_sum = nullptr);
-  FMParam* hyper_param_;
+  FMHyperParam* hyper_param_;
   FMModel* model_;
 };
 
 #endif //FMLEARN_CORE_MODEL_H_
+
