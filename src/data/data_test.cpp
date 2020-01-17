@@ -100,11 +100,11 @@ TEST(DMATRIX_TEST, AddData) {
 TEST(DMATRIX_TEST, Free) {
   DMatrix matrix;
   matrix.Free();
-  EXPECT_EQ(matrix.has_label, true);
+  EXPECT_TRUE(matrix.has_label);
   EXPECT_EQ(matrix.row_length, 0);
-  EXPECT_EQ(matrix.rows.empty(), true);
-  EXPECT_EQ(matrix.labels.empty(), true);
-  EXPECT_EQ(matrix.norms.empty(), true);
+  EXPECT_TRUE(matrix.rows.empty());
+  EXPECT_TRUE(matrix.labels.empty());
+  EXPECT_TRUE(matrix.norms.empty());
 }
 
 /**

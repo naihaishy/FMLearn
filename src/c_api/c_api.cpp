@@ -36,7 +36,7 @@ FM_DLL int FMMatrixFree(DataHandle* out) {
 	// 强制将out类型转换为DMatrix
 	auto matrix = reinterpret_cast<DMatrix*>(*out);
 	matrix->Free();
-	delete matrix;
+	// delete matrix;
 	LOG_INFO("data matrix free succeed")
   API_END()
 }
