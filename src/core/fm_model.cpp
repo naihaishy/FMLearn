@@ -5,23 +5,13 @@
 #include "fm_model.h"
 #include <random>
 
-FMModel::FMModel(int task, int n_features, int n_factors,
-                 float mean, float stddev) {
-  FMModel(task,
-          n_features, n_factors,
-          mean, stddev,
-          std::numeric_limits<float>::min(), std::numeric_limits<float>::max());
-}
 
 FMModel::FMModel(int task,
                  int n_features, int n_factors,
-                 float mean, float stddev,
-                 float max_target, float min_target) {
+                 float mean, float stddev) {
   this->task_ = task;
   this->n_features_ = n_features;
   this->n_factors_ = n_factors;
-  this->max_target_ = max_target;
-  this->min_target_ = min_target;
   this->InitWeights(mean, stddev);
 }
 
