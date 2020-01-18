@@ -40,6 +40,8 @@ class FMModel {
   float* W_ = nullptr;
   float* V_ = nullptr;
 
+  // 是否对predict结果进行范围限制 在task==REGRESSION情况下有效
+  bool limit_predict = false;
   float min_target_ = 0.0;
   float max_target_ = 0.0;
 };

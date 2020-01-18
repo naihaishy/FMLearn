@@ -26,7 +26,7 @@ TEST(MODEL_TEST, FMModel) {
 }
 
 TEST(MODEL_TEST, FMHyperParam) {
-  auto param = new FMHyperParam();
+  auto param = new FMHyperParam(0.1, 0.1, 0.1, 0.1, true);
   EXPECT_FALSE(param->is_train);
   EXPECT_FALSE(param->on_disk);
   EXPECT_FALSE(param->quiet);

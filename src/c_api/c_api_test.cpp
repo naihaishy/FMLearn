@@ -65,7 +65,7 @@ TEST(C_API_TEST, FMCreate) {
   EXPECT_TRUE(model->V_ != nullptr);
   EXPECT_FLOAT_EQ(model->w0_, 0.0);
 
-  auto param = new FMHyperParam();
+  auto param = new FMHyperParam(0.1, 0.1, 0.1, 0.1, true);
   EXPECT_FALSE(param->is_train);
   EXPECT_FALSE(param->on_disk);
   EXPECT_FALSE(param->quiet);

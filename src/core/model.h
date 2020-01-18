@@ -29,7 +29,7 @@ class FactorizationMachine {
   FMModel* GetModel();
 
  private:
-  float PredictInstance(SparseRow* x, float* inter_sum = nullptr);
+  float PredictInstance(SparseRow* x, float norm = 1.0, float* inter_sum = nullptr);
   FMHyperParam* hyper_param_;
   FMModel* model_;
 };
