@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <limits>
 
 // 单个节点定义 一个样本
 struct Node {
@@ -52,6 +53,10 @@ class DMatrix {
   std::vector<SparseRow*> rows; // 使用指针 防止内容拷贝
   std::vector<float> labels;
   std::vector<float> norms; // L2归一化
+
+  // label的最大最小值
+  float min_label = std::numeric_limits<float>::max();
+  float max_label = std::numeric_limits<float>::min();
 };
 
 #endif //FMLEARN_DATA_H_

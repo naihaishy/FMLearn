@@ -5,6 +5,7 @@
 #include "src/c_api/c_api_error.h"
 
 #include <random>
+#include <memory.h>
 #include "src/common/math.h"
 
 FactorizationMachine::FactorizationMachine(int task,
@@ -42,6 +43,10 @@ FMModel* FactorizationMachine::GetModel() {
 void FactorizationMachine::Fit(DMatrix* data, int epochs) {
 
   LOG_INFO("Start FactorizationMachine Fit")
+  if (this->model_->task_ == REGRESSION) {
+    this->model_->min_target_ = data->min_label;
+    this->model_->max_target_ = data->max_label;
+  }
 
   float lr = this->hyper_param_->learning_rate;
   float reg_w0 = this->hyper_param_->reg_w0;
@@ -50,11 +55,14 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
 
   LOG_INFO("data nums " + std::to_string(data->row_length));
 
+  auto inter_sum = new float[this->model_->n_factors_];
+  memset(inter_sum, 0.0, this->model_->n_factors_);
+
   for (int epoch = 0; epoch < epochs; ++epoch) {
     float losses = 0.0;
     for (int m = 0; m < data->row_length; ++m) {
       auto& x = data->rows[m];
-      auto inter_sum = new float[this->model_->n_factors_];
+      memset(inter_sum, 0.0, this->model_->n_factors_);
 
       // predict
       float y_pred = this->PredictInstance(x, inter_sum);
@@ -104,8 +112,15 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
           " loss: " + std::to_string(losses / data->row_length));
     }
   }
+
+  delete[] inter_sum;
 }
 
+/**
+ * 预测
+ * @param data DMatrix
+ * @param out
+ */
 void FactorizationMachine::Predict(DMatrix* data, const float** out) {
   std::vector<float> results;
   results.reserve(data->row_length);
@@ -118,6 +133,12 @@ void FactorizationMachine::Predict(DMatrix* data, const float** out) {
   *out = &results[0];
 }
 
+/**
+ * 预测单个样本
+ * @param x 样本
+ * @param inter_sum float*指针 参数更新时的中间值数组
+ * @return
+ */
 float FactorizationMachine::PredictInstance(SparseRow* x, float* inter_sum) {
   float result = 0.0;
   result += this->model_->w0_;
@@ -141,6 +162,11 @@ float FactorizationMachine::PredictInstance(SparseRow* x, float* inter_sum) {
       if (nullptr != inter_sum) inter_sum[f] += d;
     }
     result += inter1 * inter1 - inter2;
+  }
+
+  if (this->model_->task_ == REGRESSION) {
+    result = std::max(this->model_->min_target_, result);
+    result = std::min(this->model_->max_target_, result);
   }
   return result;
 }

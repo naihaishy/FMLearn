@@ -15,6 +15,8 @@ TEST(DMATRIX_TEST, Construct_Default) {
   EXPECT_EQ(matrix.rows.empty(), true);
   EXPECT_EQ(matrix.labels.empty(), true);
   EXPECT_EQ(matrix.norms.empty(), true);
+  EXPECT_FLOAT_EQ(matrix.max_label, std::numeric_limits<float>::min());
+  EXPECT_FLOAT_EQ(matrix.min_label, std::numeric_limits<float>::max());
 }
 
 /**
@@ -34,6 +36,8 @@ TEST(DMATRIX_TEST, Construct_Explicit_Array) {
   EXPECT_EQ(matrix->rows.size(), n_rows);
   EXPECT_EQ(matrix->labels.size(), n_rows);
   EXPECT_EQ(matrix->norms.size(), n_rows);
+  EXPECT_FLOAT_EQ(matrix->max_label, 3.0);
+  EXPECT_FLOAT_EQ(matrix->min_label, 1.0);
 }
 
 /**
@@ -53,6 +57,8 @@ TEST(DMATRIX_TEST, Construct_Explicit_Vector) {
   EXPECT_EQ(matrix->rows.size(), n_rows);
   EXPECT_EQ(matrix->labels.size(), n_rows);
   EXPECT_EQ(matrix->norms.size(), n_rows);
+  EXPECT_FLOAT_EQ(matrix->max_label, 3.0);
+  EXPECT_FLOAT_EQ(matrix->min_label, 1.0);
 }
 
 /**

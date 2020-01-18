@@ -35,6 +35,8 @@ DMatrix::DMatrix(const float* data, const float* label, int n_rows, int n_cols) 
     this->has_label = true;
     for (int i = 0; i < n_rows; ++i) {
       this->labels[i] = label[i];
+      min_label = this->labels[i] < min_label ? this->labels[i] : min_label;
+      max_label = this->labels[i] > max_label ? this->labels[i] : max_label;
     }
   }
 }
@@ -69,6 +71,8 @@ DMatrix::DMatrix(std::vector<std::vector<float>>* data, std::vector<float>* labe
     this->has_label = true;
     for (int i = 0; i < n_rows; ++i) {
       this->labels[i] = (*label)[i];
+      min_label = this->labels[i] < min_label ? this->labels[i] : min_label;
+      max_label = this->labels[i] > max_label ? this->labels[i] : max_label;
     }
   }
 }
