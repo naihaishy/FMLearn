@@ -23,7 +23,8 @@ if __name__ == '__main__':
 
     _, n_features = X.shape
 
-    fm = FactorizationMachine(0, n_features, 100, 0.0000001, [0.1, 0.1, 0.1])
+    fm = FactorizationMachine(0, n_features, 100, 0.00000001, [0.1, 0.1, 0.1])
     fm.fit(X_train_, y_train_, 100)
+
 
 

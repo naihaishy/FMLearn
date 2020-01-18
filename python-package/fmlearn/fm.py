@@ -13,18 +13,23 @@ from .base import _LIB, _check_call
 
 
 class FactorizationMachine(object):
-    def __init__(self, task, n_features, n_factors, lr, reg, init_mean=0.0, init_stddev=0.1):
+    def __init__(self, task, n_features, n_factors,
+                 lr, reg,
+                 init_mean=0.0, init_stddev=0.1):
         self.__handle = ctypes.c_void_p()  # 指向C++ FactorizationMachine对象的内存区域
 
-        self.init_stddev = init_stddev
-        self.init_mean = init_mean
+        self.task = task
+        self.n_features = n_features
+        self.n_factors = n_factors
+        assert (task == 0 or task == 1)
+
+        self.lr = lr
         self.reg_w0 = reg[0]
         self.reg_W = reg[1]
         self.reg_V = reg[2]
-        self.lr = lr
-        self.n_factors = n_factors
-        self.n_features = n_features
-        self.task = task
+
+        self.init_mean = init_mean
+        self.init_stddev = init_stddev
 
         _check_call(_LIB.FMCreate(ctypes.byref(self.__handle),
                                   ctypes.c_int(self.task),
@@ -42,3 +47,12 @@ class FactorizationMachine(object):
         _check_call(_LIB.FMFit(ctypes.byref(self.__handle),
                                ctypes.byref(data.handle),
                                ctypes.c_int(n_iterations)))
+
+    def predict(self, X):
+        data = DMatrix(data=X)
+        results = ctypes.POINTER(ctypes.c_float)()
+        _check_call(_LIB.FMPredict(ctypes.byref(self.__handle),
+                                   ctypes.byref(data.handle),
+                                   ctypes.byref(results)))
+
+        return [e for e in results]

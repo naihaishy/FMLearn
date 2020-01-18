@@ -48,6 +48,8 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
   float reg_W = this->hyper_param_->reg_W;
   float reg_V = this->hyper_param_->reg_V;
 
+  LOG_INFO("data nums " + std::to_string(data->row_length));
+
   for (int epoch = 0; epoch < epochs; ++epoch) {
     float losses = 0.0;
     for (int m = 0; m < data->row_length; ++m) {
@@ -95,12 +97,11 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
       } else if (this->model_->task_ == CLASSIFICATION) {
         losses += -log(sigmoid(y_true * y_pred));
       }
+    }
 
-      losses /= data->row_length;
-      if (!this->hyper_param_->quiet) {
-        LOG_INFO("epoch " + std::to_string(epoch) +
-            " loss: " + std::to_string(losses));
-      }
+    if (!this->hyper_param_->quiet) {
+      LOG_INFO("epoch " + std::to_string(epoch) +
+          " loss: " + std::to_string(losses / data->row_length));
     }
   }
 }
