@@ -54,19 +54,21 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
   float reg_V = this->hyper_param_->reg_V;
 
   LOG_INFO("data nums " + std::to_string(data->row_length));
-
-  auto inter_sum = new float[this->model_->n_factors_];
-  memset(inter_sum, 0.0, this->model_->n_factors_);
+  int K = this->model_->n_factors_;
+  auto inter_sum = new float[K];
+  for (int i = 0; i < K; ++i) inter_sum[i] = 0.0;
 
   for (int epoch = 0; epoch < epochs; ++epoch) {
     float losses = 0.0;
     for (int m = 0; m < data->row_length; ++m) {
       auto& x = data->rows[m];
-      memset(inter_sum, 0.0, this->model_->n_factors_);
+      for (int i = 0; i < K; ++i) inter_sum[i] = 0.0;
 
       // predict
       float y_pred = this->PredictInstance(x, inter_sum);
       float y_true = data->labels[m];
+      LOG_INFO("y_pred " + std::to_string(y_pred) +
+          "\t y_true :" + std::to_string(y_true))
 
       // calculate gradient
       float delta = 0.0;
@@ -78,7 +80,6 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
         throw std::exception();
       }
 
-
       // update weights
       this->model_->w0_ -= lr * (delta + 2 * reg_w0 * this->model_->w0_);
 
@@ -89,7 +90,7 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
         this->model_->W_[i] -= lr * (gradient_w + 2 * reg_W * this->model_->W_[i]);
       }
 
-      for (int f = 0; f < this->model_->n_factors_; ++f) {
+      for (int f = 0; f < K; ++f) {
         for (auto& it : *x) {
           int& i = it.feature_id;
           float& xi = it.feature_val;
