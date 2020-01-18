@@ -5,9 +5,9 @@
 #ifndef FMLEARN_C_API_H_
 #define FMLEARN_C_API_H_
 
-#include "../data/data.h"
-#include "../core/model.h"
-#include "../common/common.h"
+#include "src/data/data.h"
+#include "src/core/model.h"
+#include "src/common/common.h"
 #include "c_api_error.h"
 
 #ifdef __cplusplus

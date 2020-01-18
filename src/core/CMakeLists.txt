@@ -1,6 +1,6 @@
 
 # Build model static lib
-add_library(model STATIC model.cpp)
+add_library(model STATIC model.cpp fm_model.cpp)
 
 # Test for model
 if (BUILD_UNIT_TEST)

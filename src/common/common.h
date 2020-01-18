@@ -5,6 +5,8 @@
 #ifndef FMLEARN_COMMON_COMMON_H_
 #define FMLEARN_COMMON_COMMON_H_
 
+#include <iostream>
+
 // 预编译定义
 #define USING_LOGGING
 
@@ -13,6 +15,12 @@
 #else
 #define LOG_INFO(msg)
 #endif // USING_LOGGING
+
+
+#define REGRESSION 0
+#define CLASSIFICATION 1
+#define SQUARE_LOSS 0
+#define CROSS_ENTROPY_LOSS 1
 
 
 #endif //FMLEARN_COMMON_COMMON_H_

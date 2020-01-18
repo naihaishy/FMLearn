@@ -6,7 +6,7 @@
 
 #include <vector>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 // 单个节点定义 一个样本
 struct Node {

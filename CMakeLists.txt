@@ -32,6 +32,7 @@ add_library(fm_learn SHARED
         src/c_api/c_api.cpp
         src/c_api/c_api_error.cpp
         src/core/model.cpp
+        src/core/fm_model.cpp
         src/data/data.cpp)
 
 # Set properties

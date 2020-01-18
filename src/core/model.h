@@ -5,64 +5,10 @@
 #ifndef FMLEARN_CORE_MODEL_H_
 #define FMLEARN_CORE_MODEL_H_
 
-#include "../data/data.h"
-#include "../common/common.h"
-
-#define REGRESSION 0
-#define CLASSIFICATION 1
-#define SQUARE_LOSS 0
-#define CROSS_ENTROPY_LOSS 1
-
-/**
- * FM 模型
- * 主要用于存储参数矩阵
- */
-class FMModel {
- public:
-  FMModel() = default;;
-  ~FMModel() = default;;
-
-  // 从checkpoint file中初始化模型
-  // explicit FMModel(const std::string& filename);
-
-  explicit FMModel(int task, int n_features, int n_factors, float w0, float* W, float* V) :
-      task_(task), n_features_(n_features),
-      n_factors_(n_factors), w0_(w0), W_(W), V_(V) {};
-
-  FMModel(int task, int n_features, int n_factors, float mean, float stddev) {
-    this->task_ = task;
-    this->n_features_ = n_features;
-    this->n_factors_ = n_factors;
-    this->InitWeights(mean, stddev);
-    LOG_INFO("FMModel Construct succeed")
-  }
-
-  void InitWeights(float mean, float stddev);
-  void Free();
-
-  int task_ = REGRESSION;
-  int n_features_ = 0;
-  int n_factors_ = 0;
-  float w0_ = 0.0;
-  float* W_ = nullptr;
-  float* V_ = nullptr;
-};
-
-/**
- * FM 超参数
- */
-struct FMHyperParam {
-  bool is_train = false;
-  bool on_disk = false;
-  bool quiet = false;
-
-  // training
-  float learning_rate = 0.1;
-  float reg_w0 = 0.1;
-  float reg_W = 0.1;
-  float reg_V = 0.1;
-  bool norm = true;
-};
+#include "src/data/data.h"
+#include "src/common/common.h"
+#include "src/core/fm_model.h"
+#include "src/core/fm_param.h"
 
 // Entry class for FM FM的入口类
 class FactorizationMachine {

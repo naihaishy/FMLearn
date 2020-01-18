@@ -2,8 +2,10 @@
 // Created by naihai on 2020/1/13.
 // Google unit test for model module
 
-#include "model.h"
 #include "gtest/gtest.h"
+#include "fm_model.h"
+#include "fm_param.h"
+#include "model.h"
 
 TEST(MODEL_TEST, FMModel) {
   int task = 0;
