@@ -26,16 +26,19 @@ TEST(MODEL_TEST, FMModel) {
 }
 
 TEST(MODEL_TEST, FMHyperParam) {
-  auto param = new FMHyperParam(0.1, 0.1, 0.1, 0.1, true);
+  auto param = new FMHyperParam(0.1,
+      0.1, 0.1, 0.1,
+      true, false);
   EXPECT_FALSE(param->is_train);
   EXPECT_FALSE(param->on_disk);
-  EXPECT_FALSE(param->quiet);
+  EXPECT_FALSE(param->verbose);
 
   EXPECT_FLOAT_EQ(param->learning_rate, 0.1);
   EXPECT_FLOAT_EQ(param->reg_W, 0.1);
   EXPECT_FLOAT_EQ(param->reg_W, 0.1);
   EXPECT_FLOAT_EQ(param->reg_V, 0.1);
   EXPECT_TRUE(param->norm);
+  std::cout << param->to_string() << std::endl;
 }
 
 TEST(MODEL_TEST, FactorizationMachine) {

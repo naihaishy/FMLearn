@@ -4,6 +4,7 @@
 
 #ifndef FMLEARN_CORE_FM_PARAM_H_
 #define FMLEARN_CORE_FM_PARAM_H_
+#include <iostream>
 
 /**
  * FM 超参数
@@ -16,12 +17,14 @@ class FMHyperParam {
                float reg_w0,
                float reg_W,
                float reg_V,
-               bool norm) :
+               bool norm,
+               bool verbose) :
       learning_rate(learning_rate),
       reg_w0(reg_w0),
       reg_W(reg_W),
       reg_V(reg_V),
-      norm(norm) {};
+      norm(norm),
+      verbose(verbose){};
 
   // training
   float learning_rate = 0.1;
@@ -32,7 +35,21 @@ class FMHyperParam {
 
   bool is_train = false;
   bool on_disk = false;
-  bool quiet = false;
+  bool verbose = false;
+
+  std::string to_string() {
+    std::string result;
+    result.reserve(1024);
+    result.append("learning_rate :" + std::to_string(learning_rate) + "\t");
+    result.append("reg_w0 :" + std::to_string(reg_w0) + "\t");
+    result.append("reg_W :" + std::to_string(reg_W) + "\t");
+    result.append("reg_V :" + std::to_string(reg_V) + "\t");
+    result.append("norm :" + std::to_string(norm) + "\t");
+    result.append("is_train :" + std::to_string(is_train) + "\t");
+    result.append("on_disk :" + std::to_string(on_disk) + "\t");
+    result.append("verbose :" + std::to_string(verbose) + "\t");
+    return result;
+  }
 };
 
 #endif //FMLEARN_CORE_FM_PARAM_H_

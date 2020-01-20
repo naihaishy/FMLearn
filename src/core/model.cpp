@@ -17,9 +17,10 @@ FactorizationMachine::FactorizationMachine(int task,
                                            float reg_W,
                                            float reg_V,
                                            float mean,
-                                           float stddev) {
+                                           float stddev,
+                                           bool verbose) {
   this->model_ = new FMModel(task, n_features, n_factors, mean, stddev);
-  this->hyper_param_ = new FMHyperParam(lr, reg_w0, reg_W, reg_V, true);
+  this->hyper_param_ = new FMHyperParam(lr, reg_w0, reg_W, reg_V, true, verbose);
   Logging::debug("FactorizationMachine Construct succeed!");
 }
 
@@ -38,6 +39,7 @@ FMModel* FactorizationMachine::GetModel() {
 
 void FactorizationMachine::Fit(DMatrix* data, int epochs) {
   Logging::debug("Start FactorizationMachine Fit");
+  Logging::debug("FactorizationMachine Params: " + hyper_param_->to_string());
   if (this->model_->task_ == REGRESSION && this->model_->limit_predict) {
     this->model_->min_target_ = data->min_label;
     this->model_->max_target_ = data->max_label;
@@ -106,7 +108,7 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
       }
     }
 
-    if (!this->hyper_param_->quiet) {
+    if (this->hyper_param_->verbose) {
       Logging::debug("epoch " + std::to_string(epoch) +
           " loss: " + std::to_string(losses / data->row_length));
     }

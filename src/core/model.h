@@ -16,7 +16,7 @@ class FactorizationMachine {
   // Constructor and Destructor
   FactorizationMachine(int task, int n_features, int n_factors,
                        float lr, float reg_w0, float reg_W, float reg_V,
-                       float mean, float stddev);
+                       float mean, float stddev, bool quiet = true);
 
   ~FactorizationMachine();
   FactorizationMachine(const FactorizationMachine& other) = delete;
