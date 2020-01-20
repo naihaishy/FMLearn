@@ -10,17 +10,13 @@
 #include "src/common/math.h"
 
 FactorizationMachine::FactorizationMachine(int task,
-                                           int n_features,
-                                           int n_factors,
+                                           int n_features, int n_factors,
                                            float lr,
-                                           float reg_w0,
-                                           float reg_W,
-                                           float reg_V,
-                                           float mean,
-                                           float stddev,
-                                           bool verbose) {
+                                           float reg_w0, float reg_W, float reg_V,
+                                           float mean, float stddev,
+                                           bool norm, bool verbose) {
   this->model_ = new FMModel(task, n_features, n_factors, mean, stddev);
-  this->hyper_param_ = new FMHyperParam(lr, reg_w0, reg_W, reg_V, true, verbose);
+  this->hyper_param_ = new FMHyperParam(lr, reg_w0, reg_W, reg_V, norm, verbose);
   Logging::debug("FactorizationMachine Construct succeed!");
 }
 

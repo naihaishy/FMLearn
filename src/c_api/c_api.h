@@ -39,7 +39,8 @@ FM_DLL int FMMatrixFree(DataHandle* out);
 // Handle FactorizationMachine
 FM_DLL int FMCreate(FM* out, int task, int n_features, int n_factors,
                     float lr, float reg_w0, float reg_W, float reg_V,
-                    float mean, float stddev, bool verbose);
+                    float mean, float stddev,
+                    bool norm, bool verbose);
 FM_DLL int FMFit(FM* out, DataHandle* data, int iterations);
 FM_DLL int FMPredict(FM* out, DataHandle* data, DataHandle* results);
 

@@ -51,7 +51,7 @@ TEST(C_API_TEST, FMCreate) {
   FM* out = reinterpret_cast<FM*>(&dfm);
   FMCreate(out, 0, 10, 20,
            0.1, 0.1, 0.1, 0.1,
-           0.1, 0.1, false);
+           0.1, 0.1, true, true);
 
   FactorizationMachine* fm = reinterpret_cast<FactorizationMachine*>(*out);
 
@@ -66,13 +66,14 @@ TEST(C_API_TEST, FMCreate) {
   auto param = new FMHyperParam(0.1, 0.1, 0.1, 0.1, true, false);
   EXPECT_FALSE(param->is_train);
   EXPECT_FALSE(param->on_disk);
-  EXPECT_FALSE(param->verbose);
+
 
   EXPECT_FLOAT_EQ(param->learning_rate, 0.1);
   EXPECT_FLOAT_EQ(param->reg_W, 0.1);
   EXPECT_FLOAT_EQ(param->reg_W, 0.1);
   EXPECT_FLOAT_EQ(param->reg_V, 0.1);
   EXPECT_TRUE(param->norm);
+  EXPECT_TRUE(param->verbose);
 }
 
 TEST(C_API_TEST, FMFit) {
@@ -92,7 +93,7 @@ TEST(C_API_TEST, FMFit) {
   FM* fm_out = reinterpret_cast<FM*>(&dfm);
   FMCreate(fm_out, 0, 10, 20,
            0.1, 0.1, 0.1, 0.1,
-           0.1, 0.1, false);
+           0.1, 0.1, true, false);
 
   FactorizationMachine* fm = reinterpret_cast<FactorizationMachine*>(*fm_out);
 
@@ -115,7 +116,7 @@ TEST(C_API_TEST, FMPredict) {
   FM* fm_out = reinterpret_cast<FM*>(&dfm);
   FMCreate(fm_out, 0, 10, 20,
            0.1, 0.1, 0.1, 0.1,
-           0.1, 0.1, false);
+           0.1, 0.1, true,false);
 
   FactorizationMachine* fm = reinterpret_cast<FactorizationMachine*>(*fm_out);
 

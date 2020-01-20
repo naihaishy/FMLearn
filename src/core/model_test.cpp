@@ -45,7 +45,7 @@ TEST(MODEL_TEST, FactorizationMachine) {
   // Constructor
   FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
                                                       0.1, 0.1, 0.1, 0.1,
-                                                      0.0, 0.1);
+                                                      0.0, 0.1, true, true);
 
   EXPECT_TRUE(fm != nullptr);
 
@@ -61,7 +61,7 @@ TEST(MODEL_TEST, FactorizationMachineFit) {
   // fm
   FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
                                                       0.1, 0.1, 0.1, 0.1,
-                                                      0.0, 0.1);
+                                                      0.0, 0.1, true, true);
 
   // build data
   const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
@@ -81,7 +81,7 @@ TEST(MODEL_TEST, FactorizationMachinePredict){
   // fm
   FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
                                                       0.1, 0.1, 0.1, 0.1,
-                                                      0.0, 0.1);
+                                                      0.0, 0.1, true, true);
 
   // build data
   const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,

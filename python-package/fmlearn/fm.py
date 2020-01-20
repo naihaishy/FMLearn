@@ -13,9 +13,13 @@ from .base import _LIB, _check_call
 
 
 class FactorizationMachine(object):
-    def __init__(self, task, n_features, n_factors,
+    def __init__(self, task,
+                 n_features,
+                 n_factors,
                  lr, reg,
-                 init_mean=0.0, init_stddev=0.1, verbose=True):
+                 init_mean=0.0,
+                 init_stddev=0.1,
+                 norm=True, verbose=True):
         self.__handle = ctypes.c_void_p()  # 指向C++ FactorizationMachine对象的内存区域
 
         self.task = task
@@ -31,7 +35,9 @@ class FactorizationMachine(object):
         self.init_mean = init_mean
         self.init_stddev = init_stddev
 
+        self.norm = norm
         self.verbose = verbose
+        print(self.verbose)
 
         _check_call(_LIB.FMCreate(ctypes.byref(self.__handle),
                                   ctypes.c_int(self.task),
@@ -43,7 +49,8 @@ class FactorizationMachine(object):
                                   ctypes.c_float(self.reg_V),
                                   ctypes.c_float(self.init_mean),
                                   ctypes.c_float(self.init_stddev),
-                                  ctypes.c_bool(not self.verbose)))
+                                  ctypes.c_bool(self.norm),
+                                  ctypes.c_bool(self.verbose)))
 
     def fit(self, X, y, n_iterations):
         data = DMatrix(data=X, label=y)

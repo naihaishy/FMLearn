@@ -49,12 +49,12 @@ FM_DLL int FMMatrixFree(DataHandle* out) {
 FM_DLL int FMCreate(FM* out, int task, int n_features, int n_factors,
                     float lr, float reg_w0, float reg_W, float reg_V,
                     float mean, float stddev,
-                    bool verbose) {
+                    bool norm, bool verbose) {
   API_BEGIN()
     auto model = new FactorizationMachine(task, n_features, n_factors,
                                           lr, reg_w0, reg_W, reg_V,
                                           mean, stddev,
-                                          verbose);
+                                          norm, verbose);
     *out = model;
     Logging::debug("FMCreate succeed");
   API_END()
