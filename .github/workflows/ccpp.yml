@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: clean
-      run: rm -rf build && make clean
+      run: rm -rf build
     - name: mkdir-build
       run:
           mkdir -p build
