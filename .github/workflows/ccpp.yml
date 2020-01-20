@@ -9,6 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: clean
+      run: rm -rf build && make clean
     - name: mkdir-build
       run:
           mkdir -p build
@@ -16,7 +18,9 @@ jobs:
       run:
           cd build && pwd
     - name: ls
-      run: ls && ls ../
+      run: ls
+    - name: ls-p
+      run : ls ../
     - name: cmake-configure
       run: cmake ../
     - name: make
