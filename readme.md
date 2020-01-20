@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/naihaishy/FMLearn.svg?branch=master)](https://travis-ci.org/naihaishy/FMLearn)
 
-[![Github All Releases](https://img.shields.io/github/downloads/kotlin-graphics/kotlin-unsigned/total.svg)]()
 
 结构与编码主要参考XGBoost与XLearn
 
