@@ -56,3 +56,24 @@ class FactorizationMachine(object):
                                    ctypes.byref(results)))
 
         return [e for e in results]
+
+    @staticmethod
+    def set_log_level(level):
+        level_ = 1
+        if isinstance(level, int):
+            level_ = level
+        if isinstance(level, str):
+            if level.lower() == "debug":
+                level_ = 0
+            elif level.lower() == "info":
+                level_ = 1
+            elif level.lower() == "warning":
+                level_ = 2
+            elif level.lower() == "error":
+                level_ = 3
+            elif level.lower() == "fatal":
+                level_ = 4
+            else:
+                level_ = 1
+
+        _check_call(_LIB.FMSetLogLevel(ctypes.c_int(level_)))
