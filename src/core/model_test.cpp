@@ -38,7 +38,7 @@ TEST(MODEL_TEST, FMHyperParam) {
   EXPECT_FLOAT_EQ(param->reg_W, 0.1);
   EXPECT_FLOAT_EQ(param->reg_V, 0.1);
   EXPECT_TRUE(param->norm);
-  std::cout << param->to_string() << std::endl;
+  // std::cout << param->to_string() << std::endl;
 }
 
 TEST(MODEL_TEST, FactorizationMachine) {
@@ -61,7 +61,8 @@ TEST(MODEL_TEST, FactorizationMachineFit) {
   // fm
   FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
                                                       0.1, 0.1, 0.1, 0.1,
-                                                      0.0, 0.1, true, true);
+                                                      0.0, 0.1,
+                                                      true, true);
 
   // build data
   const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
@@ -81,27 +82,28 @@ TEST(MODEL_TEST, FactorizationMachinePredict){
   // fm
   FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
                                                       0.1, 0.1, 0.1, 0.1,
-                                                      0.0, 0.1, true, true);
+                                                      0.0, 0.1,
+                                                      true, true);
 
   // build data
-  const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
+  const float train_data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
                         1.0, 2.0, 3.0, 4.0, 5.0,
                         1.0, 2.0, 3.0, 4.0, 5.0,
   };
-  const float label[] = {1.0, 2.0, 3.0};
+  const float train_label[] = {1.0, 2.0, 3.0};
 
   int n_rows = 3;
-  DMatrix* train_matrix = new DMatrix(data, label, n_rows, 5);
+  DMatrix* train_matrix = new DMatrix(train_data, train_label, n_rows, 5);
 
   // fit
   fm->Fit(train_matrix, 100);
 
   // build test data
-  std::vector<std::vector<float >> test_data;
-  test_data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-  test_data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-  test_data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-  DMatrix* test_matrix = new DMatrix(&test_data, nullptr);
+  const float test_data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
+                        1.0, 2.0, 3.0, 4.0, 5.0,
+                        1.0, 2.0, 3.0, 4.0, 5.0,
+  };
+  DMatrix* test_matrix = new DMatrix(test_data, nullptr, 3, 5);
 
   const float* out = new float[3];
 
