@@ -37,7 +37,6 @@ class FactorizationMachine(object):
 
         self.norm = norm
         self.verbose = verbose
-        print(self.verbose)
 
         _check_call(_LIB.FMCreate(ctypes.byref(self.__handle),
                                   ctypes.c_int(self.task),

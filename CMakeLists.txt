@@ -34,7 +34,6 @@ add_subdirectory(src/core)
 add_subdirectory(src/data)
 add_subdirectory(src/c_api)
 
-
 add_library(fm_learn SHARED
         src/c_api/c_api.cpp
         src/c_api/c_api_error.cpp
@@ -46,5 +45,14 @@ add_library(fm_learn SHARED
 # Set properties
 set_target_properties(fm_learn PROPERTIES OUTPUT_NAME "fm_learn")
 set_target_properties(fm_learn PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+
+# Scripts
+if (WIN32)
+    FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.bat"
+            DESTINATION ${CMAKE_BINARY_DIR}/src/test)
+else ()
+    FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.sh"
+            DESTINATION ${CMAKE_BINARY_DIR}/src/test)
+endif ()
 
 install(TARGETS fm_learn DESTINATION ${PROJECT_SOURCE_DIR}/build)
