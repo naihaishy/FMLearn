@@ -10,3 +10,6 @@ if (BUILD_UNIT_TEST)
 endif ()
 
 set_target_properties(c_api PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+
+# Install library
+install(TARGETS c_api DESTINATION ${CMAKE_BINARY_DIR}/lib/c_api)

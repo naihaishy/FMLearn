@@ -10,3 +10,6 @@ if (BUILD_UNIT_TEST)
 endif ()
 
 set_target_properties(model PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+
+# Install library
+install(TARGETS model DESTINATION ${CMAKE_BINARY_DIR}/lib/model)

@@ -9,3 +9,6 @@ if (BUILD_UNIT_TEST)
 endif ()
 
 set_target_properties(data PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+
+# Install library
+install(TARGETS data DESTINATION ${CMAKE_BINARY_DIR}/lib/data)

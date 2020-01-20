@@ -7,7 +7,10 @@
 #include <random>
 #include <memory.h>
 #include "src/common/log.h"
-#include "src/common/math.h"
+#include <cmath>
+inline float sigmoid(float x) {
+  return 1.0f / (1.0f + expf(-x));
+}
 
 FactorizationMachine::FactorizationMachine(int task,
                                            int n_features, int n_factors,

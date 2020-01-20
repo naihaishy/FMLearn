@@ -4,7 +4,6 @@ project(FMLearn)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_FLAGS -m64)
 set(CMAKE_CXX_FLAGS -m64)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -static-libgcc -static-libstdc++")
 
 set(BUILD_UNIT_TEST true)
 
@@ -49,10 +48,10 @@ set_target_properties(fm_learn PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 # Scripts
 if (WIN32)
     FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.bat"
-            DESTINATION ${CMAKE_BINARY_DIR}/src/test)
+            DESTINATION ${CMAKE_BINARY_DIR})
 else ()
     FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.sh"
-            DESTINATION ${CMAKE_BINARY_DIR}/src/test)
+            DESTINATION ${CMAKE_BINARY_DIR})
 endif ()
 
-install(TARGETS fm_learn DESTINATION ${PROJECT_SOURCE_DIR}/build)
+install(TARGETS fm_learn DESTINATION ${CMAKE_BINARY_DIR})
