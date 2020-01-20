@@ -4,7 +4,7 @@
 
 #include "fm_model.h"
 #include <random>
-
+#include "src/common/log.h"
 
 FMModel::FMModel(int task,
                  int n_features, int n_factors,
@@ -34,12 +34,12 @@ void FMModel::InitWeights(float mean, float stddev) {
     }
   }
 
-  LOG_INFO("FMModel InitWeights succeed")
+  Logging::debug("FMModel InitWeights succeed");
 }
 
 void FMModel::Free() {
   delete[] this->W_;
   delete[] this->V_;
-  LOG_INFO("FMModel Free succeed")
+  Logging::debug("FMModel Free succeed");
 }
 

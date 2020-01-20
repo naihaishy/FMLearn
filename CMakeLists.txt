@@ -11,12 +11,17 @@ set(BUILD_UNIT_TEST true)
 
 include_directories(
         "${PROJECT_SOURCE_DIR}"
+        "${PROJECT_SOURCE_DIR}/src/common"
+        "${PROJECT_SOURCE_DIR}/src/data"
+        "${PROJECT_SOURCE_DIR}/src/core"
+        "${PROJECT_SOURCE_DIR}/src/c_api"
         "${PROJECT_BINARY_DIR}"
         "${PROJECT_SOURCE_DIR}/gtest/include"
 )
 
 
 link_directories(
+        "${PROJECT_BINARY_DIR}/src/common"
         "${PROJECT_BINARY_DIR}/src/data"
         "${PROJECT_BINARY_DIR}/src/core"
         "${PROJECT_BINARY_DIR}/src/c_api"
@@ -24,16 +29,19 @@ link_directories(
 
 
 add_subdirectory(gtest)
+add_subdirectory(src/common)
 add_subdirectory(src/core)
 add_subdirectory(src/data)
 add_subdirectory(src/c_api)
+
 
 add_library(fm_learn SHARED
         src/c_api/c_api.cpp
         src/c_api/c_api_error.cpp
         src/core/model.cpp
         src/core/fm_model.cpp
-        src/data/data.cpp)
+        src/data/data.cpp
+        src/common/log.cpp)
 
 # Set properties
 set_target_properties(fm_learn PROPERTIES OUTPUT_NAME "fm_learn")

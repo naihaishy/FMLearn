@@ -18,8 +18,6 @@ TEST(C_API_TEST, FMMatrixCreateFromMat) {
 
   std::cout << "dMatrix address" << &dMatrix << std::endl;
   std::cout << "outMatrix address" << &matrix << std::endl;
-  LOG_INFO(dMatrix);
-  LOG_INFO(matrix);
   EXPECT_EQ(dMatrix, matrix);
   EXPECT_EQ(matrix->row_length, 3);
   EXPECT_TRUE(matrix->has_label);

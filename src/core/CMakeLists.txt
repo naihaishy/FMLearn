@@ -1,6 +1,7 @@
 
 # Build model static lib
 add_library(model STATIC model.cpp fm_model.cpp)
+target_link_libraries(model common)
 
 # Test for model
 if (BUILD_UNIT_TEST)

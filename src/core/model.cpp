@@ -6,6 +6,7 @@
 
 #include <random>
 #include <memory.h>
+#include "src/common/log.h"
 #include "src/common/math.h"
 
 FactorizationMachine::FactorizationMachine(int task,
@@ -17,17 +18,16 @@ FactorizationMachine::FactorizationMachine(int task,
                                            float reg_V,
                                            float mean,
                                            float stddev) {
-  LOG_INFO("FactorizationMachine Construct Start!")
   this->model_ = new FMModel(task, n_features, n_factors, mean, stddev);
   this->hyper_param_ = new FMHyperParam(lr, reg_w0, reg_W, reg_V, true);
-  LOG_INFO("FactorizationMachine Construct succeed!")
+  Logging::debug("FactorizationMachine Construct succeed!");
 }
 
 FactorizationMachine::~FactorizationMachine() {
   this->model_->Free();
   delete this->model_;
   delete this->hyper_param_;
-  LOG_INFO("FactorizationMachine Deconstruct succeed")
+  Logging::debug("FactorizationMachine Deconstruct succeed");
 }
 FMHyperParam* FactorizationMachine::GetHyperParam() {
   return this->hyper_param_;
@@ -37,8 +37,7 @@ FMModel* FactorizationMachine::GetModel() {
 }
 
 void FactorizationMachine::Fit(DMatrix* data, int epochs) {
-
-  LOG_INFO("Start FactorizationMachine Fit")
+  Logging::debug("Start FactorizationMachine Fit");
   if (this->model_->task_ == REGRESSION && this->model_->limit_predict) {
     this->model_->min_target_ = data->min_label;
     this->model_->max_target_ = data->max_label;
@@ -50,7 +49,7 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
   float reg_V = this->hyper_param_->reg_V;
   bool use_norm = this->hyper_param_->norm;
 
-  LOG_INFO("data nums " + std::to_string(data->row_length));
+  Logging::debug("data nums " + std::to_string(data->row_length));
   int K = this->model_->n_factors_;
   auto inter_sum = new float[K];
   for (int i = 0; i < K; ++i) inter_sum[i] = 0.0;
@@ -108,7 +107,7 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs) {
     }
 
     if (!this->hyper_param_->quiet) {
-      LOG_INFO("epoch " + std::to_string(epoch) +
+      Logging::debug("epoch " + std::to_string(epoch) +
           " loss: " + std::to_string(losses / data->row_length));
     }
   }

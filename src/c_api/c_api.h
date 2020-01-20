@@ -46,4 +46,7 @@ FM_DLL int FMPredict(FM* out, DataHandle* data, DataHandle* results);
 // Handle error
 FM_DLL const char* FMGetLastError();
 
+// Handle log
+FM_DLL int FMSetLogLevel(int level);
+
 #endif //FMLEARN_C_API_H_
