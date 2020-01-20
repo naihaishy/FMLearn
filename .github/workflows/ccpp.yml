@@ -9,24 +9,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: clean
-      run: rm -rf build
-    - name: mkdir-build
-      run:
-          mkdir -p build
-    - name: cd
-      run:
-          cd build && pwd
-    - name: ls
-      run: ls
-    - name: ls-p
-      run : ls ../
+    - name: build-work-space
+      run: rm -rf build && mkdir build
     - name: cmake-configure
       run: cmake ../
       working-directory: build/
     - name: make
       run: make
+      working-directory: build/
     - name: install
       run: make install
+      working-directory: build/
     - name: unit-test
       run: ./run_test.sh
+      working-directory: build/
