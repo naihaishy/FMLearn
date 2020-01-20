@@ -1,0 +1,14 @@
+language: cpp
+compiler: gcc
+sudo: required
+install: true
+script:
+  - sudo apt-get install cmake
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - make install
+  - chmod +x run_test.sh
+  - ./run_test.sh
+

@@ -6,8 +6,18 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v1
-    - name: configure
-      run: cmake .
+    - name: build-work-space
+      run:
+          mkdir build
+          cd build
+    - name: cmake-configure
+      run: cmake ..
+    - name: make
+      run: make
+    - name: install
+      run: make install
+    - name: unit-test
+      run: ./run_test.sh
