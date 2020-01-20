@@ -16,7 +16,7 @@ jobs:
       run:
           cd build
     - name: cmake-configure
-      run: cmake ..
+      run: cmake ../
     - name: make
       run: make
     - name: install
