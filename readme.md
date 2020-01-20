@@ -1,5 +1,7 @@
 ## Factorization Machine Learning in C++ With Python Wrapper
 
+[![Build Status](https://travis-ci.org/naihaishy/FMLearn.svg?branch=master)](https://travis-ci.org/naihaishy/FMLearn)
+
 结构与编码主要参考XGBoost与XLearn
 
 ### 开发此项目的目的

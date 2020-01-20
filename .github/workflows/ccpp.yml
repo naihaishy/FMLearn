@@ -9,9 +9,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: build-work-space
+    - name: mkdir-build
       run:
           mkdir -p build
+    - name: cd
+      run:
           cd build
     - name: cmake-configure
       run: cmake ..
