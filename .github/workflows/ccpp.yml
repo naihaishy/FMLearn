@@ -23,6 +23,7 @@ jobs:
       run : ls ../
     - name: cmake-configure
       run: cmake ../
+      working-directory: build/
     - name: make
       run: make
     - name: install
