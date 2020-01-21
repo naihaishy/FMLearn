@@ -7,6 +7,8 @@
 ### 开发此项目的目的
 1. 学习如何使用C++开发机器学习算法，包括如何定义数据结构，如何组织文件
 2. 学习使用Python进行封装C++库
-3. 学习遵守C++ Python开发规范[Google Style](https://zh-google-styleguide.readthedocs.io/en/latest/contents/)
-4. 学习如何写单元测试[Google Test](https://github.com/google/googletest)
-5. 为开发更为规范的开源项目做准备
+3. 学习使用多线程/SSE/Cuda加速训练
+4. 学习开发Cli Interface
+5. 学习遵守C++ Python开发规范[Google Style](https://zh-google-styleguide.readthedocs.io/en/latest/contents/)
+6. 学习如何写单元测试[Google Test](https://github.com/google/googletest)
+7. 为开发更为规范的开源项目做准备
