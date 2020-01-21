@@ -32,7 +32,7 @@ typedef std::vector<Node> SparseRow;
 // Data Matrix 稀疏矩阵
 class DMatrix {
  public:
-  DMatrix() : row_length(0), rows(0), labels(0), has_label(true), norms(0) {}
+  DMatrix() : row_length(0), has_label(true), rows(0), labels(0), norms(0) {}
   ~DMatrix() = default;
 
   explicit DMatrix(const float* data, const float* label, int n_rows, int n_cols);

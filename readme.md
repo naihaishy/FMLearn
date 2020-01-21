@@ -16,4 +16,5 @@
 ### 参考资料
 1. 谷歌开发规范 [Google Style](https://zh-google-styleguide.readthedocs.io/en/latest/contents/)
 2. 谷歌自动化测试 [Google Test](https://github.com/google/googletest)
-1. [C++线程池简单实现](https://github.com/progschj/ThreadPool) 
+3. [C++线程池简单实现](https://github.com/progschj/ThreadPool) 
+4. Cmake [Visual Studio 2017编译](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2015%202017.html) 

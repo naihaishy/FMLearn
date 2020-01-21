@@ -6,4 +6,5 @@ CMakeFiles/
 /python-package/fmlearn/*.dll
 gtest/CMakeFiles/
 gtest/msvc/.vs
+windows/
 

@@ -1,9 +1,26 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 project(FMLearn)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_C_FLAGS -m64)
-set(CMAKE_CXX_FLAGS -m64)
+# set(CMAKE_C_FLAGS -m64)
+# set(CMAKE_CXX_FLAGS -m64)
+if (WIN32)
+    #Windows
+    if (MSVC)
+        # 为VS2017设置参数
+        if (NOT "${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")
+        else ()
+            set(CMAKE_GENERATOR_PLATFORM "Visual Studio 15 2017 Win64")
+            set(CMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE, "host=x64")
+            add_definitions("/WX- /MD")
+        endif ()
+    endif ()
+else ()
+    #Linux
+    add_definitions("-Wall -Wno-sign-compare -O3 -std=c++11
+-march=native -Wno-strict-aliasing -Wno-comment")
+endif ()
+
 
 set(BUILD_UNIT_TEST true)
 
@@ -42,6 +59,7 @@ add_library(fm_learn SHARED
         src/common/log.cpp)
 
 # Set properties
+set_target_properties(fm_learn PROPERTIES PREFIX "")
 set_target_properties(fm_learn PROPERTIES OUTPUT_NAME "fm_learn")
 set_target_properties(fm_learn PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 

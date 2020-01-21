@@ -5,6 +5,7 @@
 #ifndef FMLEARN_CORE_FM_PARAM_H_
 #define FMLEARN_CORE_FM_PARAM_H_
 #include <iostream>
+#include <string>
 
 /**
  * FM 超参数

@@ -24,15 +24,16 @@ def find_lib_path():
     if sys.platform == 'win32':
         if platform.architecture()[0] == '64bit':
             dll_path.append(os.path.join(curr_path, '../../windows/x64/Release/'))
+            dll_path.append(os.path.join(curr_path, '../../windows/Release/'))
             # hack for pip installation when copy all parent source directory here
             dll_path.append(os.path.join(curr_path, './windows/x64/Release/'))
         else:
             dll_path.append(os.path.join(curr_path, '../../windows/Release/'))
             # hack for pip installation when copy all parent source directory here
             dll_path.append(os.path.join(curr_path, './windows/Release/'))
-        dll_path = [os.path.join(p, 'libfm_learn.dll') for p in dll_path]
+        dll_path = [os.path.join(p, 'fm_learn.dll') for p in dll_path]
     elif sys.platform.startswith('linux') or sys.platform.startswith('freebsd'):
-        dll_path = [os.path.join(p, 'libfm_learn.so') for p in dll_path]
+        dll_path = [os.path.join(p, 'fm_learn.so') for p in dll_path]
     elif sys.platform == 'darwin':
         dll_path = [os.path.join(p, 'fm_learn.dylib') for p in dll_path]
     elif sys.platform == 'cygwin':
