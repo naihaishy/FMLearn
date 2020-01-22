@@ -30,7 +30,7 @@ def test_regression():
                               0.0002, [0.1, 0.1, 0.1],
                               0.0, 0.1,
                               True, True)
-    fm.fit(X_train_, y_train_, 1000)
+    fm.fit(X_train_, y_train_, 100)
 
 
 def test_classification():

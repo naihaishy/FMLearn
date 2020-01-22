@@ -262,6 +262,7 @@ void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
     }
 
     if (fm->hyper_param_->verbose) {
+      std::cout << "thread " << std::this_thread::get_id() << "\t";
       Logging::debug("epoch " + std::to_string(epoch) +
           " loss: " + std::to_string(losses / data->row_length));
     }
@@ -285,6 +286,7 @@ void FactorizationMachine::FitInMultiThread(DMatrix* data, int epochs) {
     if (end > all_count) end = all_count;
     thread_pool_->enqueue([=] { return FMFitInSingleThread(data, this, epochs, start, end); });
   }
+  thread_pool_->Sync(thread_num);
 }
 
 

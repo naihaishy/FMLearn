@@ -23,6 +23,7 @@ class ThreadPool {
   template<class F, class... Args>
   auto enqueue(F&& f, Args&& ... args)
   -> std::future<typename std::result_of<F(Args...)>::type>;
+  void Sync(int wait_count);
   ~ThreadPool();
  private:
   // need to keep track of threads so we can join them
@@ -33,7 +34,11 @@ class ThreadPool {
   // synchronization
   std::mutex queue_mutex;
   std::condition_variable condition;
+  std::mutex sync_mutex;
+  std::condition_variable sync_condition;
   bool stop;
+  std::atomic_int sync { 0 };
+
 };
 
 // the constructor just launches some amount of workers
@@ -56,6 +61,11 @@ inline ThreadPool::ThreadPool(size_t threads)
             }
 
             task();
+            {
+              std::unique_lock<std::mutex> lock(this->sync_mutex);
+              sync++;
+              sync_condition.notify_one();
+            }
           }
         }
     );
@@ -83,6 +93,15 @@ auto ThreadPool::enqueue(F&& f, Args&& ... args)
   }
   condition.notify_one();
   return res;
+}
+
+// Wait all thread to finish their jobs
+inline void ThreadPool::Sync(int wait_count) {
+  std::unique_lock<std::mutex> lock(sync_mutex);
+  this->sync_condition.wait(lock, [&]() {
+    return sync == wait_count;
+  });
+  sync = 0;
 }
 
 // the destructor joins all threads
