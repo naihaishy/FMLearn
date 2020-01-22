@@ -175,3 +175,24 @@ float FactorizationMachine::PredictInstance(SparseRow* x, float norm, float* int
   return result;
 }
 
+/**
+ * 对DMatrix中[start, end)行部分数据进行单线程训练
+ * @param data  DMatrix
+ * @param epochs
+ * @param start 开始行数 include
+ * @param end  结束行数 exclude
+ */
+static void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
+                                int epochs, int start, int end) {
+
+
+}
+/**
+ * 多线程进行训练
+ * @param data
+ * @param epochs
+ */
+void FactorizationMachine::FitInMultiThread(DMatrix* data, int epochs) {
+
+}
+

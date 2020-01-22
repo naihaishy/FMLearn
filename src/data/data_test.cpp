@@ -61,6 +61,11 @@ TEST(DMATRIX_TEST, Construct_Explicit_Vector) {
   EXPECT_FLOAT_EQ(matrix->min_label, 1.0);
 }
 
+TEST(DMATRIX_TEST, Construct_Explicit_File) {
+  std::string file_name = "../../data/house_price_train.txt";;
+  DMatrix* matrix = new DMatrix(file_name, "txt", "\t", true);
+}
+
 /**
  * 测试DMatrix Init方法
  */

@@ -33,7 +33,16 @@ typedef void* FM;
 typedef void* DataHandle;
 
 // Handle data matrix for FMLearn
-FM_DLL int FMMatrixCreateFromMat(const float* data, int rows, int cols, const float* label, DataHandle* out);
+FM_DLL int FMMatrixCreateFromMat(const float* data,
+                                 int rows,
+                                 int cols,
+                                 const float* label,
+                                 DataHandle* out);
+FM_DLL int FMMatrixCreateFromFile(const std::string& file_name,
+                                  const std::string& file_format,
+                                  const std::string& seq,
+                                  bool has_label,
+                                  DataHandle* out);
 FM_DLL int FMMatrixFree(DataHandle* out);
 
 // Handle FactorizationMachine

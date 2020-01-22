@@ -5,6 +5,7 @@
 #ifndef FMLEARN_CORE_MODEL_H_
 #define FMLEARN_CORE_MODEL_H_
 
+#include <src/common/thread_pool.h>
 #include "src/data/data.h"
 #include "src/common/common.h"
 #include "src/core/fm_model.h"
@@ -24,6 +25,7 @@ class FactorizationMachine {
   void operator=(const FactorizationMachine&) = delete;
 
   void Fit(DMatrix* data, int epochs);
+  void FitInMultiThread(DMatrix* data, int epochs);
   void Predict(DMatrix* data, const float** out);
 
   FMHyperParam* GetHyperParam();
@@ -33,6 +35,7 @@ class FactorizationMachine {
   float PredictInstance(SparseRow* x, float norm = 1.0, float* inter_sum = nullptr);
   FMHyperParam* hyper_param_;
   FMModel* model_;
+  ThreadPool* thread_pool_;
 };
 
 #endif //FMLEARN_CORE_MODEL_H_

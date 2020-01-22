@@ -72,4 +72,8 @@ else ()
             DESTINATION ${CMAKE_BINARY_DIR})
 endif ()
 
+# 拷贝测试文件
+FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_train.txt"
+        DESTINATION ${CMAKE_BINARY_DIR}/data)
+
 install(TARGETS fm_learn DESTINATION ${CMAKE_BINARY_DIR})

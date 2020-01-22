@@ -26,6 +26,23 @@ TEST(C_API_TEST, FMMatrixCreateFromMat) {
   EXPECT_EQ(matrix->norms.size(), 3);
 }
 
+TEST(C_API_TEST, FMMatrixCreateFromFile) {
+  DMatrix* dMatrix = new DMatrix();
+  DataHandle* out = reinterpret_cast<DataHandle*>(&dMatrix);
+  std::string file_name = "../../data/house_price_train.txt";
+  FMMatrixCreateFromFile(file_name, "txt", "\t", true, out);
+  DMatrix* matrix = reinterpret_cast<DMatrix*>(*out);
+
+  std::cout << "dMatrix address" << &dMatrix << std::endl;
+  std::cout << "outMatrix address" << &matrix << std::endl;
+  EXPECT_EQ(dMatrix, matrix);
+  EXPECT_EQ(matrix->row_length, 1456);
+  EXPECT_TRUE(matrix->has_label);
+  EXPECT_EQ(matrix->labels.size(), 1456);
+  EXPECT_EQ(matrix->rows.size(), 1456);
+  EXPECT_EQ(matrix->norms.size(), 1456);
+}
+
 TEST(C_API_TEST, FMMatrixFree) {
   const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
                         1.0, 2.0, 3.0, 4.0, 5.0,

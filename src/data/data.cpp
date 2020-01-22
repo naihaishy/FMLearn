@@ -1,10 +1,15 @@
 //
 // Created by naihai on 2020/1/13.
 //
-#include <cmath>
-#include <cassert>
+
 #include <src/common/common.h>
 #include "data.h"
+#include <cmath>
+#include <iostream>
+#include <fstream>
+#include <cassert>
+#include <src/common/log.h>
+#include <src/common/utils.h>
 
 /**
  * 使用C数组直接构造DMatrix
@@ -78,7 +83,74 @@ DMatrix::DMatrix(std::vector<std::vector<float>>* data, std::vector<float>* labe
 }
 
 /**
- * 预分配内存 提高性能
+ * 从文件中构造DMatrix
+ * @param file_name 文件名
+ * @param file_format 文件格式，目前支持csv txt TODO 支持libsvm, libffm
+ * @param seq 列分割符
+ */
+DMatrix::DMatrix(const std::string& file_name) {
+  DMatrix(file_name, "csv", ",", true);
+}
+
+DMatrix::DMatrix(const std::string& file_name,
+                 const std::string& file_format,
+                 const std::string& sep,
+                 bool has_label) {
+  std::ifstream infile(file_name, std::ios::in);
+  if (file_format != "csv" && file_format != "txt") {
+    Logging::error("file format " + file_format + " is not supported yet");
+    throw std::runtime_error("file_format is not valid");
+  }
+  if (!infile.good()) {
+    Logging::error("file " + file_name + " not exists");
+    throw std::runtime_error("file_name is not valid");
+  }
+
+  if (infile.is_open()) {
+    std::string line;
+    // std::vector<float> row;
+    int n_cols = 0;
+    int i = 0;
+    this->has_label = has_label;
+
+    while (infile.good()) {
+      getline(infile, line);
+      if (line.empty()) break;
+      // 解析行数据
+      // std::cout << line << std::endl;
+      auto row = split_in_float(line, sep[0]);
+      n_cols = row.size();
+      assert(n_cols > 0);
+      this->AddRow();
+      float norm = 0.0;
+
+      int feature_start = 0;
+      if (has_label) {
+        this->labels[i] = row[0]; // 第一列是 label
+        min_label = this->labels[i] < min_label ? this->labels[i] : min_label;
+        max_label = this->labels[i] > max_label ? this->labels[i] : max_label;
+        feature_start = 1;
+      }
+
+      for (int j = feature_start; j < n_cols; ++j) {
+        float value = row[j];
+        this->AddNode(i, j, value);
+        norm += value * value;
+      }
+      norm = 1.0f / norm;
+      this->norms[i] = norm;
+      i++;
+    }
+    Logging::debug("DMatrix construct done");
+
+  } else {
+    Logging::error("file is closed before read data");
+    throw std::runtime_error("input file is closed");
+  }
+}
+
+/**
+ * 预分配内存 提高性能 可以不调用该函数
  * @param n_rows 记录数目
  */
 void DMatrix::Init(int n_rows) {
@@ -154,6 +226,7 @@ bool DMatrix::operator==(const DMatrix& other) const {
 bool DMatrix::operator!=(const DMatrix& other) const {
   return !(*this == other);
 }
+
 
 
 
