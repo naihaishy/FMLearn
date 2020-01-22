@@ -24,15 +24,20 @@ class FactorizationMachine {
   FactorizationMachine(const FactorizationMachine& other) = delete;
   void operator=(const FactorizationMachine&) = delete;
 
-  void Fit(DMatrix* data, int epochs);
-  void FitInMultiThread(DMatrix* data, int epochs);
+  void Fit(DMatrix* data, int epochs, bool multi_thread=true);
+
   void Predict(DMatrix* data, const float** out);
 
   FMHyperParam* GetHyperParam();
   FMModel* GetModel();
 
+  friend void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
+                                  int epochs, int start, int end);
+
  private:
   float PredictInstance(SparseRow* x, float norm = 1.0, float* inter_sum = nullptr);
+  void FitInMultiThread(DMatrix* data, int epochs);
+  void FitInSingleThread(DMatrix* data, int epochs);
   FMHyperParam* hyper_param_;
   FMModel* model_;
   ThreadPool* thread_pool_;

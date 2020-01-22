@@ -117,10 +117,11 @@ DMatrix::DMatrix(const std::string& file_name,
       getline(infile, line);
       if (line.empty()) break;
       // 解析行数据
-      // std::cout << line << std::endl;
       auto row = split_in_float(line, sep[0]);
-      n_cols = row.size();
-      assert(n_cols > 0);
+      if (n_cols == 0) n_cols = row.size();
+      if (n_cols != row.size()) {
+        throw std::runtime_error("num cols is not equal in each line");
+      }
       this->AddRow();
       float norm = 0.0;
 
