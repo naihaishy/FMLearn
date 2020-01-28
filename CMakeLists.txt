@@ -56,7 +56,7 @@ add_library(fm_learn SHARED
         src/core/model.cpp
         src/core/fm_model.cpp
         src/data/data.cpp
-        src/common/log.cpp src/loss/loss.cpp src/loss/loss.h src/loss/squared_loss.cpp src/loss/squared_loss.h src/loss/cross_entropy_loss.cpp src/loss/cross_entropy_loss.h)
+        src/common/log.cpp src/loss/loss.cpp src/loss/loss.h src/loss/squared_loss.cpp src/loss/squared_loss.h src/loss/cross_entropy_loss.cpp src/loss/cross_entropy_loss.h src/score/score.cpp src/score/score.h)
 
 # Set properties
 set_target_properties(fm_learn PROPERTIES PREFIX "")
