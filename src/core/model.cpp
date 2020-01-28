@@ -8,6 +8,9 @@
 #include <memory.h>
 #include "src/common/log.h"
 #include <cmath>
+#include <src/loss/squared_loss.h>
+#include <src/loss/cross_entropy_loss.h>
+#include <src/score/fm_score.h>
 inline float sigmoid(float x) {
   return 1.0f / (1.0f + expf(-x));
 }
@@ -116,76 +119,17 @@ float FactorizationMachine::PredictInstance(SparseRow* x, float norm, float* int
  * @param epochs
  */
 void FactorizationMachine::FitInSingleThread(DMatrix* data, int epochs) {
-  float lr = this->hyper_param_->learning_rate;
-  float reg_w0 = this->hyper_param_->reg_w0;
-  float reg_W = this->hyper_param_->reg_W;
-  float reg_V = this->hyper_param_->reg_V;
-  bool use_norm = this->hyper_param_->norm;
 
   Logging::debug("data nums " + std::to_string(data->row_length));
-  int K = this->model_->n_factors_;
-  auto inter_sum = new float[K];
-  for (int i = 0; i < K; ++i) inter_sum[i] = 0.0;
 
   for (int epoch = 0; epoch < epochs; ++epoch) {
-    float losses = 0.0;
-    for (int m = 0; m < data->row_length; ++m) {
-      auto& x = data->rows[m];
-      auto norm = data->norms[m];
-      if (!use_norm) norm = 1.0;
-      for (int i = 0; i < K; ++i) inter_sum[i] = 0.0;
-
-      // predict
-      float y_pred = this->PredictInstance(x, norm, inter_sum);
-      float y_true = data->labels[m];
-      // LOG_INFO("y_pred " + std::to_string(y_pred) + "\t y_true :" + std::to_string(y_true))
-
-      // calculate gradient
-      float delta = 0.0;
-      if (this->model_->task_ == REGRESSION) {
-        delta = y_pred - y_true;
-      } else if (this->model_->task_ == CLASSIFICATION) {
-        delta = (sigmoid(y_true * y_pred) - 1) * y_true;
-      } else {
-        throw std::exception();
-      }
-
-      // update weights
-      this->model_->w0_ -= lr * (delta + 2 * reg_w0 * this->model_->w0_);
-
-      for (auto& it:*x) {
-        int i = it.feature_id;
-        float xi = it.feature_val;
-        xi = xi * norm;
-        float gradient_w = delta * xi;
-        this->model_->W_[i] -= lr * (gradient_w + 2 * reg_W * this->model_->W_[i]);
-      }
-
-      for (int f = 0; f < K; ++f) {
-        for (auto& it : *x) {
-          int& i = it.feature_id;
-          float& xi = it.feature_val;
-          float& vif = this->model_->V_[i * K + f];
-          float gradient_v = delta * (xi * inter_sum[f] - vif * xi * xi);
-          vif -= lr * (gradient_v + 2 * reg_V * vif);
-        }
-      }
-
-      // calculate loss
-      if (this->model_->task_ == REGRESSION) {
-        losses += 0.5f * (y_pred - y_true) * (y_pred - y_true);
-      } else if (this->model_->task_ == CLASSIFICATION) {
-        losses += -log(sigmoid(y_true * y_pred));
-      }
-    }
+    float ave_loss = this->loss_->CalGrad(data, this->model_, this->hyper_param_, this->score_);
 
     if (this->hyper_param_->verbose) {
       Logging::debug("epoch " + std::to_string(epoch) +
-          " loss: " + std::to_string(losses / data->row_length));
+          " loss: " + std::to_string(ave_loss));
     }
   }
-
-  delete[] inter_sum;
 }
 
 /**
@@ -196,7 +140,7 @@ void FactorizationMachine::FitInSingleThread(DMatrix* data, int epochs) {
  * @param end  结束行数 exclude
  */
 void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
-                                int epochs, int start, int end) {
+                         int epochs, int start, int end) {
 
   float lr = fm->hyper_param_->learning_rate;
   float reg_w0 = fm->hyper_param_->reg_w0;
@@ -287,6 +231,17 @@ void FactorizationMachine::FitInMultiThread(DMatrix* data, int epochs) {
     thread_pool_->enqueue([=] { return FMFitInSingleThread(data, this, epochs, start, end); });
   }
   thread_pool_->Sync(thread_num);
+}
+/**
+ * 初始化
+ */
+void FactorizationMachine::Initialize() {
+  this->score_ = new FmScore();
+  if (this->model_->task_ == REGRESSION) {
+    this->loss_ = new SquaredLoss();
+  } else {
+    this->loss_ = new CrossEntropyLoss();
+  }
 }
 
 

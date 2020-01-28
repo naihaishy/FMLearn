@@ -10,8 +10,8 @@ class SquaredLoss : public Loss {
   float Calculate(std::vector<float>& preds,
                   std::vector<float>& labels) override;
 
-  float CalGrad(DMatrix* data, FMModel* model) override;
-
+  float CalGrad(DMatrix* data, FMModel* model, FMHyperParam* hyper_param, Score* score) override;
+  ~SquaredLoss() override;
 };
 
 #endif //FMLEARN_LOSS_SQUARED_LOSS_H_

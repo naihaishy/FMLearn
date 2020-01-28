@@ -29,7 +29,7 @@ void func(int id) {
 
 TEST(COMMON_TEST, ThreadPool) {
   ThreadPool pool(4);
-  for (int i = 0; i < 10; ++i) {
+  for (int i = 0; i < 3; ++i) {
     pool.enqueue(std::bind(func, 1));
     pool.enqueue(std::bind(func, 2));
     pool.enqueue(std::bind(func, 3));

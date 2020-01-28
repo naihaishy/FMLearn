@@ -6,6 +6,8 @@
 #define FMLEARN_CORE_MODEL_H_
 
 #include <src/common/thread_pool.h>
+#include <src/loss/loss.h>
+#include <src/score/score.h>
 #include "src/data/data.h"
 #include "src/common/common.h"
 #include "src/core/fm_model.h"
@@ -24,7 +26,9 @@ class FactorizationMachine {
   FactorizationMachine(const FactorizationMachine& other) = delete;
   void operator=(const FactorizationMachine&) = delete;
 
-  void Fit(DMatrix* data, int epochs, bool multi_thread=true);
+  void Initialize();
+
+  void Fit(DMatrix* data, int epochs, bool multi_thread=false);
 
   void Predict(DMatrix* data, const float** out);
 
@@ -41,6 +45,9 @@ class FactorizationMachine {
   FMHyperParam* hyper_param_;
   FMModel* model_;
   ThreadPool* thread_pool_;
+
+  Loss *loss_;
+  Score *score_;
 };
 
 #endif //FMLEARN_CORE_MODEL_H_

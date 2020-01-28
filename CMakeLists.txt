@@ -29,6 +29,8 @@ include_directories(
         "${PROJECT_SOURCE_DIR}"
         "${PROJECT_SOURCE_DIR}/src/common"
         "${PROJECT_SOURCE_DIR}/src/data"
+        "${PROJECT_SOURCE_DIR}/src/loss"
+        "${PROJECT_SOURCE_DIR}/src/score"
         "${PROJECT_SOURCE_DIR}/src/core"
         "${PROJECT_SOURCE_DIR}/src/c_api"
         "${PROJECT_BINARY_DIR}"
@@ -39,6 +41,8 @@ include_directories(
 link_directories(
         "${PROJECT_BINARY_DIR}/src/common"
         "${PROJECT_BINARY_DIR}/src/data"
+        "${PROJECT_BINARY_DIR}/src/loss"
+        "${PROJECT_BINARY_DIR}/src/score"
         "${PROJECT_BINARY_DIR}/src/core"
         "${PROJECT_BINARY_DIR}/src/c_api"
 )
@@ -46,8 +50,10 @@ link_directories(
 
 add_subdirectory(gtest)
 add_subdirectory(src/common)
-add_subdirectory(src/core)
 add_subdirectory(src/data)
+add_subdirectory(src/loss)
+add_subdirectory(src/score)
+add_subdirectory(src/core)
 add_subdirectory(src/c_api)
 
 add_library(fm_learn SHARED
@@ -56,7 +62,13 @@ add_library(fm_learn SHARED
         src/core/model.cpp
         src/core/fm_model.cpp
         src/data/data.cpp
-        src/common/log.cpp src/loss/loss.cpp src/loss/loss.h src/loss/squared_loss.cpp src/loss/squared_loss.h src/loss/cross_entropy_loss.cpp src/loss/cross_entropy_loss.h src/score/score.cpp src/score/score.h)
+        src/common/log.cpp
+        src/loss/loss.cpp
+        src/loss/squared_loss.cpp
+        src/loss/cross_entropy_loss.cpp
+        src/score/score.cpp
+        src/score/linear_score.cpp
+        src/score/fm_score.cpp)
 
 # Set properties
 set_target_properties(fm_learn PROPERTIES PREFIX "")
