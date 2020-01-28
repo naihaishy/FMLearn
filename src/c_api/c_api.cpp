@@ -85,7 +85,8 @@ FM_DLL int FMFit(FM* out, DataHandle* data, int iterations) {
     auto model = reinterpret_cast<FactorizationMachine*>(*out);
     // 数据类型转换
     auto train_data = reinterpret_cast<DMatrix*>(*data);
-    model->Fit(train_data, iterations);
+    model->Initialize();
+    model->Fit(train_data, iterations, false);
     Logging::debug("FMFit succeed");
   API_END()
 }
