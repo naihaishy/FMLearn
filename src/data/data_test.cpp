@@ -62,7 +62,7 @@ TEST(DMATRIX_TEST, Construct_Explicit_Vector) {
 }
 
 TEST(DMATRIX_TEST, Construct_Explicit_File) {
-  std::string file_name = "../../data/house_price_train.txt";;
+  std::string file_name = "data/house_price_train.txt";;
   DMatrix* matrix = new DMatrix(file_name, "txt", "\t", true);
 }
 

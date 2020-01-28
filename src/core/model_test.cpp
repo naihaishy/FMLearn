@@ -75,6 +75,7 @@ TEST(MODEL_TEST, FactorizationMachineFit) {
   DMatrix* matrix = new DMatrix(data, label, n_rows, 5);
 
   // fit
+  fm->Initialize();
   fm->Fit(matrix, 100);
 }
 
@@ -96,6 +97,7 @@ TEST(MODEL_TEST, FactorizationMachinePredict){
   DMatrix* train_matrix = new DMatrix(train_data, train_label, n_rows, 5);
 
   // fit
+  fm->Initialize();
   fm->Fit(train_matrix, 100);
 
   // build test data
