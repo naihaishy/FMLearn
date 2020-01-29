@@ -41,7 +41,7 @@ class DMatrix {
   explicit DMatrix(const std::string& file_name);
   explicit DMatrix(const std::string& file_name,
                    const std::string& file_format,
-                   const std::string& sep,
+                   const char& sep,
                    bool has_label);
 
   DMatrix(const DMatrix& other) = delete;
@@ -53,9 +53,10 @@ class DMatrix {
   void AddNode(int row_id, int feature_id, float feature_val);
   void AddRow();
   void Free(); // Free memory for DMatrix
-  int GetNumFeatures() { return rows[0]->size(); }
+  int GetNumFeatures() { return n_features; }
   int row_length = 0;
   bool has_label = true;
+  int n_features = 0;
 
   std::vector<SparseRow*> rows; // 使用指针 防止内容拷贝
   std::vector<float> labels;

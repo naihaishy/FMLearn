@@ -1,7 +1,12 @@
 
 # Build model static lib
 add_library(model STATIC model.cpp fm_model.cpp)
-target_link_libraries(model common loss score pthread)
+if (WIN32)
+    set(LIBS common loss score)
+else ()
+    set(LIBS common loss score pthread)
+endif ()
+target_link_libraries(model ${LIBS})
 
 # Test for model
 if (BUILD_UNIT_TEST)

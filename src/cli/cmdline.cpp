@@ -14,6 +14,11 @@ CliPredictionParam* FMLearnCliParam::GetPredictionParam() {
   return !is_train ? prediction_param_ : nullptr;
 }
 
+FMLearnCliParam::FMLearnCliParam() {
+  train_param_ = new CliTrainParam();
+  prediction_param_ = new CliPredictionParam();
+}
+
 /**
  * 帮助 显示所有参数
  */
@@ -78,7 +83,7 @@ OPTIONS:
                               to 'test_file' + '.out'
   -file_format         :  File format of test file, used by DMatrix, 'csv' by default. Support csv|txt
 
-  -seq <separator>     :  Separator of features in test file, used by DMatrix, ',' by default.
+  -sep <separator>     :  Separator of features in test file, used by DMatrix, ',' by default.
 
   -nt <thread number>  :  Number of thread for multi-thread learning.
 
@@ -100,7 +105,7 @@ bool CmdLine::Parse(int argc, char** argv) {
     Help();
     exit(0);
   }
-  if (argc < 3) {
+  if (argc <= 3) {
     Logging::error("Invalid Input parameter");
     return false;
   }
@@ -109,17 +114,20 @@ bool CmdLine::Parse(int argc, char** argv) {
 
   if (is_train) {
     // parse training parameter
+    Logging::info("parse training parameter");
     try {
       ParseTrainParam(argc, argv);
     } catch (std::exception& e) {
+      Logging::error(e.what());
       return false;
     }
-
   } else {
     // parse prediction parameter
+    Logging::info("parse prediction parameter");
     try {
       ParsePredictionParam(argc, argv);
     } catch (std::exception& e) {
+      Logging::error(e.what());
       return false;
     }
   }
@@ -127,28 +135,31 @@ bool CmdLine::Parse(int argc, char** argv) {
 }
 
 void CmdLine::ParseTrainParam(int argc, char* argv[]) {
-  std::string train_file = argv[1];
-  std::string model_file = argv[2];
+  std::string train_file = std::string(argv[1]);
+  std::string model_file = std::string(argv[2]);
+
   if (!file_exists(train_file)) {
-    Logging::error("training file don't exist");
-    throw std::invalid_argument("Invalid input param: train_file");
+    throw std::invalid_argument("Invalid input param: train_file, because training file don't exist");
   }
   CliTrainParam* train_param = param_->GetTrainParam();
-  if (train_param == nullptr) return;
+  if (train_param == nullptr) {
+    Logging::info("train_param is nullptr");
+    return;
+  }
   train_param->train_file = train_file;
   train_param->model_file = model_file;
 
-  int i = 1;
+  int i = 3;
   while (i < argc) {
     std::string str = std::string(argv[i]);
     if (str == "-t") {
       if (i + 1 < argc) {
-        train_param->task = atoi(argv[i + 1]);
+        train_param->task = std::stoi(argv[i + 1]);
         i++;
       }
     } else if (str == "-m") {
       if (i + 1 < argc) {
-        train_param->model = atoi(argv[i + 1]);
+        train_param->model = std::stoi(argv[i + 1]);
         i++;
       }
     } else if (str == "-v") {
@@ -158,17 +169,17 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
       }
     } else if (str == "-k") {
       if (i + 1 < argc) {
-        train_param->n_factors = atoi(argv[i + 1]);
+        train_param->n_factors = std::stoi(argv[i + 1]);
         i++;
       }
     } else if (str == "-e") {
       if (i + 1 < argc) {
-        train_param->n_epoch = atoi(argv[i + 1]);
+        train_param->n_epoch = std::stoi(argv[i + 1]);
         i++;
       }
     } else if (str == "-lr") {
       if (i + 1 < argc) {
-        train_param->learning_rate = atof(argv[i + 1]);
+        train_param->learning_rate = std::stof(argv[i + 1]);
         i++;
       }
     } else if (str == "-reg") {
@@ -183,7 +194,7 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
           train_param->reg_W = regs[1];
           train_param->reg_V = regs[2];
         } else {
-          float reg = atof(argv[i + 1]);
+          float reg = std::stof(argv[i + 1]);
           train_param->reg_w0 = reg;
           train_param->reg_W = reg;
           train_param->reg_V = reg;
@@ -192,38 +203,41 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
       }
     } else if (str == "-mean") {
       if (i + 1 < argc) {
-        train_param->init_mean = atof(argv[i + 1]);
+        train_param->init_mean = std::stof(argv[i + 1]);
         i++;
       }
     } else if (str == "-stddev") {
       if (i + 1 < argc) {
-        train_param->init_stddev = atof(argv[i + 1]);
+        train_param->init_stddev = std::stof(argv[i + 1]);
         i++;
       }
     } else if (str == "-nt") {
       if (i + 1 < argc) {
-        train_param->n_thread = atoi(argv[i + 1]);
+        train_param->n_thread = std::stoi(argv[i + 1]);
         i++;
       }
     } else if (str == "-seed") {
       if (i + 1 < argc) {
-        train_param->seed = atol(argv[i + 1]);
+        train_param->seed = std::stol(argv[i + 1]);
         i++;
       }
     } else if (str == "-file_format") {
       if (i + 1 < argc) {
-        train_param->file_format = atol(argv[i + 1]);
+        train_param->file_format = std::string(argv[i + 1]);
         i++;
       }
-    } else if (str == "-seq") {
+    } else if (str == "-sep") {
       if (i + 1 < argc) {
-        train_param->file_sep = atol(argv[i + 1]);
+        train_param->file_sep = *(argv[i + 1]);
+        Logging::info("sep" + std::to_string(train_param->file_sep));
         i++;
       }
     } else if (str == "--no-norm") {
       train_param->norm = false;
     } else if (str == "--quiet") {
       train_param->quiet = true;
+    }else{
+      throw std::invalid_argument("Invalid input param: " + str);
     }
     i++;
   }
@@ -234,19 +248,17 @@ void CmdLine::ParsePredictionParam(int argc, char* argv[]) {
   std::string test_file = argv[1];
   std::string model_file = argv[2];
   if (!file_exists(test_file)) {
-    Logging::error("test file don't exist");
-    throw std::invalid_argument("Invalid input param: test_file");
+    throw std::invalid_argument("Invalid input param: test_file, because test file don't exist");
   }
   if (!file_exists(model_file)) {
-    Logging::error("model file don't exist");
-    throw std::invalid_argument("Invalid input param: model_file");
+    throw std::invalid_argument("Invalid input param: model_file, because model file don't exist");
   }
   CliPredictionParam *prediction_param = param_->GetPredictionParam();
   if(prediction_param== nullptr) return;
   prediction_param->model_file = model_file;
   prediction_param->test_file = test_file;
 
-  int i = 1;
+  int i = 3;
   while (i < argc) {
     std::string str = std::string(argv[i]);
     if (str == "-o") {
@@ -256,21 +268,23 @@ void CmdLine::ParsePredictionParam(int argc, char* argv[]) {
       }
     } else if (str == "-nt") {
       if (i + 1 < argc) {
-        prediction_param->n_thread = atoi(argv[i + 1]);
+        prediction_param->n_thread = std::stoi(argv[i + 1]);
         i++;
       }
     } else if (str == "-file_format") {
       if (i + 1 < argc) {
-        prediction_param->file_format = atol(argv[i + 1]);
+        prediction_param->file_format = std::string(argv[i + 1]);
         i++;
       }
-    } else if (str == "-seq") {
+    } else if (str == "-sep") {
       if (i + 1 < argc) {
-        prediction_param->file_sep = atol(argv[i + 1]);
+        prediction_param->file_sep = std::string(argv[i + 1]).c_str();
         i++;
       }
     } else if (str == "--no-norm ") {
       prediction_param->norm = false;
+    }else{
+      throw std::invalid_argument("Invalid input param: " + str);
     }
   }
 }

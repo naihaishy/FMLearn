@@ -53,7 +53,7 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs, bool multi_thread) {
     this->model_->max_target_ = data->max_label;
   }
   if (multi_thread) {
-    this->FitInMultiThread(data, epochs);
+    // this->FitInMultiThread(data, epochs);
   } else {
     this->FitInSingleThread(data, epochs);
   }
@@ -212,7 +212,7 @@ void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
     }
 
     if (fm->hyper_param_->verbose) {
-      std::cout << "thread " << std::this_thread::get_id() << "\t";
+      // std::cout << "thread " << std::this_thread::get_id() << "\t";
       Logging::debug("epoch " + std::to_string(epoch) +
           " loss: " + std::to_string(losses / data->row_length));
     }
@@ -220,24 +220,7 @@ void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
 
   delete[] inter_sum;
 }
-/**
- * 多线程进行训练
- * @param data
- * @param epochs
- */
-void FactorizationMachine::FitInMultiThread(DMatrix* data, int epochs) {
-  this->thread_pool_ = new ThreadPool(8);
-  int all_count = data->row_length;
-  int thread_num = 20;
-  int step = all_count / thread_num;
-  for (int i = 0; i < thread_num; ++i) {
-    int start = i * step;
-    int end = start + step;
-    if (end > all_count) end = all_count;
-    thread_pool_->enqueue([=] { return FMFitInSingleThread(data, this, epochs, start, end); });
-  }
-  thread_pool_->Sync(thread_num);
-}
+
 /**
  * 初始化
  */

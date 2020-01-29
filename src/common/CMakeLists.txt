@@ -4,8 +4,13 @@ add_library(common STATIC log.cpp utils.cpp)
 
 # Test for common
 if (BUILD_UNIT_TEST)
+    if (WIN32)
+        set(LIBS model data common gtest_main gtest)
+    else ()
+        set(LIBS model data common gtest_main gtest pthread)
+    endif ()
     add_executable(common_test common_test.cpp)
-    target_link_libraries(common_test gtest_main gtest model data common)
+    target_link_libraries(common_test ${LIBS})
 endif ()
 
 # Install library

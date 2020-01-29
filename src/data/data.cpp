@@ -21,6 +21,7 @@
 DMatrix::DMatrix(const float* data, const float* label, int n_rows, int n_cols) {
   // 预分配内存
   this->Init(n_rows);
+  n_features = n_cols;
 
   for (int i = 0; i < n_rows; ++i) {
     this->AddRow();
@@ -55,6 +56,7 @@ DMatrix::DMatrix(std::vector<std::vector<float>>* data, std::vector<float>* labe
   assert(data->size() == label->size());
   int n_rows = data->size();
   int n_cols = (*data)[0].size();
+  n_features = n_cols;
   // 预分配内存
   this->Init(n_rows);
 
@@ -83,28 +85,28 @@ DMatrix::DMatrix(std::vector<std::vector<float>>* data, std::vector<float>* labe
 }
 
 /**
- * 从文件中构造DMatrix
+ * 从文件中构造DMatrix 稠密数据
  * @param file_name 文件名
  * @param file_format 文件格式，目前支持csv txt TODO 支持libsvm, libffm
  * @param seq 列分割符
  */
 DMatrix::DMatrix(const std::string& file_name) {
   // csv文件中直接构建
-  DMatrix(file_name, "csv", ",", true);
+  DMatrix(file_name, "csv", ',', true);
 }
 
 DMatrix::DMatrix(const std::string& file_name,
                  const std::string& file_format,
-                 const std::string& sep,
+                 const char& sep,
                  bool has_label) {
   std::ifstream infile(file_name, std::ios::in);
   if (file_format != "csv" && file_format != "txt") {
     Logging::error("file format " + file_format + " is not supported yet");
-    throw std::runtime_error("file_format is not valid");
+    throw std::invalid_argument("file_format is not valid");
   }
   if (!infile.good()) {
     Logging::error("file " + file_name + " not exists");
-    throw std::runtime_error("file_name is not valid");
+    throw std::invalid_argument("file_name is not valid");
   }
 
   if (infile.is_open()) {
@@ -118,8 +120,10 @@ DMatrix::DMatrix(const std::string& file_name,
       getline(infile, line);
       if (line.empty()) break;
       // 解析行数据
-      auto row = split_in_float(line, sep[0]);
+      auto row = split_in_float(line, sep);
+      // Logging::info(std::to_string(row.size()));
       if (n_cols == 0) n_cols = row.size();
+      n_features = n_cols;
       if (n_cols != row.size()) {
         throw std::runtime_error("num cols is not equal in each line");
       }

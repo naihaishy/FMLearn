@@ -5,7 +5,6 @@
 #ifndef FMLEARN_CORE_MODEL_H_
 #define FMLEARN_CORE_MODEL_H_
 
-#include <src/common/thread_pool.h>
 #include <src/loss/loss.h>
 #include <src/score/score.h>
 #include "src/data/data.h"
@@ -42,11 +41,11 @@ class FactorizationMachine {
 
  private:
   float PredictInstance(SparseRow* x, float norm = 1.0, float* inter_sum = nullptr);
-  void FitInMultiThread(DMatrix* data, int epochs);
+  // void FitInMultiThread(DMatrix* data, int epochs);
   void FitInSingleThread(DMatrix* data, int epochs);
   FMHyperParam* hyper_param_;
   FMModel* model_;
-  ThreadPool* thread_pool_;
+  // ThreadPool* thread_pool_;
 
   Loss *loss_;
   Score *score_;

@@ -63,7 +63,8 @@ TEST(DMATRIX_TEST, Construct_Explicit_Vector) {
 
 TEST(DMATRIX_TEST, Construct_Explicit_File) {
   std::string file_name = "data/house_price_train.txt";;
-  DMatrix* matrix = new DMatrix(file_name, "txt", "\t", true);
+  DMatrix* matrix = new DMatrix(file_name, "txt", '\t', true);
+  std::cout << matrix->GetNumFeatures() << std::endl;
 }
 
 /**
@@ -127,7 +128,6 @@ TEST(DMATRIX_TEST, EQ) {
   data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
   data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
 
-  int n_rows = 3;
   std::vector<float> label = {1.0, 2.0, 3.0};
   DMatrix* matrix1 = new DMatrix(&data, &label);
   DMatrix* matrix2 = new DMatrix(&data, &label);
