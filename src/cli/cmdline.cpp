@@ -278,7 +278,7 @@ void CmdLine::ParsePredictionParam(int argc, char* argv[]) {
       }
     } else if (str == "-sep") {
       if (i + 1 < argc) {
-        prediction_param->file_sep = std::string(argv[i + 1]).c_str();
+        prediction_param->file_sep = *(argv[i + 1]);
         i++;
       }
     } else if (str == "--no-norm ") {
