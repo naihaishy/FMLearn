@@ -109,7 +109,9 @@ TEST(MODEL_TEST, FactorizationMachinePredict){
 
   const float* out = new float[3];
 
-  fm->Predict(test_matrix, &out);
+  std::vector<float > results = fm->Predict(test_matrix);
+  out = &results[0];
+  // fm->Predict(test_matrix, &out);
 }
 
 int main(int argc, char* argv[]) {

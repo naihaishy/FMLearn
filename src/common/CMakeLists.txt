@@ -1,6 +1,6 @@
 
 # Build common static lib
-add_library(common STATIC log.cpp utils.h)
+add_library(common STATIC log.cpp utils.cpp)
 
 # Test for common
 if (BUILD_UNIT_TEST)

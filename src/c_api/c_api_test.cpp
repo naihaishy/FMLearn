@@ -29,7 +29,7 @@ TEST(C_API_TEST, FMMatrixCreateFromMat) {
 TEST(C_API_TEST, FMMatrixCreateFromFile) {
   DMatrix* dMatrix = new DMatrix();
   DataHandle* out = reinterpret_cast<DataHandle*>(&dMatrix);
-  std::string file_name = "../../data/house_price_train.txt";
+  std::string file_name = "data/house_price_train.txt";
   FMMatrixCreateFromFile(file_name, "txt", "\t", true, out);
   DMatrix* matrix = reinterpret_cast<DMatrix*>(*out);
 

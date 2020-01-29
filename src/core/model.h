@@ -22,6 +22,8 @@ class FactorizationMachine {
                        float mean, float stddev,
                        bool norm, bool verbose);
 
+  explicit FactorizationMachine(const std::string &model_file);
+
   ~FactorizationMachine();
   FactorizationMachine(const FactorizationMachine& other) = delete;
   void operator=(const FactorizationMachine&) = delete;
@@ -30,7 +32,7 @@ class FactorizationMachine {
 
   void Fit(DMatrix* data, int epochs, bool multi_thread=false);
 
-  void Predict(DMatrix* data, const float** out);
+  std::vector<float> Predict(DMatrix* data);
 
   FMHyperParam* GetHyperParam();
   FMModel* GetModel();

@@ -53,6 +53,7 @@ class DMatrix {
   void AddNode(int row_id, int feature_id, float feature_val);
   void AddRow();
   void Free(); // Free memory for DMatrix
+  int GetNumFeatures() { return rows[0]->size(); }
   int row_length = 0;
   bool has_label = true;
 

@@ -89,6 +89,7 @@ DMatrix::DMatrix(std::vector<std::vector<float>>* data, std::vector<float>* labe
  * @param seq 列分割符
  */
 DMatrix::DMatrix(const std::string& file_name) {
+  // csv文件中直接构建
   DMatrix(file_name, "csv", ",", true);
 }
 

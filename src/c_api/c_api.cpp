@@ -97,8 +97,9 @@ FM_DLL int FMPredict(FM* out, DataHandle* data, DataHandle* out_result) {
     auto model = reinterpret_cast<FactorizationMachine*>(*out);
     // 数据类型转换
     auto test_data = reinterpret_cast<DMatrix*>(*data);
-    auto results = reinterpret_cast<const float**>(*out_result);
-    model->Predict(test_data, results);
+    // auto results = reinterpret_cast<const float**>(*out_result);
+    auto results =  model->Predict(test_data);
+    *out_result = &results[0];
     Logging::debug("FMPredict succeed");
   API_END()
 }

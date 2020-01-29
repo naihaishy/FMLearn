@@ -11,8 +11,14 @@
 #include <src/loss/squared_loss.h>
 #include <src/loss/cross_entropy_loss.h>
 #include <src/score/fm_score.h>
+#include <src/common/utils.h>
 inline float sigmoid(float x) {
   return 1.0f / (1.0f + expf(-x));
+}
+
+FactorizationMachine::FactorizationMachine(const std::string& model_file) {
+  this->model_ = new FMModel(model_file);
+  this->hyper_param_ = nullptr;
 }
 
 FactorizationMachine::FactorizationMachine(int task,
@@ -59,7 +65,7 @@ void FactorizationMachine::Fit(DMatrix* data, int epochs, bool multi_thread) {
  * @param data DMatrix
  * @param out
  */
-void FactorizationMachine::Predict(DMatrix* data, const float** out) {
+std::vector<float> FactorizationMachine::Predict(DMatrix* data) {
   std::vector<float> results;
   results.reserve(data->row_length);
   for (int m = 0; m < data->row_length; ++m) {
@@ -68,7 +74,7 @@ void FactorizationMachine::Predict(DMatrix* data, const float** out) {
     float y_pred = this->PredictInstance(x);
     results.emplace_back(y_pred);
   }
-  *out = &results[0];
+  return results;
 }
 
 /**
@@ -243,5 +249,6 @@ void FactorizationMachine::Initialize() {
     this->loss_ = new CrossEntropyLoss();
   }
 }
+
 
 

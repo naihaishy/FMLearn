@@ -14,5 +14,7 @@
 #define SQUARE_LOSS 0
 #define CROSS_ENTROPY_LOSS 1
 
+#define VERSION 0.1
+
 
 #endif //FMLEARN_COMMON_COMMON_H_

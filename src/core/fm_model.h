@@ -30,8 +30,12 @@ class FMModel {
   FMModel(int task, int n_features, int n_factors,
           float mean, float stddev);
 
+  explicit FMModel(const std::string &model_file);
+
   void InitWeights(float mean, float stddev);
   void Free();
+  void Save(const std::string& filename);
+  bool Load(const std::string& filename);
 
   int task_ = REGRESSION;
   int n_features_ = 0;
