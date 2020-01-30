@@ -9,6 +9,7 @@
 #include <src/core/model.h>
 
 int main(int argc, char* argv[]) {
+  Logging::SetLevel(0);
   CmdLine cmd_line;
   cmd_line.SetPredict();
 

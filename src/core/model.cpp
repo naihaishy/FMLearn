@@ -29,7 +29,22 @@ FactorizationMachine::FactorizationMachine(int task,
                                            bool norm, bool verbose) {
   this->model_ = new FMModel(task, n_features, n_factors, mean, stddev);
   this->hyper_param_ = new FMHyperParam(lr, reg_w0, reg_W, reg_V, norm, verbose);
+
+  this->score_ = new FmScore();
+  if (task == REGRESSION) {
+    this->loss_ = new SquaredLoss();
+  } else {
+    this->loss_ = new CrossEntropyLoss();
+  }
+
   Logging::debug("FactorizationMachine Construct succeed!");
+}
+
+/**
+ * 初始化
+ */
+void FactorizationMachine::Initialize() {
+
 }
 
 FactorizationMachine::~FactorizationMachine() {
@@ -221,17 +236,7 @@ void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
   delete[] inter_sum;
 }
 
-/**
- * 初始化
- */
-void FactorizationMachine::Initialize() {
-  this->score_ = new FmScore();
-  if (this->model_->task_ == REGRESSION) {
-    this->loss_ = new SquaredLoss();
-  } else {
-    this->loss_ = new CrossEntropyLoss();
-  }
-}
+
 
 
 

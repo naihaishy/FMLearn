@@ -14,6 +14,8 @@ class CrossEntropyLoss : public Loss {
                   std::vector<float>& labels) override;
   float CalGrad(DMatrix* data, FMModel* model, FMHyperParam* hyper_param, Score* score) override;
   ~CrossEntropyLoss() override;
+ private:
+  std::string type_ = "CrossEntropyLoss";
 };
 
 #endif //FMLEARN_LOSS_CROSS_ENTROPY_LOSS_H_

@@ -28,7 +28,7 @@ struct CliTrainParam {
   long seed = 0l;
 
   std::string file_format = "csv"; // csv txt
-  char file_sep = ','; // , for csv
+  char file_sep = '\t'; // , for csv
   bool norm = true;
   bool quiet = false;
   std::string to_string();

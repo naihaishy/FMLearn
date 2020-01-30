@@ -12,6 +12,9 @@ class LinearScore : public Score {
   ~LinearScore() override = default;
   float Calculate(SparseRow* row, FMModel* model, float norm) override;
   void CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param, float norm, float delta) override;
+
+ private:
+  std::string type_ = "LinearScore";
 };
 
 #endif //FMLEARN_SCORE_LINEAR_SCORE_H_

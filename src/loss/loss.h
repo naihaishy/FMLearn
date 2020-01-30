@@ -37,10 +37,12 @@ class Loss {
   // 更新参数
   // virtual void UpdateWeights(FMModel* model) = 0;
 
+  virtual std::string GetType() { return type_; }
+
  private:
   double loss_sum = 0.0;
   int data_samples = 0;
-
+  std::string type_ = "Loss";
 };
 
 #endif //FMLEARN_LOSS_LOSS_H_

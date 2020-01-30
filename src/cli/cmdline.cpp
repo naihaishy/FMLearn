@@ -92,7 +92,7 @@ bool CmdLine::Parse(int argc, char** argv) {
     Help();
     exit(0);
   }
-  if (argc <= 3) {
+  if (argc < 3) {
     Logging::error("Invalid Input parameter");
     return false;
   }
@@ -130,7 +130,7 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
   }
   CliTrainParam* train_param = param_->GetTrainParam();
   if (train_param == nullptr) {
-    Logging::info("train_param is nullptr");
+    Logging::error("train_param is nullptr");
     return;
   }
   train_param->train_file = train_file;

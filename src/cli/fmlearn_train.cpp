@@ -9,6 +9,7 @@
 #include <src/common/log.h>
 
 int main(int argc, char* argv[]) {
+  Logging::SetLevel(0);
   CmdLine cmd_line;
   cmd_line.SetTrain();
 

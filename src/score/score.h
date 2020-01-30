@@ -31,6 +31,11 @@ class Score {
    * @param delta
    */
   virtual void CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param, float norm, float delta) = 0;
+
+  virtual std::string GetType() { return type_; }
+
+ private:
+  std::string type_ = "Score";
 };
 
 #endif //FMLEARN_SCORE_SCORE_H_
