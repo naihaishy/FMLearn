@@ -66,7 +66,8 @@ add_library(fm_learn SHARED
         src/score/score.cpp
         src/score/linear_score.cpp
         src/score/fm_score.cpp
-        src/cli/cmdline.cpp)
+        src/cli/cmdline.cpp
+        src/cli/cli_param.cpp)
 
 # Set properties
 set_target_properties(fm_learn PROPERTIES PREFIX "")

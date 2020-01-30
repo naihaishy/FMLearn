@@ -6,19 +6,6 @@
 #include "src/common/log.h"
 
 
-CliTrainParam* FMLearnCliParam::GetTrainParam() {
-  return is_train ? train_param_ : nullptr;
-}
-
-CliPredictionParam* FMLearnCliParam::GetPredictionParam() {
-  return !is_train ? prediction_param_ : nullptr;
-}
-
-FMLearnCliParam::FMLearnCliParam() {
-  train_param_ = new CliTrainParam();
-  prediction_param_ = new CliPredictionParam();
-}
-
 /**
  * 帮助 显示所有参数
  */

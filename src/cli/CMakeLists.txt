@@ -1,7 +1,5 @@
 # Build loss static lib
-add_library(cmdline STATIC cmdline.cpp
-        validate.h
-        fmlearn.cpp)
+add_library(cmdline STATIC cmdline.cpp cli_param.cpp fmlearn.cpp)
 
 
 add_executable(fmlearn_train fmlearn_train.cpp)
