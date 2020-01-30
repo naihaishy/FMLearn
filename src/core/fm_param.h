@@ -42,14 +42,14 @@ class FMHyperParam {
     std::string result;
     result.reserve(1024);
     result.append("FMHyperParam: \n");
-    result.append("learning_rate :" + std::to_string(learning_rate) + "\n");
-    result.append("reg_w0 :" + std::to_string(reg_w0) + "\n");
-    result.append("reg_W :" + std::to_string(reg_W) + "\n");
-    result.append("reg_V :" + std::to_string(reg_V) + "\n");
-    result.append("norm :" + std::to_string(norm) + "\n");
-    result.append("is_train :" + std::to_string(is_train) + "\n");
-    result.append("on_disk :" + std::to_string(on_disk) + "\n");
-    result.append("verbose :" + std::to_string(verbose) + "\n");
+    result.append("learning_rate : " + std::to_string(learning_rate) + "\n");
+    result.append("reg_w0        : " + std::to_string(reg_w0) + "\n");
+    result.append("reg_W         : " + std::to_string(reg_W) + "\n");
+    result.append("reg_V         : " + std::to_string(reg_V) + "\n");
+    result.append("norm          : " + std::to_string(norm) + "\n");
+    result.append("is_train      : " + std::to_string(is_train) + "\n");
+    result.append("on_disk       : " + std::to_string(on_disk) + "\n");
+    result.append("verbose       : " + std::to_string(verbose) + "\n");
     return result;
   }
 };
