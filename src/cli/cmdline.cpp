@@ -251,6 +251,7 @@ void CmdLine::ParsePredictionParam(int argc, char* argv[]) {
     } else {
       throw std::invalid_argument("Invalid input param: " + str);
     }
+    i++;
   }
 }
 
