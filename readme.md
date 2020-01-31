@@ -23,3 +23,5 @@
 
 ### 快速开始
 [使用文档](https://fmlearn.readthedocs.io/)
+
+[开发环境](https://blog.zhfsky.com/2020/01/31/fmlearn-development.html)
