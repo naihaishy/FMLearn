@@ -30,7 +30,7 @@ TEST(C_API_TEST, FMMatrixCreateFromFile) {
   DMatrix* dMatrix = new DMatrix();
   DataHandle* out = reinterpret_cast<DataHandle*>(&dMatrix);
   std::string file_name = "data/house_price_train.txt";
-  FMMatrixCreateFromFile(file_name, "txt", '\t', true, out);
+  FMMatrixCreateFromFile(file_name, true, out);
   DMatrix* matrix = reinterpret_cast<DMatrix*>(*out);
 
   std::cout << "dMatrix address" << &dMatrix << std::endl;

@@ -38,11 +38,7 @@ class DMatrix {
 
   explicit DMatrix(const float* data, const float* label, int n_rows, int n_cols);
   explicit DMatrix(std::vector<std::vector<float>>* data, std::vector<float>* labels);
-  explicit DMatrix(const std::string& file_name);
-  explicit DMatrix(const std::string& file_name,
-                   const std::string& file_format,
-                   const char& sep,
-                   bool has_label);
+  explicit DMatrix(const std::string& file_name, bool has_label = true);
 
   DMatrix(const DMatrix& other) = delete;
   void operator=(const DMatrix& other) = delete;

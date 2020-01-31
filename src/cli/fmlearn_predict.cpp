@@ -17,10 +17,7 @@ int main(int argc, char* argv[]) {
     // 构造DMatrix
     CliPredictionParam * param = cmd_line.GetCliParam()->GetPredictionParam();
 
-    DMatrix* test_data = new DMatrix(param->test_file,
-                                     param->file_format,
-                                     param->file_sep,
-                                      false);
+    DMatrix* test_data = new DMatrix(param->test_file, false);
 
     auto fm = new FactorizationMachine(param->model_file);
 

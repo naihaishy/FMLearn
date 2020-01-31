@@ -3,6 +3,7 @@
 // Google unit test for data module
 
 #include <src/c_api/c_api.h>
+#include <src/common/log.h>
 #include "gtest/gtest.h"
 
 /**
@@ -63,7 +64,7 @@ TEST(DMATRIX_TEST, Construct_Explicit_Vector) {
 
 TEST(DMATRIX_TEST, Construct_Explicit_File) {
   std::string file_name = "data/house_price_train.txt";;
-  DMatrix* matrix = new DMatrix(file_name, "txt", '\t', true);
+  DMatrix* matrix = new DMatrix(file_name, true);
   std::cout << matrix->GetNumFeatures() << std::endl;
 }
 
@@ -150,6 +151,7 @@ TEST(DMATRIX_TEST, EQ) {
 }
 
 int main(int argc, char* argv[]) {
+  Logging::SetLevel(0);
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

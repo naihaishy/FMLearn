@@ -58,6 +58,7 @@ add_library(fm_learn SHARED
         src/core/model.cpp
         src/core/fm_model.cpp
         src/data/data.cpp
+        src/data/reader.cpp
         src/common/log.cpp
         src/common/utils.cpp
         src/loss/loss.cpp

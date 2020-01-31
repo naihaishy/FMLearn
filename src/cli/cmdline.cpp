@@ -5,7 +5,6 @@
 #include "cmdline.h"
 #include "src/common/log.h"
 
-
 /**
  * 帮助 显示所有参数
  */
@@ -208,22 +207,11 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
         train_param->seed = std::stol(argv[i + 1]);
         i++;
       }
-    } else if (str == "-file_format") {
-      if (i + 1 < argc) {
-        train_param->file_format = std::string(argv[i + 1]);
-        i++;
-      }
-    } else if (str == "-sep") {
-      if (i + 1 < argc) {
-        train_param->file_sep = *(argv[i + 1]);
-        Logging::info("sep" + std::to_string(train_param->file_sep));
-        i++;
-      }
     } else if (str == "--no-norm") {
       train_param->norm = false;
     } else if (str == "--quiet") {
       train_param->quiet = true;
-    }else{
+    } else {
       throw std::invalid_argument("Invalid input param: " + str);
     }
     i++;
@@ -240,8 +228,8 @@ void CmdLine::ParsePredictionParam(int argc, char* argv[]) {
   if (!file_exists(model_file)) {
     throw std::invalid_argument("Invalid input param: model_file, because model file don't exist");
   }
-  CliPredictionParam *prediction_param = param_->GetPredictionParam();
-  if(prediction_param== nullptr) return;
+  CliPredictionParam* prediction_param = param_->GetPredictionParam();
+  if (prediction_param == nullptr) return;
   prediction_param->model_file = model_file;
   prediction_param->test_file = test_file;
 
@@ -258,19 +246,9 @@ void CmdLine::ParsePredictionParam(int argc, char* argv[]) {
         prediction_param->n_thread = std::stoi(argv[i + 1]);
         i++;
       }
-    } else if (str == "-file_format") {
-      if (i + 1 < argc) {
-        prediction_param->file_format = std::string(argv[i + 1]);
-        i++;
-      }
-    } else if (str == "-sep") {
-      if (i + 1 < argc) {
-        prediction_param->file_sep = *(argv[i + 1]);
-        i++;
-      }
     } else if (str == "--no-norm ") {
       prediction_param->norm = false;
-    }else{
+    } else {
       throw std::invalid_argument("Invalid input param: " + str);
     }
   }

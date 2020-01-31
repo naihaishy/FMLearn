@@ -29,13 +29,11 @@ FM_DLL int FMMatrixCreateFromMat(const float* data, int rows, int cols, const fl
 }
 
 FM_DLL int FMMatrixCreateFromFile(const std::string& file_name,
-                                  const std::string& file_format,
-                                  const char& sep,
                                   bool has_label,
                                   DataHandle* out) {
   API_BEGIN()
     // 使用智能指针管理DMatrix
-    std::unique_ptr<DMatrix> matrix(new DMatrix(file_name, file_format, sep, has_label));
+    std::unique_ptr<DMatrix> matrix(new DMatrix(file_name, has_label));
     *out = matrix.release();
     Logging::debug("data matrix created succeed");
   API_END()

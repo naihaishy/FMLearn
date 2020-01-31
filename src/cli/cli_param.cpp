@@ -22,8 +22,6 @@ std::string CliTrainParam::to_string() {
   result.append("init_stddev     : " + std::to_string(init_stddev) + "\n");
   result.append("n_thread        : " + std::to_string(n_thread) + "\n");
   result.append("seed            : " + std::to_string(seed) + "\n");
-  result.append("file_format     : " + file_format + "\n");
-  result.append("file_sep        : " + std::string(1, file_sep) + "\n");
   result.append("norm            : " + std::to_string(norm) + "\n");
   result.append("quiet           : " + std::to_string(quiet) + "\n");
   return result;
@@ -37,8 +35,6 @@ std::string CliPredictionParam::to_string() {
   result.append("model_file       : " + model_file + "\n");
   result.append("output_file      : " + output_file + "\n");
   result.append("n_thread         : " + std::to_string(n_thread) + "\n");
-  result.append("file_format      : " + file_format + "\n");
-  result.append("file_sep         : " + std::string(1, file_sep) + "\n");
   result.append("seed             : " + std::to_string(norm) + "\n");
   return result;
 }

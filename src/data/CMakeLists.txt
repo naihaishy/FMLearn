@@ -1,6 +1,6 @@
 
 # Build data static lib
-add_library(data STATIC data.cpp)
+add_library(data STATIC data.cpp reader.cpp)
 
 # Build unit tests
 if (BUILD_UNIT_TEST)

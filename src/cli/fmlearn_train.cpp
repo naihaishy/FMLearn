@@ -18,8 +18,6 @@ int main(int argc, char* argv[]) {
     CliTrainParam * param = cmd_line.GetCliParam()->GetTrainParam();
     Logging::info(param->to_string());
     DMatrix* train_data = new DMatrix(param->train_file,
-                                      param->file_format,
-                                      param->file_sep,
                                       true);
     int n_features = train_data->GetNumFeatures();
     std::cout << n_features << std::endl;

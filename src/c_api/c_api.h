@@ -39,8 +39,6 @@ FM_DLL int FMMatrixCreateFromMat(const float* data,
                                  const float* label,
                                  DataHandle* out);
 FM_DLL int FMMatrixCreateFromFile(const std::string& file_name,
-                                  const std::string& file_format,
-                                  const char& sep,
                                   bool has_label,
                                   DataHandle* out);
 FM_DLL int FMMatrixFree(DataHandle* out);

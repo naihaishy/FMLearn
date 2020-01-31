@@ -27,8 +27,6 @@ struct CliTrainParam {
   int n_thread = 1;
   long seed = 0l;
 
-  std::string file_format = "csv"; // csv txt
-  char file_sep = '\t'; // , for csv
   bool norm = true;
   bool quiet = false;
   std::string to_string();
@@ -41,8 +39,6 @@ struct CliPredictionParam {
 
   int n_thread = 1;
 
-  std::string file_format = "csv"; // csv txt
-  char file_sep = ','; // , for csv
   bool norm = true;
   std::string to_string();
 };
