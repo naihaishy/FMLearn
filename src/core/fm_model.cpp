@@ -23,12 +23,13 @@ FMModel::FMModel(int task,
  * @param model_file
  */
 FMModel::FMModel(const std::string& model_file) {
-  if (!file_exists(model_file) || model_file.empty()) {
-    throw std::invalid_argument("invalid model file");
-  }
-  if (!this->Load(model_file)) {
-    Logging::error("Construct FMModel from file " + model_file + " failed");
-    throw std::runtime_error("Construct FMModel failed");
+  try{
+    if (!this->Load(model_file)) {
+      Logging::error("Construct FMModel from file " + model_file + " failed");
+      throw std::runtime_error("Construct FMModel failed");
+    }
+  }catch (std::exception &e){
+    Logging::error(e.what() + LFLF);
   }
 }
 
@@ -93,6 +94,7 @@ void FMModel::Save(const std::string& filename) {
   ofs << std::endl;
   ofs << "#OK" << std::endl;
   ofs.close();
+  Logging::info("FMModel save succeed , keep in " + filename);
 }
 
 /**
@@ -119,23 +121,25 @@ bool FMModel::Load(const std::string& filename) {
   }
 
   if(!std::getline(ifs, line)) return false;
-  task_ = atoi(line.c_str());
+  task_ = std::stoi(line);
 
   if(!std::getline(ifs, line)) return false;
-  n_features_ = atoi(line.c_str());
+  n_features_ = std::stoi(line);
 
   if(!std::getline(ifs, line)) return false;
-  n_factors_ = atoi(line.c_str());
+  n_factors_ = std::stoi(line);
 
   if(!std::getline(ifs, line)) return false; // #w0
   if(!std::getline(ifs, line)) return false; // w0
-  w0_ = atof(line.c_str());
+  w0_ = std::stof(line);
 
   if(!std::getline(ifs, line)) return false; // #W
+  if(!std::getline(ifs, line)) return false; // W
   auto result_w0 = split_in_float(line, '\t');
   for (int i = 0; i < n_features_; ++i) {
     W_[i] = result_w0[i];
   }
+  Logging::debug("W is load ok");
 
   if(!std::getline(ifs, line)) return false; // #V
   for (int i = 0; i < n_features_; ++i) {
@@ -145,8 +149,9 @@ bool FMModel::Load(const std::string& filename) {
       V_[i * n_factors_ + f] = result_Vi[f];
     }
   }
+  Logging::debug("V is load ok");
 
-  if(!std::getline(ifs, line)) return false;; // #w0
+  if(!std::getline(ifs, line)) return false;; // #OK
   if (line == "#OK") {
     Logging::info("Model is Ok");
   } else {

@@ -17,8 +17,7 @@ int main(int argc, char* argv[]) {
     // 构造DMatrix
     CliTrainParam * param = cmd_line.GetCliParam()->GetTrainParam();
     Logging::info(param->to_string());
-    DMatrix* train_data = new DMatrix(param->train_file,
-                                      true);
+    DMatrix* train_data = new DMatrix(param->train_file, true);
     int n_features = train_data->GetNumFeatures();
     std::cout << n_features << std::endl;
 
@@ -40,7 +39,7 @@ int main(int argc, char* argv[]) {
     fm->GetModel()->Save(param->model_file);
   } else {
     Logging::error("FMLearn command line parameter parse failed");
-    exit(0);
+    exit(1);
   }
 
   return 0;

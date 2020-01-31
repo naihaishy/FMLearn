@@ -78,3 +78,9 @@ void Logging::SetLevel(const std::string& level) {
     Logging::log_level = LoggingLevel::INFO;
   }
 };
+
+std::string LogFileLineFunction(const std::string& file,
+                                int line,
+                                const std::string& function) {
+  return " [File] " + file + " [Line] " + std::to_string(line) + " [Function] " + function;
+}

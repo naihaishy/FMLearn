@@ -37,10 +37,16 @@ class Logging {
   }
 
   static void SetLevel(int level);
-  static void SetLevel(const std::string &level);
+  static void SetLevel(const std::string& level);
 
  private:
   static void log(LoggingLevel level, const std::string& msg);
 };
+
+std::string LogFileLineFunction(const std::string& file,
+                                int line,
+                                const std::string& function);
+
+#define LFLF LogFileLineFunction(__FILE__, __LINE__, __FUNCTION__)
 
 #endif //FMLEARN_COMMON_LOG_H_

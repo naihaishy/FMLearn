@@ -49,10 +49,9 @@ class DMatrix {
   void AddNode(int row_id, int feature_id, float feature_val);
   void AddRow();
   void Free(); // Free memory for DMatrix
-  int GetNumFeatures() { return n_features; }
+  int GetNumFeatures();
   int row_length = 0;
   bool has_label = true;
-  int n_features = 0;
 
   std::vector<SparseRow*> rows; // 使用指针 防止内容拷贝
   std::vector<float> labels;

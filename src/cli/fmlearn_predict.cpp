@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 
   } else {
     Logging::error("FMLearn command line parameter parse failed");
-    exit(0);
+    exit(1);
   }
 
   return 0;

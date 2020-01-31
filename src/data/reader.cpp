@@ -36,16 +36,15 @@ void DataReader::Initialize() {
 void DataReader::CheckFile() {
   std::ifstream ifs(file_path_);
   if (!ifs.is_open()) throw std::invalid_argument("Invalid file");
-
   std::string first_line;
   std::getline(ifs, first_line);
-  ifs.close();
 
   // 判断是否存在header
   for (const char& c:first_line) {
     if ((c >= '0' && c <= '9') ||
         c == ',' || c == ' ' || c == '\t' ||
-        c == ':' || c == '.' || c == '-')
+        c == ':' || c == '.' || c == '-' ||
+        c == '\r' || c == '\n')
       continue;
     else {
       has_header_ = true;
@@ -53,6 +52,7 @@ void DataReader::CheckFile() {
     }
   }
   if (has_header_) std::getline(ifs, first_line);
+  ifs.close();
 
   if (first_line.empty())
     throw std::runtime_error("Invalid contents in file " + file_path_);
@@ -139,6 +139,7 @@ void DataReader::Read(DMatrix* data) {
     Logging::error("file is closed before read data");
     throw std::runtime_error("input file is closed");
   }
+  Logging::debug("Reader read succeed");
 }
 
 

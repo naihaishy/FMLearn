@@ -22,7 +22,6 @@
 DMatrix::DMatrix(const float* data, const float* label, int n_rows, int n_cols) {
   // 预分配内存
   this->Init(n_rows);
-  n_features = n_cols;
 
   for (int i = 0; i < n_rows; ++i) {
     this->AddRow();
@@ -57,7 +56,6 @@ DMatrix::DMatrix(std::vector<std::vector<float>>* data, std::vector<float>* labe
   assert(data->size() == label->size());
   int n_rows = data->size();
   int n_cols = (*data)[0].size();
-  n_features = n_cols;
   // 预分配内存
   this->Init(n_rows);
 
@@ -172,6 +170,19 @@ bool DMatrix::operator==(const DMatrix& other) const {
 
 bool DMatrix::operator!=(const DMatrix& other) const {
   return !(*this == other);
+}
+
+/**
+ * 特征数目
+ * @return
+ */
+int DMatrix::GetNumFeatures() {
+  if (row_length <= 0) return 0;
+  int num_features = 0;
+  for (const Node& node: *(rows[0])) {
+    num_features = std::max(num_features, node.feature_id);
+  }
+  return num_features;
 }
 
 

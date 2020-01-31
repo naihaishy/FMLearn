@@ -3,6 +3,7 @@
 //
 #include <src/common/utils.h>
 #include "cmdline.h"
+#include "validator.h"
 #include "src/common/log.h"
 
 /**
@@ -47,13 +48,8 @@ OPTIONS:
 
   -seed <random_seed>  :  Random Seed to shuffle training data set. 0 by default.
 
-  -file_format         :  File format of train file, used by DMatrix, 'csv' by default. Support csv|txt
-
-  -seq <separator>     :  Separator of features in train file, used by DMatrix, ',' by default.
-
   --no-norm            :  Disable instance-wise normalization. By default, FMLearn will use
                           instance-wise normalization for training.
-
   --quiet              :  Quiet mode, don't output any log information during training. True by default.
 
 ---------------------------------------------------------------------------)");
@@ -67,10 +63,6 @@ OPTIONS:
 
   -o <output_file>     :  Path of the output file. On default, this value will be set
                               to 'test_file' + '.out'
-  -file_format         :  File format of test file, used by DMatrix, 'csv' by default. Support csv|txt
-
-  -sep <separator>     :  Separator of features in test file, used by DMatrix, ',' by default.
-
   -nt <thread number>  :  Number of thread for multi-thread learning.
 
   --no-norm            :  Disable instance-wise normalization. By default, FMLearn will use
@@ -100,18 +92,26 @@ bool CmdLine::Parse(int argc, char** argv) {
 
   if (is_train) {
     // parse training parameter
-    Logging::info("parse training parameter");
+    Logging::info("Parse training parameter");
     try {
       ParseTrainParam(argc, argv);
+      if (!Validator::Validate(*param_->GetTrainParam())) {
+        Logging::error("Validate command line train parameter failed");
+        return false;
+      }
     } catch (std::exception& e) {
       Logging::error(e.what());
       return false;
     }
   } else {
     // parse prediction parameter
-    Logging::info("parse prediction parameter");
+    Logging::info("Parse prediction parameter");
     try {
       ParsePredictionParam(argc, argv);
+      if (!Validator::Validate(*param_->GetPredictionParam())) {
+        Logging::error("Validate command line prediction parameter failed");
+        return false;
+      }
     } catch (std::exception& e) {
       Logging::error(e.what());
       return false;
