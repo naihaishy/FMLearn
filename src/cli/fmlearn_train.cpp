@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
     Logging::info(param->to_string());
     DMatrix* train_data = new DMatrix(param->train_file, true);
     int n_features = train_data->GetNumFeatures();
-    std::cout << n_features << std::endl;
+    // std::cout << n_features << std::endl;
 
     auto fm = new FactorizationMachine(param->task,
                                         n_features,

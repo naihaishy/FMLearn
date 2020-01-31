@@ -27,6 +27,11 @@ class DataReader {
 
   void Initialize();
   void Read(DMatrix* data);
+  std::string GetFileFormat() { return file_format_; };
+  char GetDelimiter() { return delimiter_; };
+  bool HasHeader() { return has_header_; };
+  bool HasLabel() { return has_label_; };
+  Parser* GetParser() { return parser_; };
 
  private:
   void CheckFile();

@@ -7,7 +7,12 @@
 #include "cross_entropy_loss.h"
 
 TEST(LOSS_TEST, Calculate) {
-  Loss* loss = new SquaredLoss();
+  Loss* loss1 = new SquaredLoss();
+  EXPECT_EQ(loss1->GetType(), "SquaredLoss");
+
+  Loss* loss2 = new CrossEntropyLoss();
+  EXPECT_EQ(loss2->GetType(), "CrossEntropyLoss");
+
 }
 
 int main(int argc, char* argv[]) {

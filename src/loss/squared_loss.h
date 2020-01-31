@@ -12,8 +12,9 @@ class SquaredLoss : public Loss {
 
   float CalGrad(DMatrix* data, FMModel* model, FMHyperParam* hyper_param, Score* score) override;
   ~SquaredLoss() override;
+  std::string GetType() override { return type_; }
  private:
-  std::string type_ = "SquaredLoss";
+  std::string type_ = "SquaredLoss" ;
 };
 
 #endif //FMLEARN_LOSS_SQUARED_LOSS_H_

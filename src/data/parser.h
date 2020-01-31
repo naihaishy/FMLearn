@@ -13,6 +13,15 @@
 #include <string>
 #include <src/common/utils.h>
 
+/**
+ * Usage:
+ * Parser *parser = new CSVParser;
+ * parser->Initialize(delimiter_, has_header_, has_label_);
+ * DMatrix *data = ...;
+ * std::string line = ...;
+ * parser.Parse(data, line);
+ */
+
 class Parser {
  public:
   void Initialize(char delimiter, bool has_header, bool has_label) {

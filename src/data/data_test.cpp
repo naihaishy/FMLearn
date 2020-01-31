@@ -4,6 +4,8 @@
 
 #include <src/c_api/c_api.h>
 #include <src/common/log.h>
+#include "reader.h"
+#include "parser.h"
 #include "gtest/gtest.h"
 
 /**
@@ -62,10 +64,18 @@ TEST(DMATRIX_TEST, Construct_Explicit_Vector) {
   EXPECT_FLOAT_EQ(matrix->min_label, 1.0);
 }
 
+/**
+ * 测试从文件中构建DMatrix
+ */
 TEST(DMATRIX_TEST, Construct_Explicit_File) {
-  std::string file_name = "data/house_price_train.txt";;
+  std::string file_name = "data/house_price_train.txt";
   DMatrix* matrix = new DMatrix(file_name, true);
-  std::cout << matrix->GetNumFeatures() << std::endl;
+  EXPECT_EQ(matrix->GetNumFeatures(), 403);
+  EXPECT_EQ(matrix->rows.size(), 1456);
+  EXPECT_EQ(matrix->row_length, 1456);
+  EXPECT_EQ(matrix->labels.size(), 1456);
+  EXPECT_EQ(matrix->norms.size(), 1456);
+  EXPECT_TRUE(matrix->has_label);
 }
 
 /**
@@ -149,6 +159,21 @@ TEST(DMATRIX_TEST, EQ) {
   EXPECT_FALSE(*matrix1 == *matrix4);
   EXPECT_TRUE(*matrix1 != *matrix4);
 }
+
+TEST(DATA_TEST, DataReader){
+  std::string file_name = "data/house_price_train.txt";
+  DataReader *reader = new DataReader(file_name, true);
+  reader->Initialize();
+  EXPECT_EQ(reader->GetFileFormat(), "csv");
+  EXPECT_EQ(reader->GetDelimiter(), '\t');
+  EXPECT_FALSE(reader->HasHeader());
+  EXPECT_TRUE(reader->HasLabel());
+  DMatrix *data = new DMatrix();
+  reader->Read(data);
+  EXPECT_EQ(data->GetNumFeatures(), 403);
+  EXPECT_EQ(data->row_length, 1456);
+}
+
 
 int main(int argc, char* argv[]) {
   Logging::SetLevel(0);
