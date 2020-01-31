@@ -21,6 +21,10 @@ class FactorizationMachine {
                        float mean, float stddev,
                        bool norm, bool verbose);
 
+  /**
+   * 从模型文件中构建FactorizationMachine
+   * @param model_file FMModel 对象参数文件
+   */
   explicit FactorizationMachine(const std::string &model_file);
 
   ~FactorizationMachine();

@@ -23,12 +23,12 @@ FMModel::FMModel(int task,
  * @param model_file
  */
 FMModel::FMModel(const std::string& model_file) {
-  try{
+  try {
     if (!this->Load(model_file)) {
       Logging::error("Construct FMModel from file " + model_file + " failed");
       throw std::runtime_error("Construct FMModel failed");
     }
-  }catch (std::exception &e){
+  } catch (std::exception& e) {
     Logging::error(e.what() + LFLF);
   }
 }
@@ -109,10 +109,10 @@ bool FMModel::Load(const std::string& filename) {
     return false;
 
   std::string line;
-  if(!std::getline(ifs, line)) return false;
+  if (!std::getline(ifs, line)) return false;
   std::string time_stamps = line;
 
-  if(!std::getline(ifs, line)) return false;
+  if (!std::getline(ifs, line)) return false;
   std::string version = line;
   if (version != std::to_string(VERSION)) {
     Logging::warning("Incompatible model version " + version +
@@ -120,38 +120,41 @@ bool FMModel::Load(const std::string& filename) {
     throw std::runtime_error("Incompatible model version");
   }
 
-  if(!std::getline(ifs, line)) return false;
+  if (!std::getline(ifs, line)) return false;
   task_ = std::stoi(line);
 
-  if(!std::getline(ifs, line)) return false;
+  if (!std::getline(ifs, line)) return false;
   n_features_ = std::stoi(line);
 
-  if(!std::getline(ifs, line)) return false;
+  if (!std::getline(ifs, line)) return false;
   n_factors_ = std::stoi(line);
 
-  if(!std::getline(ifs, line)) return false; // #w0
-  if(!std::getline(ifs, line)) return false; // w0
+  // 参数矩阵
+  W_ = new float[n_features_];
+  V_ = new float[this->n_features_ * this->n_factors_];
+
+  if (!std::getline(ifs, line)) return false; // #w0
+  if (!std::getline(ifs, line)) return false; // w0
   w0_ = std::stof(line);
 
-  if(!std::getline(ifs, line)) return false; // #W
-  if(!std::getline(ifs, line)) return false; // W
+  if (!std::getline(ifs, line)) return false; // #W
+  if (!std::getline(ifs, line)) return false; // W
   auto result_w0 = split_in_float(line, '\t');
   for (int i = 0; i < n_features_; ++i) {
     W_[i] = result_w0[i];
   }
-  Logging::debug("W is load ok");
 
-  if(!std::getline(ifs, line)) return false; // #V
+  if (!std::getline(ifs, line)) return false; // #V
   for (int i = 0; i < n_features_; ++i) {
-    if(!std::getline(ifs, line)) return false; // Vi
+    if (!std::getline(ifs, line)) return false; // Vi
     auto result_Vi = split_in_float(line, '\t');
     for (int f = 0; f < n_factors_; ++f) {
       V_[i * n_factors_ + f] = result_Vi[f];
     }
   }
-  Logging::debug("V is load ok");
 
-  if(!std::getline(ifs, line)) return false;; // #OK
+  std::getline(ifs, line);
+  if (!std::getline(ifs, line)) return false;; // #OK
   if (line == "#OK") {
     Logging::info("Model is Ok");
   } else {
