@@ -7,6 +7,7 @@
 #include <src/common/log.h>
 #include <src/data/data.h>
 #include <src/core/model.h>
+#include <src/common/utils.h>
 
 int main(int argc, char* argv[]) {
   Logging::SetLevel(0);
@@ -26,6 +27,9 @@ int main(int argc, char* argv[]) {
 
     // predict
     std::vector<float> results = fm->Predict(test_data);
+
+    // save results to file
+    SaveVectorToFile(results, param->output_file);
 
   } else {
     Logging::error("FMLearn command line parameter parse failed");

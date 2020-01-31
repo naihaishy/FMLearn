@@ -123,7 +123,7 @@ class LibFFMParser : public Parser {
       std::string item = line_arr[j]; // 1:3:12
       auto found_1 = item.find_first_of(':');
       auto found_2 = item.find_last_of(':');
-      int field_id = std::stoi(item.substr(0, found_1));
+      // int field_id = std::stoi(item.substr(0, found_1));
       int feature_id = std::stoi(item.substr(found_1 + 1, found_2));
       float value = std::stof(item.substr(found_2 + 1));
       data->AddNode(i, feature_id, value);
