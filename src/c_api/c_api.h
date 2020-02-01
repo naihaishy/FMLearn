@@ -5,10 +5,7 @@
 #ifndef FMLEARN_C_API_H_
 #define FMLEARN_C_API_H_
 
-#include "src/data/data.h"
-#include "src/core/model.h"
-#include "src/common/common.h"
-#include "c_api_error.h"
+#include "c_api/c_api_error.h"
 
 #ifdef __cplusplus
 #define FM_EXTERN_C extern "C"

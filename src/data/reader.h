@@ -7,10 +7,11 @@
 #ifndef FMLEARN_DATA_READER_H_
 #define FMLEARN_DATA_READER_H_
 
-#include "parser.h"
-#include "data.h"
 #include <iostream>
 #include <string>
+
+#include "data/parser.h"
+#include "data/data.h"
 
 /**
  * Usage:

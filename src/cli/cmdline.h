@@ -6,12 +6,12 @@
 
 #ifndef FMLEARN_CLI_CMDLINE_H_
 #define FMLEARN_CLI_CMDLINE_H_
-#include <vector>
-#include <string>
-#include <unordered_map>
-#include <src/core/fm_param.h>
-#include "cli_param.h"
 
+#include <string>
+
+#include "core/fm_param.h"
+
+#include "cli/cli_param.h"
 
 class CmdLine {
 

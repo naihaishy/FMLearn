@@ -2,15 +2,12 @@
 // Created by naihai on 2020/1/13.
 //
 
-#include <src/common/common.h>
-#include "data.h"
-#include <cmath>
+#include "data/data.h"
+
 #include <iostream>
-#include <fstream>
 #include <cassert>
-#include <src/common/log.h>
-#include <src/common/utils.h>
-#include <src/data/reader.h>
+
+#include "data/reader.h"
 
 /**
  * 使用C数组直接构造DMatrix

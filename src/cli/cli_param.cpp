@@ -1,7 +1,8 @@
 //
 // Created by naihai on 2020/1/30.
 //
-#include "cli_param.h"
+
+#include "cli/cli_param.h"
 
 std::string CliTrainParam::to_string() {
   std::string result;

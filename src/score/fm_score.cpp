@@ -2,8 +2,7 @@
 // Created by naihai on 2020/1/28.
 //
 
-#include "fm_score.h"
-#include <algorithm>
+#include "score/fm_score.h"
 
 /**
  * 给定单个样本 计算FM 预测值

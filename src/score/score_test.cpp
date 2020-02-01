@@ -3,9 +3,9 @@
 //
 
 #include "gtest/gtest.h"
-#include "score.h"
-#include "linear_score.h"
-#include "fm_score.h"
+
+#include "score/score.h"
+#include "score/fm_score.h"
 
 TEST(LOSS_TEST, Calculate) {
   Score* score = new FmScore();

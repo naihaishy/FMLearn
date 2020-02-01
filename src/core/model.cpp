@@ -1,17 +1,18 @@
 //
 // Created by naihai on 2020/1/13.
 //
-#include "model.h"
-#include "src/c_api/c_api_error.h"
 
-#include <random>
-#include <memory.h>
-#include "src/common/log.h"
+#include "core/model.h"
+
 #include <cmath>
-#include <src/loss/squared_loss.h>
-#include <src/loss/cross_entropy_loss.h>
-#include <src/score/fm_score.h>
-#include <src/common/utils.h>
+
+#include "c_api/c_api_error.h"
+#include "common/log.h"
+#include "loss/squared_loss.h"
+#include "loss/cross_entropy_loss.h"
+#include "score/fm_score.h"
+
+
 inline float sigmoid(float x) {
   return 1.0f / (1.0f + expf(-x));
 }

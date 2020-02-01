@@ -2,11 +2,13 @@
 // Created by naihai on 2020/1/13.
 // Google unit test for data module
 
-#include <src/c_api/c_api.h>
-#include <src/common/log.h>
-#include "reader.h"
-#include "parser.h"
 #include "gtest/gtest.h"
+
+#include "c_api/c_api.h"
+#include "common/log.h"
+
+#include "data/reader.h"
+#include "data/parser.h"
 
 /**
  * 测试DMatrix默认构造函数

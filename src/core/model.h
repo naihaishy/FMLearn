@@ -5,12 +5,13 @@
 #ifndef FMLEARN_CORE_MODEL_H_
 #define FMLEARN_CORE_MODEL_H_
 
-#include <src/loss/loss.h>
-#include <src/score/score.h>
-#include "src/data/data.h"
-#include "src/common/common.h"
-#include "src/core/fm_model.h"
-#include "src/core/fm_param.h"
+#include "common/common.h"
+#include "data/data.h"
+#include "loss/loss.h"
+#include "score/score.h"
+
+#include "core/fm_model.h"
+#include "core/fm_param.h"
 
 // Entry class for FM FM的入口类
 class FactorizationMachine {

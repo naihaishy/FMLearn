@@ -4,7 +4,9 @@
 
 #ifndef FMLEARN_LOSS_SQUARED_LOSS_H_
 #define FMLEARN_LOSS_SQUARED_LOSS_H_
-#include "loss.h"
+
+#include "loss/loss.h"
+
 class SquaredLoss : public Loss {
  public:
   float Calculate(std::vector<float>& preds,

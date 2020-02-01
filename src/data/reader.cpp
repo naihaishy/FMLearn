@@ -2,12 +2,13 @@
 // Created by naihai on 2020/1/30.
 //
 
-#include <src/common/log.h>
-#include "reader.h"
+#include "data/reader.h"
+
 #include <vector>
-#include <iostream>
 #include <string>
-#include <src/common/utils.h>
+
+#include "common/log.h"
+#include "common/utils.h"
 
 /**
  * Reader初始化

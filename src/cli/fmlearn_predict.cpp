@@ -2,12 +2,12 @@
 // Created by naihai on 2020/1/29.
 // main entry for fmlearn prediction in command line
 
-#include "cmdline.h"
-#include <iostream>
-#include <src/common/log.h>
-#include <src/data/data.h>
-#include <src/core/model.h>
-#include <src/common/utils.h>
+#include "common/log.h"
+#include "common/utils.h"
+#include "core/model.h"
+#include "data/data.h"
+
+#include "cli/cmdline.h"
 
 int main(int argc, char* argv[]) {
   Logging::SetLevel(0);

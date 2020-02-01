@@ -3,8 +3,8 @@
 //
 
 #include "gtest/gtest.h"
-#include "log.h"
-#include <string>
+
+#include "common/log.h"
 
 TEST(COMMON_TEST, Logging) {
   Logging::SetLevel(0);

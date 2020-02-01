@@ -5,13 +5,13 @@
 #ifndef FMLEARN_DATA_PARSER_H_
 #define FMLEARN_DATA_PARSER_H_
 
-#include "data.h"
-#include "src/common/log.h"
-#include <fstream>
-#include <iostream>
 #include <vector>
 #include <string>
-#include <src/common/utils.h>
+
+#include "common/log.h"
+#include "common/utils.h"
+
+#include "data/data.h"
 
 /**
  * Usage:

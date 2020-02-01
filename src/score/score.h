@@ -5,9 +5,9 @@
 #ifndef FMLEARN_SCORE_SCORE_H_
 #define FMLEARN_SCORE_SCORE_H_
 
-#include <src/core/fm_model.h>
-#include <src/core/fm_param.h>
-#include "src/data/data.h"
+#include "core/fm_model.h"
+#include "core/fm_param.h"
+#include "data/data.h"
 
 class Score {
  public:

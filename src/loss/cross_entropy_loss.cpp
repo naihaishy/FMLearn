@@ -2,7 +2,8 @@
 // Created by naihai on 2020/1/23.
 //
 
-#include "cross_entropy_loss.h"
+#include "loss/cross_entropy_loss.h"
+
 #include <cassert>
 
 inline float sigmoid(float x) {

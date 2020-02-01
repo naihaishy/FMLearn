@@ -1,11 +1,15 @@
 //
 // Created by naihai on 2020/1/12.
 //
-#include "c_api.h"
+
+#include "c_api/c_api.h"
 
 #include <iostream>
 #include <memory>
-#include "src/common/log.h"
+
+#include "common/log.h"
+#include "core/model.h"
+#include "data/data.h"
 
 FM_DLL void hello() {
   std::cout << "Hello, World!" << std::endl;

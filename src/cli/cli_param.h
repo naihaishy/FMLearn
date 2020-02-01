@@ -4,7 +4,7 @@
 
 #ifndef FMLEARN_CLI_CLI_PARAM_H_
 #define FMLEARN_CLI_CLI_PARAM_H_
-#include <iostream>
+
 #include <string>
 
 struct CliTrainParam {

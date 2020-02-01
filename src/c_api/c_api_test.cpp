@@ -3,7 +3,13 @@
 // Google unit test for c_api module
 
 #include "gtest/gtest.h"
-#include "c_api.h"
+
+#include "c_api/c_api.h"
+#include "c_api/c_api_error.h"
+#include "core/fm_param.h"
+#include "core/model.h"
+#include "data/data.h"
+
 
 TEST(C_API_TEST, FMMatrixCreateFromMat) {
   const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,

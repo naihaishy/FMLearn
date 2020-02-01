@@ -2,12 +2,13 @@
 // Created by naihai on 2020/1/18.
 //
 
-#include "fm_model.h"
+#include "core/fm_model.h"
+
+#include <ctime>
 #include <random>
-#include <fstream>
-#include "time.h"
-#include <src/common/utils.h>
-#include "src/common/log.h"
+
+#include "common/utils.h"
+#include "common/log.h"
 
 FMModel::FMModel(int task,
                  int n_features, int n_factors,

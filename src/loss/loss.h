@@ -5,11 +5,12 @@
 #ifndef FMLEARN_LOSS_LOSS_H_
 #define FMLEARN_LOSS_LOSS_H_
 
-#include "src/data/data.h"
-#include "src/core/fm_model.h"
-
 #include <vector>
-#include <src/score/score.h>
+
+#include "core/fm_model.h"
+#include "core/fm_param.h"
+#include "data/data.h"
+#include "score/score.h"
 
 class Loss {
 

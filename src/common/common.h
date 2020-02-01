@@ -5,8 +5,6 @@
 #ifndef FMLEARN_COMMON_COMMON_H_
 #define FMLEARN_COMMON_COMMON_H_
 
-#include <iostream>
-
 // 预编译定义
 
 #define REGRESSION 0

@@ -1,10 +1,13 @@
 //
 // Created by naihai on 2020/1/29.
 //
-#include <src/common/utils.h>
-#include "cmdline.h"
-#include "validator.h"
-#include "src/common/log.h"
+
+#include "cli/cmdline.h"
+
+#include "common/utils.h"
+#include "common/log.h"
+
+#include "cli/validator.h"
 
 /**
  * 帮助 显示所有参数

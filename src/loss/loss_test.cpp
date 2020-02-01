@@ -2,9 +2,10 @@
 // Created by naihai on 2020/1/28.
 //
 #include "gtest/gtest.h"
-#include "loss.h"
-#include "squared_loss.h"
-#include "cross_entropy_loss.h"
+
+#include "loss/loss.h"
+#include "loss/squared_loss.h"
+#include "loss/cross_entropy_loss.h"
 
 TEST(LOSS_TEST, Calculate) {
   Loss* loss1 = new SquaredLoss();

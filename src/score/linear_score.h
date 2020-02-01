@@ -5,7 +5,7 @@
 #ifndef FMLEARN_SCORE_LINEAR_SCORE_H_
 #define FMLEARN_SCORE_LINEAR_SCORE_H_
 
-#include "score.h"
+#include "score/score.h"
 
 class LinearScore : public Score {
  public:

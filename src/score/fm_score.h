@@ -4,7 +4,8 @@
 
 #ifndef FMLEARN_SCORE_FM_SCORE_H_
 #define FMLEARN_SCORE_FM_SCORE_H_
-#include "score.h"
+
+#include "score/score.h"
 
 class FmScore : public Score {
  public:

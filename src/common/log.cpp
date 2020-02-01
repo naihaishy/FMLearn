@@ -1,8 +1,10 @@
 //
 // Created by naihai on 2020/1/20.
 //
+
+#include "common/log.h"
+
 #include <algorithm>
-#include "log.h"
 
 // 设置默认的Logging级别
 LoggingLevel Logging::log_level = INFO;

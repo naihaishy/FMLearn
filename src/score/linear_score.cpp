@@ -2,7 +2,7 @@
 // Created by naihai on 2020/1/28.
 //
 
-#include "linear_score.h"
+#include "score/linear_score.h"
 
 float LinearScore::Calculate(SparseRow* row, FMModel* model, float norm) {
   float result = 0.0;

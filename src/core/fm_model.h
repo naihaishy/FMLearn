@@ -6,7 +6,9 @@
 #define FMLEARN_CORE_FM_MODEL_H_
 
 #include <limits>
-#include "src/common/common.h"
+#include <string>
+
+#include "common/common.h"
 
 /**
  * FM 模型

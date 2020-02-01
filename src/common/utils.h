@@ -4,11 +4,12 @@
 
 #ifndef FMLEARN_COMMON_UTILS_H_
 #define FMLEARN_COMMON_UTILS_H_
+
 #include <vector>
 #include <fstream>
-#include <sstream>
 #include <string>
-#include "log.h"
+
+#include "common/log.h"
 
 std::vector<std::string> split_in_string(const std::string& str, char pattern);
 

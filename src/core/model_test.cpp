@@ -3,9 +3,10 @@
 // Google unit test for model module
 
 #include "gtest/gtest.h"
-#include "fm_model.h"
-#include "fm_param.h"
-#include "model.h"
+
+#include "core/fm_model.h"
+#include "core/fm_param.h"
+#include "core/model.h"
 
 TEST(MODEL_TEST, FMModel) {
   int task = 0;

@@ -2,8 +2,9 @@
 // Created by naihai on 2020/1/23.
 //
 
-#include "squared_loss.h"
 #include <cassert>
+
+#include "loss/squared_loss.h"
 
 float SquaredLoss::Calculate(std::vector<float>& preds,
                              std::vector<float>& labels) {
