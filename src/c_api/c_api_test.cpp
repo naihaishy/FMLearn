@@ -80,12 +80,12 @@ TEST(C_API_TEST, FMCreate) {
   FactorizationMachine* fm = reinterpret_cast<FactorizationMachine*>(*out);
 
   auto model = fm->GetModel();
-  EXPECT_EQ(model->task_, 0);
-  EXPECT_EQ(model->n_features_, 10);
-  EXPECT_EQ(model->n_factors_, 20);
-  EXPECT_TRUE(model->W_ != nullptr);
-  EXPECT_TRUE(model->V_ != nullptr);
-  EXPECT_FLOAT_EQ(model->w0_, 0.0);
+  EXPECT_EQ(model->GetTask(), 0);
+  EXPECT_EQ(model->GetNumFeatures(), 10);
+  EXPECT_EQ(model->GetNumFactors(), 20);
+  EXPECT_TRUE(model->GetW() != nullptr);
+  EXPECT_TRUE(model->GetV() != nullptr);
+  EXPECT_FLOAT_EQ(model->GetBias(), 0.0);
 
   auto param = new FMHyperParam(0.1,
                                 0.1, 0.1, 0.1,

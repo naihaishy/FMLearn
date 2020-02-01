@@ -12,7 +12,6 @@
 #include "loss/cross_entropy_loss.h"
 #include "score/fm_score.h"
 
-
 inline float sigmoid(float x) {
   return 1.0f / (1.0f + expf(-x));
 }
@@ -54,19 +53,26 @@ FactorizationMachine::~FactorizationMachine() {
   delete this->hyper_param_;
   Logging::debug("FactorizationMachine Deconstruct succeed");
 }
-FMHyperParam* FactorizationMachine::GetHyperParam() {
+
+FMHyperParam* FactorizationMachine::GetHyperParam() const {
   return this->hyper_param_;
 }
-FMModel* FactorizationMachine::GetModel() {
+FMModel* FactorizationMachine::GetModel() const {
   return this->model_;
 }
 
+/**
+ * Fit
+ * @param data
+ * @param epochs
+ * @param multi_thread
+ */
 void FactorizationMachine::Fit(DMatrix* data, int epochs, bool multi_thread) {
   Logging::debug("Start FactorizationMachine Fit");
   Logging::debug("FactorizationMachine Params: " + hyper_param_->to_string());
-  if (this->model_->task_ == REGRESSION && this->model_->limit_predict) {
-    this->model_->min_target_ = data->min_label;
-    this->model_->max_target_ = data->max_label;
+  if (model_->GetTask() == REGRESSION && model_->HasLimitPredict()) {
+    model_->SetMaxTarget(data->max_label);
+    model_->SetMinTarget(data->min_label);
   }
   if (multi_thread) {
     // this->FitInMultiThread(data, epochs);
@@ -101,15 +107,20 @@ std::vector<float> FactorizationMachine::Predict(DMatrix* data) {
  */
 float FactorizationMachine::PredictInstance(SparseRow* x, float norm, float* inter_sum) {
   float result = 0.0;
-  result += this->model_->w0_;
+
+  float w0 = model_->GetBias();
+  float* W = model_->GetW();
+  float* V = model_->GetV();
+
+  result += w0;
   // linear term
   for (auto& it : *x) {
     int i = it.feature_id;
     float xi = it.feature_val;
-    result += this->model_->W_[i] * xi * norm;
+    result += W[i] * xi * norm;
   }
   // interaction term
-  int K = this->model_->n_factors_;
+  int K = model_->GetNumFactors();
   float inter1, inter2, d;
   for (int f = 0; f < K; ++f) {
     inter1 = 0.0;
@@ -119,7 +130,7 @@ float FactorizationMachine::PredictInstance(SparseRow* x, float norm, float* int
       int i = it.feature_id;
       float xi = it.feature_val;
       xi = xi * norm;
-      float vif = this->model_->V_[i * K + f];
+      float vif = V[i * K + f];
       d = vif * xi;
       inter1 += d;
       inter2 += d * d;
@@ -128,9 +139,9 @@ float FactorizationMachine::PredictInstance(SparseRow* x, float norm, float* int
     result += inter1 * inter1 - inter2;
   }
 
-  if (this->model_->task_ == REGRESSION && this->model_->limit_predict) {
-    result = std::max(this->model_->min_target_, result);
-    result = std::min(this->model_->max_target_, result);
+  if (model_->GetTask() == REGRESSION && model_->HasLimitPredict()) {
+    result = std::max(model_->GetMinTarget(), result);
+    result = std::min(model_->GetMaxTarget(), result);
   }
   return result;
 }
@@ -145,98 +156,14 @@ void FactorizationMachine::FitInSingleThread(DMatrix* data, int epochs) {
   Logging::debug("data nums " + std::to_string(data->row_length));
 
   for (int epoch = 0; epoch < epochs; ++epoch) {
-    float ave_loss = this->loss_->CalGrad(data, this->model_, this->hyper_param_, this->score_);
+    float ave_loss = loss_->CalGrad(data, model_, hyper_param_, score_);
 
-    if (this->hyper_param_->verbose) {
+    if (hyper_param_->verbose) {
       Logging::debug("epoch " + std::to_string(epoch) +
           " loss: " + std::to_string(ave_loss));
     }
   }
 }
-
-/**
- * 对DMatrix中[start, end)行部分数据进行单线程训练
- * @param data  DMatrix
- * @param epochs
- * @param start 开始行数 include
- * @param end  结束行数 exclude
- */
-void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
-                         int epochs, int start, int end) {
-
-  float lr = fm->hyper_param_->learning_rate;
-  float reg_w0 = fm->hyper_param_->reg_w0;
-  float reg_W = fm->hyper_param_->reg_W;
-  float reg_V = fm->hyper_param_->reg_V;
-  bool use_norm = fm->hyper_param_->norm;
-
-  Logging::debug("data nums " + std::to_string(data->row_length));
-  int K = fm->model_->n_factors_;
-  auto inter_sum = new float[K];
-  for (int i = 0; i < K; ++i) inter_sum[i] = 0.0;
-
-  for (int epoch = 0; epoch < epochs; ++epoch) {
-    float losses = 0.0;
-    for (int m = 0; m < data->row_length; ++m) {
-      auto& x = data->rows[m];
-      auto norm = data->norms[m];
-      if (!use_norm) norm = 1.0;
-      for (int i = 0; i < K; ++i) inter_sum[i] = 0.0;
-
-      // predict
-      float y_pred = fm->PredictInstance(x, norm, inter_sum);
-      float y_true = data->labels[m];
-      // LOG_INFO("y_pred " + std::to_string(y_pred) + "\t y_true :" + std::to_string(y_true))
-
-      // calculate gradient
-      float delta = 0.0;
-      if (fm->model_->task_ == REGRESSION) {
-        delta = y_pred - y_true;
-      } else if (fm->model_->task_ == CLASSIFICATION) {
-        delta = (sigmoid(y_true * y_pred) - 1) * y_true;
-      } else {
-        throw std::exception();
-      }
-
-      // update weights
-      fm->model_->w0_ -= lr * (delta + 2 * reg_w0 * fm->model_->w0_);
-
-      for (auto& it:*x) {
-        int i = it.feature_id;
-        float xi = it.feature_val;
-        xi = xi * norm;
-        float gradient_w = delta * xi;
-        fm->model_->W_[i] -= lr * (gradient_w + 2 * reg_W * fm->model_->W_[i]);
-      }
-
-      for (int f = 0; f < K; ++f) {
-        for (auto& it : *x) {
-          int& i = it.feature_id;
-          float& xi = it.feature_val;
-          float& vif = fm->model_->V_[i * K + f];
-          float gradient_v = delta * (xi * inter_sum[f] - vif * xi * xi);
-          vif -= lr * (gradient_v + 2 * reg_V * vif);
-        }
-      }
-
-      // calculate loss
-      if (fm->model_->task_ == REGRESSION) {
-        losses += 0.5f * (y_pred - y_true) * (y_pred - y_true);
-      } else if (fm->model_->task_ == CLASSIFICATION) {
-        losses += -log(sigmoid(y_true * y_pred));
-      }
-    }
-
-    if (fm->hyper_param_->verbose) {
-      // std::cout << "thread " << std::this_thread::get_id() << "\t";
-      Logging::debug("epoch " + std::to_string(epoch) +
-          " loss: " + std::to_string(losses / data->row_length));
-    }
-  }
-
-  delete[] inter_sum;
-}
-
 
 
 

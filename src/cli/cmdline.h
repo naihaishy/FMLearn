@@ -14,24 +14,25 @@
 #include "cli/cli_param.h"
 
 class CmdLine {
-
  public:
   CmdLine();
   ~CmdLine();
 
   void Help();
-  void SetTrain() { is_train = true; };
-  void SetPredict() { is_train = false; };
   bool Parse(int argc, char* argv[]);
-  FMLearnCliParam* GetCliParam() { return param_; };
+  FMLearnCliParam* GetCliParam() const { return param_; };
+
+  // Setter functions
+  void SetTrain() { is_train_ = true; };
+  void SetPredict() { is_train_ = false; };
 
  private:
   void ParseTrainParam(int argc, char* argv[]);
   void ParsePredictionParam(int argc, char* argv[]);
 
+  bool is_train_; // training or prediction
   std::string training_help_str_;
   std::string predict_help_str_;
-  bool is_train; // training or prediction
   FMLearnCliParam* param_;
 };
 

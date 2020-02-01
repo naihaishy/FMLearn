@@ -41,15 +41,15 @@ void FMModel::InitWeights(float mean, float stddev) {
 
   // 值初始化
   this->w0_ = 0.0;
-  for (int i = 0; i < this->n_features_; ++i) {
+  for (int i = 0; i < n_features_; ++i) {
     this->W_[i] = 0.0;
   }
   std::default_random_engine generator{};
   std::uniform_real_distribution<float> distribution(0.0, 1.0);
 
-  for (int i = 0; i < this->n_features_; ++i) {
-    for (int j = 0; j < this->n_factors_; ++j) {
-      this->V_[i * n_factors_ + j] = distribution(generator);
+  for (int i = 0; i < n_features_; ++i) {
+    for (int j = 0; j < n_factors_; ++j) {
+      V_[i * n_factors_ + j] = distribution(generator);
     }
   }
 
@@ -57,8 +57,8 @@ void FMModel::InitWeights(float mean, float stddev) {
 }
 
 void FMModel::Free() {
-  delete[] this->W_;
-  delete[] this->V_;
+  delete[] W_;
+  delete[] V_;
   Logging::debug("FMModel Free succeed");
 }
 /**
@@ -132,7 +132,7 @@ bool FMModel::Load(const std::string& filename) {
 
   // 参数矩阵
   W_ = new float[n_features_];
-  V_ = new float[this->n_features_ * this->n_factors_];
+  V_ = new float[n_features_ * n_factors_];
 
   if (!std::getline(ifs, line)) return false; // #w0
   if (!std::getline(ifs, line)) return false; // w0

@@ -40,12 +40,12 @@ std::string CliPredictionParam::to_string() {
   return result;
 }
 
-CliTrainParam* FMLearnCliParam::GetTrainParam() {
-  return is_train ? train_param_ : nullptr;
+CliTrainParam* FMLearnCliParam::GetTrainParam() const {
+  return is_train_ ? train_param_ : nullptr;
 }
 
-CliPredictionParam* FMLearnCliParam::GetPredictionParam() {
-  return !is_train ? prediction_param_ : nullptr;
+CliPredictionParam* FMLearnCliParam::GetPredictionParam() const {
+  return !is_train_ ? prediction_param_ : nullptr;
 }
 
 FMLearnCliParam::FMLearnCliParam() {

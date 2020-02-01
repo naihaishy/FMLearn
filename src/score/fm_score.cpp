@@ -13,15 +13,20 @@
  */
 float FmScore::Calculate(SparseRow* row, FMModel* model, float norm) {
   float result = 0.0;
-  result += model->w0_;
+
+  float& w0 = model->GetBias();
+  float*& W = model->GetW();
+  float*& V = model->GetV();
+
+  result += w0;
   // linear term
   for (auto& it : *row) {
     int i = it.feature_id;
     float xi = it.feature_val;
-    result += model->W_[i] * xi * norm;
+    result += W[i] * xi * norm;
   }
   // interaction term
-  int K = model->n_factors_;
+  int K = model->GetNumFactors();
   float inter1, inter2, d;
   for (int f = 0; f < K; ++f) {
     inter1 = 0.0;
@@ -30,7 +35,7 @@ float FmScore::Calculate(SparseRow* row, FMModel* model, float norm) {
       int i = it.feature_id;
       float xi = it.feature_val;
       xi = xi * norm;
-      float vif = model->V_[i * K + f];
+      float vif = V[i * K + f];
       d = vif * xi;
       inter1 += d;
       inter2 += d * d;
@@ -38,9 +43,9 @@ float FmScore::Calculate(SparseRow* row, FMModel* model, float norm) {
     result += inter1 * inter1 - inter2;
   }
 
-  if (model->task_ == REGRESSION && model->limit_predict) {
-    result = std::max(model->min_target_, result);
-    result = std::min(model->max_target_, result);
+  if (model->GetTask() == REGRESSION && model->HasLimitPredict()) {
+    result = std::max(model->GetMinTarget(), result);
+    result = std::min(model->GetMaxTarget(), result);
   }
   return result;
 }
@@ -60,9 +65,13 @@ void FmScore::CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param,
   float reg_W = hyper_param->reg_W;
   float reg_V = hyper_param->reg_V;
 
+  float& w0 = model->GetBias();
+  float*& W = model->GetW();
+  float*& V = model->GetV();
+
   // update bias
-  model->w0_ -= lr * (delta + 2 * reg_w0 * model->w0_);
-  int K = model->n_factors_;
+  w0 -= lr * (delta + 2 * reg_w0 * w0);
+  int K = model->GetNumFactors();
 
   // update linear
   for (auto& it:*row) {
@@ -70,7 +79,7 @@ void FmScore::CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param,
     float xi = it.feature_val;
     xi = xi * norm;
     float gradient_w = delta * xi;
-    model->W_[i] -= lr * (gradient_w + 2 * reg_W * model->W_[i]);
+    W[i] -= lr * (gradient_w + 2 * reg_W * W[i]);
   }
 
   // update intersection
@@ -81,7 +90,7 @@ void FmScore::CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param,
       int i = it.feature_id;
       float xi = it.feature_val;
       xi = xi * norm;
-      float vif = model->V_[i * K + f];
+      float vif = V[i * K + f];
       inter_sum[f] += vif * xi;
     }
   }
@@ -89,7 +98,7 @@ void FmScore::CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param,
     for (auto& it : *row) {
       int i = it.feature_id;
       float xi = it.feature_val;
-      float& vif = model->V_[i * K + f];
+      float& vif = V[i * K + f];
       float gradient_v = delta * (xi * inter_sum[f] - vif * xi * xi);
       vif -= lr * (gradient_v + 2 * reg_V * vif);
     }

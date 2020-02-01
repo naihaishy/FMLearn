@@ -8,3 +8,5 @@ gtest/CMakeFiles/
 gtest/msvc/.vs
 windows/
 
+/src/data/source.cpp
+/src/data/source.h

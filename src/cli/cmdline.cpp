@@ -13,7 +13,7 @@
  * 帮助 显示所有参数
  */
 void CmdLine::Help() {
-  if (is_train) {
+  if (is_train_) {
     printf("%s\n", training_help_str_.c_str());
   } else {
     printf("%s\n", predict_help_str_.c_str());
@@ -73,7 +73,7 @@ OPTIONS:
 
 -----------------------------------------------------------------------------)");
   param_ = new FMLearnCliParam();
-  is_train = true;
+  is_train_ = true;
 }
 
 /**
@@ -91,9 +91,9 @@ bool CmdLine::Parse(int argc, char** argv) {
     return false;
   }
 
-  param_->is_train = is_train;
+  if(is_train_) param_->SetTrain();
 
-  if (is_train) {
+  if (is_train_) {
     // parse training parameter
     Logging::info("Parse training parameter");
     try {

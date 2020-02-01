@@ -46,13 +46,16 @@ struct CliPredictionParam {
 class FMLearnCliParam {
  public:
   FMLearnCliParam();
-  bool is_train = true;
-  CliTrainParam* GetTrainParam();
-  CliPredictionParam* GetPredictionParam();
+  CliTrainParam* GetTrainParam() const;
+  CliPredictionParam* GetPredictionParam() const;
+
+  bool IsTrain() const { return is_train_; }
+  void SetTrain() { is_train_ = true; }
+
  private:
   CliTrainParam* train_param_ = nullptr;
   CliPredictionParam* prediction_param_ = nullptr;
+  bool is_train_ = false;
 };
-
 
 #endif //FMLEARN_CLI_CLI_PARAM_H_

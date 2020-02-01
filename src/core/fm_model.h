@@ -11,34 +11,48 @@
 #include "common/common.h"
 
 /**
- * FM 模型
- * 主要用于存储参数矩阵
+ * FM 模型 主要用于存储参数矩阵
+ * Usage:
+ *  FMMdoel *modle = new FMModel();
  */
 class FMModel {
  public:
-  FMModel() = default;;
-  ~FMModel() = default;;
+  FMModel() = default;
+  ~FMModel() = default;
 
-  // 从checkpoint file中初始化模型
-  // explicit FMModel(const std::string& filename);
-
-  explicit FMModel(int task,
-                   int n_features, int n_factors,
+  explicit FMModel(int task, int n_features, int n_factors,
                    float w0, float* W, float* V) :
-      task_(task),
-      n_features_(n_features), n_factors_(n_factors),
+      task_(task), n_features_(n_features), n_factors_(n_factors),
       w0_(w0), W_(W), V_(V) {};
 
   FMModel(int task, int n_features, int n_factors,
           float mean, float stddev);
 
-  explicit FMModel(const std::string &model_file);
+  // 从checkpoint file中初始化模型
+  explicit FMModel(const std::string& model_file);
 
   void InitWeights(float mean, float stddev);
   void Free();
   void Save(const std::string& filename);
   bool Load(const std::string& filename);
 
+  // Getter Functions
+  int GetTask() const { return task_; }
+  int GetNumFeatures() const { return n_features_; }
+  int GetNumFactors() const { return n_factors_; }
+  bool HasLimitPredict() const { return limit_predict; }
+  float GetMaxTarget() const { return max_target_; }
+  float GetMinTarget() const { return min_target_; }
+
+  float& GetBias() { return w0_; }
+  float*& GetW() { return W_; }
+  float*& GetV() { return V_; }
+
+  // Setter Functions
+  void SetMaxTarget(float value) { max_target_ = value; }
+  void SetMinTarget(float value) { min_target_ = value; }
+
+ private:
   int task_ = REGRESSION;
   int n_features_ = 0;
   int n_factors_ = 0;

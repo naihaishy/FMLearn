@@ -38,8 +38,8 @@ class FactorizationMachine {
 
   std::vector<float> Predict(DMatrix* data);
 
-  FMHyperParam* GetHyperParam();
-  FMModel* GetModel();
+  FMHyperParam* GetHyperParam() const;
+  FMModel* GetModel() const;
 
   friend void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
                                   int epochs, int start, int end);
@@ -48,10 +48,10 @@ class FactorizationMachine {
   float PredictInstance(SparseRow* x, float norm = 1.0, float* inter_sum = nullptr);
   // void FitInMultiThread(DMatrix* data, int epochs);
   void FitInSingleThread(DMatrix* data, int epochs);
+
   FMHyperParam* hyper_param_;
   FMModel* model_;
   // ThreadPool* thread_pool_;
-
   Loss *loss_;
   Score *score_;
 };

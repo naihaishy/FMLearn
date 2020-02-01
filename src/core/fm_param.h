@@ -1,6 +1,6 @@
 //
 // Created by naihai on 2020/1/18.
-//
+// FM超参数结构体
 
 #ifndef FMLEARN_CORE_FM_PARAM_H_
 #define FMLEARN_CORE_FM_PARAM_H_
@@ -10,9 +10,8 @@
 /**
  * FM 超参数
  */
-class FMHyperParam {
+struct FMHyperParam {
 
- public:
   FMHyperParam() = default;
   FMHyperParam(float learning_rate,
                float reg_w0,
@@ -25,7 +24,7 @@ class FMHyperParam {
       reg_W(reg_W),
       reg_V(reg_V),
       norm(norm),
-      verbose(verbose){};
+      verbose(verbose) {};
 
   // training
   float learning_rate = 0.1;
@@ -37,21 +36,22 @@ class FMHyperParam {
   bool is_train = false;
   bool on_disk = false;
   bool verbose = false;
-
-  std::string to_string() {
-    std::string result;
-    result.reserve(1024);
-    result.append("FMHyperParam: \n");
-    result.append("learning_rate : " + std::to_string(learning_rate) + "\n");
-    result.append("reg_w0        : " + std::to_string(reg_w0) + "\n");
-    result.append("reg_W         : " + std::to_string(reg_W) + "\n");
-    result.append("reg_V         : " + std::to_string(reg_V) + "\n");
-    result.append("norm          : " + std::to_string(norm) + "\n");
-    result.append("is_train      : " + std::to_string(is_train) + "\n");
-    result.append("on_disk       : " + std::to_string(on_disk) + "\n");
-    result.append("verbose       : " + std::to_string(verbose) + "\n");
-    return result;
-  }
+  std::string to_string();
 };
+
+inline std::string FMHyperParam::to_string() {
+  std::string result;
+  result.reserve(1024);
+  result.append("FMHyperParam: \n");
+  result.append("learning_rate : " + std::to_string(learning_rate) + "\n");
+  result.append("reg_w0        : " + std::to_string(reg_w0) + "\n");
+  result.append("reg_W         : " + std::to_string(reg_W) + "\n");
+  result.append("reg_V         : " + std::to_string(reg_V) + "\n");
+  result.append("norm          : " + std::to_string(norm) + "\n");
+  result.append("is_train      : " + std::to_string(is_train) + "\n");
+  result.append("on_disk       : " + std::to_string(on_disk) + "\n");
+  result.append("verbose       : " + std::to_string(verbose) + "\n");
+  return result;
+}
 
 #endif //FMLEARN_CORE_FM_PARAM_H_

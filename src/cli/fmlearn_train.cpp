@@ -14,12 +14,11 @@ int main(int argc, char* argv[]) {
   cmd_line.SetTrain();
 
   if (cmd_line.Parse(argc, argv)) {
-    // 构造DMatrix
     CliTrainParam * param = cmd_line.GetCliParam()->GetTrainParam();
     Logging::info(param->to_string());
+    // 构造DMatrix
     DMatrix* train_data = new DMatrix(param->train_file, true);
     int n_features = train_data->GetNumFeatures();
-    // std::cout << n_features << std::endl;
 
     auto fm = new FactorizationMachine(param->task,
                                         n_features,

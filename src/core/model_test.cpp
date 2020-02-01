@@ -16,14 +16,14 @@ TEST(MODEL_TEST, FMModel) {
   float stddev = 0.1;
   // Constructor
   FMModel* model = new FMModel(task, n_features, n_factors, mean, stddev);
-  EXPECT_EQ(model->task_, task);
-  EXPECT_EQ(model->n_features_, n_features);
-  EXPECT_EQ(model->n_factors_, n_factors);
+  EXPECT_EQ(model->GetTask(), task);
+  EXPECT_EQ(model->GetNumFeatures(), n_features);
+  EXPECT_EQ(model->GetNumFactors(), n_factors);
 
   // InitWeights
-  EXPECT_TRUE(model->W_ != nullptr);
-  EXPECT_TRUE(model->V_ != nullptr);
-  EXPECT_FLOAT_EQ(model->w0_, 0.0);
+  EXPECT_TRUE(model->GetW() != nullptr);
+  EXPECT_TRUE(model->GetV() != nullptr);
+  EXPECT_FLOAT_EQ(model->GetBias(), 0.0);
 }
 
 TEST(MODEL_TEST, FMHyperParam) {
