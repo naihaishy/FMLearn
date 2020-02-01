@@ -25,7 +25,7 @@ float SquaredLoss::Calculate(std::vector<float>& preds,
  */
 float SquaredLoss::CalGrad(DMatrix* data, FMModel* model, FMHyperParam* hyper_param, Score* score) {
   // check
-  assert(model->task_ == REGRESSION);
+  assert(model->GetTask() == REGRESSION);
 
   float losses = 0.0;
 

@@ -35,7 +35,7 @@ float CrossEntropyLoss::Calculate(std::vector<float>& preds,
  */
 float CrossEntropyLoss::CalGrad(DMatrix* data, FMModel* model, FMHyperParam* hyper_param, Score* score) {
   // check
-  assert(model->task_ == CLASSIFICATION);
+  assert(model->GetTask() == CLASSIFICATION);
 
   float losses = 0.0;
 
