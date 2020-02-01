@@ -11,6 +11,8 @@
 #include "common/log.h"
 #include "common/utils.h"
 
+#include <algorithm>
+
 #include "data/data.h"
 
 /**

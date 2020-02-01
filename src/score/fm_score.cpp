@@ -4,6 +4,8 @@
 
 #include "score/fm_score.h"
 
+#include <algorithm>
+
 /**
  * 给定单个样本 计算FM 预测值
  * @param row 样本
