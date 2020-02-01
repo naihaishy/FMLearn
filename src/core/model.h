@@ -6,6 +6,7 @@
 #define FMLEARN_CORE_MODEL_H_
 
 #include "common/common.h"
+#include "common/thread_pool.h"
 #include "data/data.h"
 #include "loss/loss.h"
 #include "score/score.h"
@@ -22,11 +23,8 @@ class FactorizationMachine {
                        float mean, float stddev,
                        bool norm, bool verbose);
 
-  /**
-   * 从模型文件中构建FactorizationMachine
-   * @param model_file FMModel 对象参数文件
-   */
-  explicit FactorizationMachine(const std::string &model_file);
+  //  从模型文件中构建FactorizationMachine
+  explicit FactorizationMachine(const std::string& model_file);
 
   ~FactorizationMachine();
   FactorizationMachine(const FactorizationMachine& other) = delete;
@@ -34,26 +32,27 @@ class FactorizationMachine {
 
   void Initialize();
 
-  void Fit(DMatrix* data, int epochs, bool multi_thread=false);
+  void Fit(DMatrix* data, int epochs, bool multi_thread = false, int n_threads = 1);
 
   std::vector<float> Predict(DMatrix* data);
 
-  FMHyperParam* GetHyperParam() const;
-  FMModel* GetModel() const;
+  FMHyperParam* GetHyperParam() const { return this->hyper_param_; }
+  FMModel* GetModel() const { return this->model_; }
+  Score* GetScore() const { return score_; }
+  Loss* GetLoss() const { return loss_; }
 
-  friend void FMFitInSingleThread(DMatrix* data, FactorizationMachine* fm,
-                                  int epochs, int start, int end);
+  friend void FMFitInSingleThread(const DMatrix* data, FactorizationMachine* fm,
+                                   int start, int end, float *loss);
 
  private:
-  float PredictInstance(SparseRow* x, float norm = 1.0, float* inter_sum = nullptr);
-  // void FitInMultiThread(DMatrix* data, int epochs);
+  void FitInMultiThread(DMatrix* data, int epochs, int num_threads);
   void FitInSingleThread(DMatrix* data, int epochs);
 
   FMHyperParam* hyper_param_;
   FMModel* model_;
-  // ThreadPool* thread_pool_;
-  Loss *loss_;
-  Score *score_;
+  Loss* loss_;
+  Score* score_;
+  ThreadPool* thread_pool_;
 };
 
 #endif //FMLEARN_CORE_MODEL_H_
