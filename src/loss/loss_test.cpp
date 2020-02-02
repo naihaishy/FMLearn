@@ -1,6 +1,7 @@
 //
 // Created by naihai on 2020/1/28.
 //
+
 #include "gtest/gtest.h"
 
 #include "loss/loss.h"

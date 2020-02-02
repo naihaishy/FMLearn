@@ -6,9 +6,14 @@
 
 #include "score/score.h"
 #include "score/fm_score.h"
+#include "score/linear_score.h"
 
-TEST(LOSS_TEST, Calculate) {
-  Score* score = new FmScore();
+TEST(LOSS_TEST, Score) {
+  Score* score1 = new FmScore();
+  EXPECT_EQ(score1->GetType(), "FmScore");
+
+  Score* score2 = new LinearScore();
+  EXPECT_EQ(score2->GetType(), "LinearScore");
 }
 
 int main(int argc, char* argv[]) {
