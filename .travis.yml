@@ -9,6 +9,7 @@ script:
   - cmake ..
   - make
   - make install
+  - cd results
   - chmod +x run_test.sh
   - ./run_test.sh
 
