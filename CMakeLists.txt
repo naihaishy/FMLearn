@@ -8,7 +8,7 @@ if (WIN32)
     #Windows
     if (MSVC)
         # 为VS2017设置参数
-        if (NOT "${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")
+        if (NOT "${CMAKE_GENERATOR}" MATCHES "(Wino64|IA64)")
         else ()
             # set(CMAKE_GENERATOR_PLATFORM "Visual Studio 15 2017 Win64")
             set(CMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE, "host=x64")

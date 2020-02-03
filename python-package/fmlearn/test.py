@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, normalize
 from sklearn.datasets import load_digits
 
-from fmlearn import DMatrix, FactorizationMachine
+import fmlearn as fl
 
 
 def test_regression():
@@ -25,11 +25,11 @@ def test_regression():
 
     _, n_features = X.shape
 
-    FactorizationMachine.set_log_level(0)
-    fm = FactorizationMachine(0, n_features, 100,
-                              0.0002, [0.1, 0.1, 0.1],
-                              0.0, 0.1,
-                              True, True)
+    fl.FactorizationMachine.set_log_level(0)
+    fm = fl.FactorizationMachine(0, n_features, 100,
+                                 0.0002, [0.1, 0.1, 0.1],
+                                 0.0, 0.1,
+                                 True, True)
     fm.fit(X_train_, y_train_, 100)
 
 
@@ -43,11 +43,11 @@ def test_classification():
 
     _, n_features = X.shape
 
-    FactorizationMachine.set_log_level(0)
-    fm = FactorizationMachine(1, n_features, 100,
-                              0.0001, [0.1, 0.1, 0.1],
-                              0.0, 0.1,
-                              True, True)
+    fl.FactorizationMachine.set_log_level(0)
+    fm = fl.FactorizationMachine(1, n_features, 100,
+                                 0.0001, [0.1, 0.1, 0.1],
+                                 0.0, 0.1,
+                                 True, True)
     fm.fit(X_train_, y_train_, 1000)
 
 

@@ -10,3 +10,7 @@ windows/
 
 /src/data/source.cpp
 /src/data/source.h
+/docs/_build
+/docs/_static
+/docs/_templates
+
