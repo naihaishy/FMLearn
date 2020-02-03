@@ -63,3 +63,6 @@ FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_train.txt"
         DESTINATION ${BUILD_RESULT_DIR}/data)
 FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_test.txt"
         DESTINATION ${BUILD_RESULT_DIR}/data)
+
+file(GLOB HEADER_FILES "${PROJECT_SOURCE_DIR}/src/*/*.h")
+install(FILES ${HEADER_FILES} DESTINATION ${BUILD_RESULT_DIR}/include)
