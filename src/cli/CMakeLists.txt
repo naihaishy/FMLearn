@@ -1,17 +1,18 @@
-# Build loss static lib
-add_library(cmdline STATIC cmdline.cpp cli_param.cpp fmlearn.cpp)
 
+# Build loss static lib
+add_library(cmdline STATIC cmdline.cpp cli_param.cpp)
+set_target_properties(cmdline PROPERTIES CLEAN_DIRECT_OUTPUT 1)
+install(TARGETS cmdline DESTINATION ${BUILD_RESULT_DIR}/libs)
 
 add_executable(fmlearn_train fmlearn_train.cpp)
 target_link_libraries(fmlearn_train model cmdline common data)
-install(TARGETS fmlearn_train DESTINATION ${CMAKE_BINARY_DIR})
+install(TARGETS fmlearn_train DESTINATION ${BUILD_RESULT_DIR})
 
 add_executable(fmlearn_predict fmlearn_predict.cpp)
 target_link_libraries(fmlearn_predict model cmdline common data)
-install(TARGETS fmlearn_predict DESTINATION ${CMAKE_BINARY_DIR})
+install(TARGETS fmlearn_predict DESTINATION ${BUILD_RESULT_DIR})
 
 # Build unit tests
-if (BUILD_UNIT_TEST)
-    add_executable(cli_test cli_test.cpp)
-    target_link_libraries(cli_test gtest_main gtest data common cmdline)
-endif ()
+add_executable(cmdline_test cli_test.cpp)
+target_link_libraries(cmdline_test gtest_main gtest data common cmdline)
+install(TARGETS cmdline_test DESTINATION ${BUILD_RESULT_DIR}/test)
