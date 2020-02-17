@@ -8,17 +8,19 @@
 
 TEST(COMMON_TEST, Logging) {
   Logging::SetLevel(0);
-  Logging::debug("debug");
-  Logging::info("info");
+  SetLoggingDir("log");
+  LogDebug("debug");
+  LogInfo("info");
 
   Logging::SetLevel(1);
-  Logging::debug("debug");
-  Logging::info("info");
+  LogDebug("debug");
+  LogInfo("info");
 
   Logging::SetLevel("error");
-  Logging::debug("debug");
-  Logging::info("info");
-  Logging::error("error");
+  LogDebug("debug");
+  LogInfo("info");
+  LogError("error");
+  LogInfo("Hello");
 }
 
 

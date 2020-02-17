@@ -26,11 +26,11 @@ FMModel::FMModel(int task,
 FMModel::FMModel(const std::string& model_file) {
   try {
     if (!this->Load(model_file)) {
-      Logging::error("Construct FMModel from file " + model_file + " failed");
+      LogError("Construct FMModel from file " + model_file + " failed");
       throw std::runtime_error("Construct FMModel failed");
     }
   } catch (std::exception& e) {
-    Logging::error(e.what() + LFLF);
+    LogError(e.what());
   }
 }
 
@@ -53,13 +53,13 @@ void FMModel::InitWeights(float mean, float stddev) {
     }
   }
 
-  Logging::debug("FMModel InitWeights succeed");
+  LogDebug("FMModel InitWeights succeed");
 }
 
 void FMModel::Free() {
   delete[] W_;
   delete[] V_;
-  Logging::debug("FMModel Free succeed");
+  LogDebug("FMModel Free succeed");
 }
 /**
  * 将model序列化到文件中
@@ -95,7 +95,7 @@ void FMModel::Save(const std::string& filename) {
   ofs << std::endl;
   ofs << "#OK" << std::endl;
   ofs.close();
-  Logging::info("FMModel save succeed , keep in " + filename);
+  LogInfo("FMModel save succeed , keep in " + filename);
 }
 
 /**
@@ -116,7 +116,7 @@ bool FMModel::Load(const std::string& filename) {
   if (!std::getline(ifs, line)) return false;
   std::string version = line;
   if (version != std::to_string(VERSION)) {
-    Logging::warning("Incompatible model version " + version +
+    LogWarn("Incompatible model version " + version +
         " with current version " + std::to_string(VERSION));
     throw std::runtime_error("Incompatible model version");
   }
@@ -157,9 +157,9 @@ bool FMModel::Load(const std::string& filename) {
   std::getline(ifs, line);
   if (!std::getline(ifs, line)) return false;; // #OK
   if (line == "#OK") {
-    Logging::info("Model is Ok");
+    LogInfo("Model is Ok");
   } else {
-    Logging::warning("Model is something wrong");
+    LogWarn("Model is something wrong");
     return false;
   }
   return true;

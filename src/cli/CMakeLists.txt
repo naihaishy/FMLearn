@@ -1,6 +1,7 @@
 
 # Build loss static lib
 add_library(cmdline STATIC cmdline.cpp cli_param.cpp)
+target_link_libraries(cmdline common)
 set_target_properties(cmdline PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 install(TARGETS cmdline DESTINATION ${BUILD_RESULT_DIR}/libs)
 

@@ -18,7 +18,7 @@ void DataReader::Initialize() {
   try {
     CheckFile();
   } catch (std::exception& e) {
-    Logging::error(e.what());
+    LogError(e.what());
     exit(0);
   }
 
@@ -26,7 +26,7 @@ void DataReader::Initialize() {
   else if (file_format_ == "libsvm") parser_ = new LibSVMParser();
   else if (file_format_ == "libffm") parser_ = new LibFFMParser();
   parser_->Initialize(delimiter_, has_header_, has_label_);
-  Logging::debug("Initialize is ok");
+  LogDebug("Initialize is ok");
 }
 
 /**
@@ -60,7 +60,7 @@ void DataReader::CheckFile() {
 
   delimiter_ = DataReader::ParseDelimiter(first_line);
   file_format_ = DataReader::ParseFileFormat(first_line, delimiter_);
-  Logging::debug("CheckFile is ok");
+  LogDebug("CheckFile is ok");
 }
 
 /**
@@ -135,12 +135,12 @@ void DataReader::Read(DMatrix* data) {
       parser_->Parse(data, line);
     }
     infile.close();
-    Logging::debug("DMatrix construct done");
+    LogDebug("DMatrix construct done");
   } else {
-    Logging::error("file is closed before read data");
+    LogError("file is closed before read data");
     throw std::runtime_error("input file is closed");
   }
-  Logging::debug("Reader read succeed");
+  LogDebug("Reader read succeed");
 }
 
 

@@ -28,7 +28,7 @@ FM_DLL int FMMatrixCreateFromMat(const float* data, int rows, int cols, const fl
     // 使用智能指针管理DMatrix
     std::unique_ptr<DMatrix> matrix(new DMatrix(data, label, rows, cols));
     *out = matrix.release();
-    Logging::debug("data matrix created succeed");
+    LogDebug("data matrix created succeed");
   API_END()
 }
 
@@ -39,7 +39,7 @@ FM_DLL int FMMatrixCreateFromFile(const std::string& file_name,
     // 使用智能指针管理DMatrix
     std::unique_ptr<DMatrix> matrix(new DMatrix(file_name, has_label));
     *out = matrix.release();
-    Logging::debug("data matrix created succeed");
+    LogDebug("data matrix created succeed");
   API_END()
 }
 
@@ -53,7 +53,7 @@ FM_DLL int FMMatrixFree(DataHandle* out) {
     auto matrix = reinterpret_cast<DMatrix*>(*out);
     matrix->Free();
     // delete matrix;
-    Logging::debug("data matrix free succeed");
+    LogDebug("data matrix free succeed");
   API_END()
 }
 
@@ -71,7 +71,7 @@ FM_DLL int FMCreate(FM* out, int task, int n_features, int n_factors,
                                           mean, stddev,
                                           norm, verbose);
     *out = model;
-    Logging::debug("FMCreate succeed");
+    LogDebug("FMCreate succeed");
   API_END()
 }
 
@@ -89,7 +89,7 @@ FM_DLL int FMFit(FM* out, DataHandle* data, int iterations) {
     auto train_data = reinterpret_cast<DMatrix*>(*data);
     model->Initialize();
     model->Fit(train_data, iterations, false);
-    Logging::debug("FMFit succeed");
+    LogDebug("FMFit succeed");
   API_END()
 }
 
@@ -102,7 +102,7 @@ FM_DLL int FMPredict(FM* out, DataHandle* data, DataHandle* out_result) {
     auto results = reinterpret_cast<const float**>(*out_result);
     auto y_preds =  model->Predict(test_data);
     *results = &y_preds[0];
-    Logging::debug("FMPredict succeed");
+    LogDebug("FMPredict succeed");
   API_END()
 }
 

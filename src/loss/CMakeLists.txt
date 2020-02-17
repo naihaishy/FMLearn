@@ -1,6 +1,7 @@
 
 # Build loss static lib
 add_library(loss STATIC loss.cpp squared_loss.cpp cross_entropy_loss.cpp)
+target_link_libraries(loss common)
 set_target_properties(loss PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 install(TARGETS loss DESTINATION ${BUILD_RESULT_DIR}/libs)
 

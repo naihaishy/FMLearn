@@ -27,7 +27,7 @@ void SaveVectorToFile(const std::vector<T>& data, const std::string& file_name) 
     ofs << std::endl;
     ofs.close();
   }catch (std::exception &e){
-    Logging::warning("Predictions save failed, due to " + std::string(e.what()));
+    LogWarn("Predictions save failed, due to " + std::string(e.what()));
   }
 }
 

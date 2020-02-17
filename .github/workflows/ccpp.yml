@@ -21,5 +21,5 @@ jobs:
       run: make install
       working-directory: build/
     - name: unit-test
-      run: sudo chmod +x ./run_test.sh && ./run_test.sh
+      run: mkdir log && sudo chmod +x ./run_test.sh && ./run_test.sh
       working-directory: build/results/

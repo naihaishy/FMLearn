@@ -1,6 +1,7 @@
 
 # Build model static lib
 add_library(model STATIC model.cpp fm_model.cpp)
+target_link_libraries(model common)
 set_target_properties(model PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 install(TARGETS model DESTINATION ${BUILD_RESULT_DIR}/libs)
 

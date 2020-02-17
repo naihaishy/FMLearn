@@ -1,6 +1,7 @@
 
 # Build score static lib
 add_library(score STATIC score.cpp linear_score.cpp fm_score.cpp)
+target_link_libraries(score common)
 set_target_properties(score PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 install(TARGETS score DESTINATION ${BUILD_RESULT_DIR}/libs)
 

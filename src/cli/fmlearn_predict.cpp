@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     SaveVectorToFile(results, param->output_file);
 
   } else {
-    Logging::error("FMLearn command line parameter parse failed");
+    LogError("FMLearn command line parameter parse failed");
     exit(1);
   }
 

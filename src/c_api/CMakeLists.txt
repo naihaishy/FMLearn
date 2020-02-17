@@ -1,6 +1,7 @@
 
 #Build c_api static lib
 add_library(c_api STATIC c_api.cpp c_api_error.cpp)
+target_link_libraries(c_api common)
 set_target_properties(c_api PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 install(TARGETS c_api DESTINATION ${BUILD_RESULT_DIR}/libs)
 

@@ -87,7 +87,7 @@ bool CmdLine::Parse(int argc, char** argv) {
     exit(0);
   }
   if (argc < 3) {
-    Logging::error("Invalid Input parameter");
+    LogError("Invalid Input parameter");
     return false;
   }
 
@@ -95,28 +95,28 @@ bool CmdLine::Parse(int argc, char** argv) {
 
   if (is_train_) {
     // parse training parameter
-    Logging::info("Parse training parameter");
+    LogInfo("Parse training parameter");
     try {
       ParseTrainParam(argc, argv);
       if (!Validator::Validate(*param_->GetTrainParam())) {
-        Logging::error("Validate command line train parameter failed");
+        LogError("Validate command line train parameter failed");
         return false;
       }
     } catch (std::exception& e) {
-      Logging::error(e.what());
+      LogError(e.what());
       return false;
     }
   } else {
     // parse prediction parameter
-    Logging::info("Parse prediction parameter");
+    LogInfo("Parse prediction parameter");
     try {
       ParsePredictionParam(argc, argv);
       if (!Validator::Validate(*param_->GetPredictionParam())) {
-        Logging::error("Validate command line prediction parameter failed");
+        LogError("Validate command line prediction parameter failed");
         return false;
       }
     } catch (std::exception& e) {
-      Logging::error(e.what());
+      LogError(e.what());
       return false;
     }
   }
@@ -132,7 +132,7 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
   }
   CliTrainParam* train_param = param_->GetTrainParam();
   if (train_param == nullptr) {
-    Logging::error("train_param is nullptr");
+    LogError("train_param is nullptr");
     return;
   }
   train_param->train_file = train_file;

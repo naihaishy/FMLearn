@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
   if (cmd_line.Parse(argc, argv)) {
 
     CliTrainParam* param = cmd_line.GetCliParam()->GetTrainParam();
-    Logging::info(param->to_string());
+    LogInfo(param->to_string());
 
     // 构造DMatrix
     DMatrix* train_data = new DMatrix(param->train_file, true);
@@ -40,12 +40,12 @@ int main(int argc, char* argv[]) {
     time_t start_time = time(nullptr);
     fm->Fit(train_data, param->n_epoch, param->n_thread > 1, param->n_thread);
     time_t end_time = time(nullptr);
-    Logging::info("FactorizationMachine Fit done, cost " +
+    LogInfo("FactorizationMachine Fit done, cost " +
         std::to_string((end_time - start_time)) + " s");
     // save model
     fm->GetModel()->Save(param->model_file);
   } else {
-    Logging::error("FMLearn command line parameter parse failed");
+    LogError("FMLearn command line parameter parse failed");
     exit(1);
   }
 

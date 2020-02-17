@@ -10,6 +10,7 @@ script:
   - make
   - make install
   - cd results
+  - mkdir log
   - chmod +x run_test.sh
   - ./run_test.sh
 

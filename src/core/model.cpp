@@ -43,7 +43,7 @@ FactorizationMachine::FactorizationMachine(int task,
     this->loss_ = new CrossEntropyLoss();
   }
 
-  Logging::debug("FactorizationMachine Construct succeed!");
+  LogDebug("FactorizationMachine Construct succeed!");
 }
 
 /**
@@ -57,7 +57,7 @@ FactorizationMachine::~FactorizationMachine() {
   this->model_->Free();
   delete this->model_;
   delete this->hyper_param_;
-  Logging::debug("FactorizationMachine Deconstruct succeed");
+  LogDebug("FactorizationMachine Deconstruct succeed");
 }
 
 /**
@@ -67,8 +67,8 @@ FactorizationMachine::~FactorizationMachine() {
  * @param multi_thread
  */
 void FactorizationMachine::Fit(DMatrix* data, int epochs, bool multi_thread, int n_threads) {
-  Logging::debug("Start FactorizationMachine Fit");
-  Logging::debug("FactorizationMachine Params: " + hyper_param_->to_string());
+  LogDebug("Start FactorizationMachine Fit");
+  LogDebug("FactorizationMachine Params: " + hyper_param_->to_string());
 
   if (model_->GetTask() == REGRESSION && model_->HasLimitPredict()) {
     model_->SetMaxTarget(data->max_label);
@@ -112,7 +112,7 @@ void FactorizationMachine::FitInSingleThread(DMatrix* data, int epochs) {
     float ave_loss = loss_->CalGrad(data, model_, hyper_param_, score_);
 
     if (hyper_param_->verbose) {
-      Logging::debug("epoch " + std::to_string(epoch) +
+      LogDebug("epoch " + std::to_string(epoch) +
           " loss: " + std::to_string(ave_loss));
     }
   }
@@ -170,7 +170,7 @@ void FactorizationMachine::FitInMultiThread(DMatrix* data, int epochs, int num_t
     for (float loss:losses) loss_sum += loss;
     float ave_loss = loss_sum / num_samples;
     if (hyper_param_->verbose) {
-      Logging::debug("epoch " + std::to_string(i) +
+      LogDebug("epoch " + std::to_string(i) +
           " loss: " + std::to_string(ave_loss));
     }
   }
