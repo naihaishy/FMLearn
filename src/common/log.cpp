@@ -3,7 +3,8 @@
 //
 
 #include "common/log.h"
-#include "utils.h"
+#include "common/utils.h"
+#include "common/terminal.h"
 
 #include <algorithm>
 #include <ctime>
@@ -28,29 +29,28 @@ void Logging::log(LoggingLevel level_,
                   const std::string& function) {
   time_t current;
   time(&current);
-  struct tm * time_info = localtime(&current);
+  struct tm* time_info = localtime(&current);
   char time_string[128];
-  strftime (time_string, sizeof(time_string),"%Y-%m-%d %H:%M:%S", time_info);
+  strftime(time_string, sizeof(time_string), "%Y-%m-%d %H:%M:%S", time_info);
 
   std::string log_message = std::string(time_string) + " " + file + " " +
       std::to_string(line) + " (" + function + ") " + msg;
 
   if (level_ >= log_level) {
     switch (level_) {
-      case DEBUG: std::cout << "[DEBUG] " << log_message << std::endl;
+      case DEBUG:PrintDefault("[DEBUG] " + log_message);
         if (Logging::save_to_file_) Logging::debug_log_ofs_ << log_message << "\n" << std::flush;
         break;
-      case INFO: std::cout << "[INFO] " << log_message << std::endl;
+      case INFO:PrintInfo("[INFO] " + log_message);
         if (Logging::save_to_file_) Logging::info_log_ofs_ << log_message << "\n" << std::flush;
         break;
-      case WARNING: std::cout << "[WARNING] " << log_message << std::endl;
+      case WARNING:PrintWarning("[WARNING] " + log_message);
         if (Logging::save_to_file_) Logging::warn_log_ofs_ << log_message << "\n" << std::flush;
         break;
-      case ERROR: std::cout << "[ERROR] " << log_message << std::endl;
+      case ERROR:PrintError("[ERROR] " + log_message);
         if (Logging::save_to_file_) Logging::error_log_ofs_ << log_message << "\n" << std::flush;
         break;
-      case FATAL:
-        Logging::debug_log_ofs_.close();
+      case FATAL:Logging::debug_log_ofs_.close();
         Logging::info_log_ofs_.close();
         Logging::warn_log_ofs_.close();
         Logging::error_log_ofs_.close();
@@ -107,12 +107,12 @@ void Logging::SetLevel(const std::string& level) {
  * @param log_dir 目录  每个级别单独保存 例如/tmp/logs/debug.log
  */
 
-void SetLoggingDir(const std::string &log_dir){
+void SetLoggingDir(const std::string& log_dir) {
   if (log_dir.empty()) {
     Logging::save_to_file_ = false;
-    throw std::invalid_argument("Log directory " + log_dir + " is empty");
+    throw std::invalid_argument("Log directory :" + log_dir + " is empty");
   }
-  if(!file_exists(log_dir)){
+  if (!file_exists(log_dir)) {
     Logging::save_to_file_ = false;
     throw std::invalid_argument("Log directory " + log_dir + " is not exist");
   }

@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 
 #include "common/log.h"
+#include "common/check.h"
 
 TEST(COMMON_TEST, Logging) {
   Logging::SetLevel(0);
@@ -21,6 +22,22 @@ TEST(COMMON_TEST, Logging) {
   LogInfo("info");
   LogError("error");
   LogInfo("Hello");
+
+}
+
+TEST(COMMON_TEST, Check){
+  CHECK_LT(9, 12);
+  CHECK_LT(12, 9);
+
+  CHECK_GT(12, 9);
+  CHECK_GT(9, 12);
+
+  CHECK_LE(9, 9);
+  CHECK_GE(12, 12);
+
+  CHECK_EQ(12, 12);
+  CHECK_EQ(true, true);
+  CHECK_NE((12==12), false);
 }
 
 
@@ -33,6 +50,7 @@ void func(int id) {
 int main(int argc, char* argv[]) {
 
   testing::InitGoogleTest(&argc, argv);
+  LogInfo("\n");
   return RUN_ALL_TESTS();
 }
 

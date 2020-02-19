@@ -1,5 +1,6 @@
 @echo off
 REM # Test for running unit test
+mkdir log
 .\test\c_api_test.exe
 .\test\common_test.exe
 .\test\cmdline_test.exe

@@ -20,6 +20,7 @@
 2. 谷歌自动化测试 [Google Test](https://github.com/google/googletest)
 3. [C++线程池简单实现](https://github.com/progschj/ThreadPool) 
 4. Cmake [Visual Studio 2017编译](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2015%202017.html) 
+5. [Linux 终端输出文本颜色](https://misc.flogisoft.com/bash/tip_colors_and_formatting)
 
 ### 快速开始
 [使用文档](https://fmlearn.readthedocs.io/)

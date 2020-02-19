@@ -13,7 +13,8 @@ FMLearn 是一款高性能的，易用的，并且可扩展的机器学习算法
 
 安装 FMLearn
 ^^^^^^^^^^^^^
-
+::
+pip install fmlearn
 
 Python 样例
 ^^^^^^^^^^^^^^
@@ -44,7 +45,3 @@ Python 样例
 
    install
 
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

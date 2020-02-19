@@ -1,5 +1,6 @@
 #!/bin/bash
 # Script for running unit test
+mkdir log
 ./test/c_api_test
 ./test/common_test
 ./test/cmdline_test
