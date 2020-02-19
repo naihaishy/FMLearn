@@ -1,4 +1,3 @@
-//
 // Created by naihai on 2020/1/12.
 // 定义了C API 错误处理 主要参考自xgboost和xlearn
 /* This file defines the error handling for C API. */

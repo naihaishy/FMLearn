@@ -120,6 +120,7 @@ bool CmdLine::Parse(int argc, char** argv) {
       return false;
     }
   }
+  LogInfo("Validate command line prediction parameter succeed");
   return true;
 }
 
