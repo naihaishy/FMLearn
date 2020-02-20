@@ -95,7 +95,7 @@ std::vector<float> FactorizationMachine::Predict(DMatrix* data) {
     auto& x = data->rows[m];
     float norm = data->norms[m];
     // predict
-    float y_pred = score_->Calculate(x, model_, norm);
+    float y_pred = score_->Calculate(x, *model_, norm);
     results.emplace_back(y_pred);
   }
   return results;
@@ -109,8 +109,7 @@ std::vector<float> FactorizationMachine::Predict(DMatrix* data) {
 void FactorizationMachine::FitInSingleThread(DMatrix* data, int epochs) {
 
   for (int epoch = 0; epoch < epochs; ++epoch) {
-    float ave_loss = loss_->CalGrad(data, model_, hyper_param_, score_);
-
+    float ave_loss = loss_->CalGrad(data, model_);
     if (hyper_param_->verbose) {
       LogDebug("epoch " + std::to_string(epoch) +
           " loss: " + std::to_string(ave_loss));
@@ -132,12 +131,12 @@ void FMFitInSingleThread(const DMatrix* data,
     auto norm = data->norms[m];
 
     // predict instance
-    float y_pred = score->Calculate(x, model, norm);
+    float y_pred = score->Calculate(x, *model, norm);
     float y_true = data->labels[m];
 
     // calculate gradient and update weights
     float delta = y_pred - y_true;
-    score->CalGrad(x, model, param, norm, delta);
+    score->CalGrad(x, *model, norm, delta);
 
     // calculate loss
     (*loss) += 0.5f * (y_pred - y_true) * (y_pred - y_true);

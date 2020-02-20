@@ -11,19 +11,20 @@ inline float sigmoid(float x) {
 }
 
 /**
- * 计算 Loss
+ * 累计计算 Loss
  * @param preds
  * @param labels
  * @return
  */
-float CrossEntropyLoss::Calculate(std::vector<float>& preds,
+void CrossEntropyLoss::Calculate(std::vector<float>& preds,
                                   std::vector<float>& labels) {
   float result = 0.0f;
   assert(preds.size() == labels.size());
   for (int i = 0; i < preds.size(); ++i) {
     result += log1p(exp(preds[i] * labels[i]));
   }
-  return result;
+  loss_sum_ += result;
+  num_samples_ += preds.size();
 }
 
 /**
@@ -33,7 +34,7 @@ float CrossEntropyLoss::Calculate(std::vector<float>& preds,
  * @param score
  * @return
  */
-float CrossEntropyLoss::CalGrad(DMatrix* data, FMModel* model, FMHyperParam* hyper_param, Score* score) {
+float CrossEntropyLoss::CalGrad(DMatrix* data, FMModel* model) {
   // check
   assert(model->GetTask() == CLASSIFICATION);
 
@@ -44,16 +45,18 @@ float CrossEntropyLoss::CalGrad(DMatrix* data, FMModel* model, FMHyperParam* hyp
     auto norm = data->norms[m];
 
     // predict instance
-    float y_pred = score->Calculate(x, model, norm);
+    float y_pred = score_->Calculate(x, model, norm);
     float y_true = data->labels[m];
 
     // calculate gradient and update weights
     float delta = (sigmoid(y_true * y_pred) - 1) * y_true;
-    score->CalGrad(x, model, hyper_param, norm, delta);
+    score_->CalGrad(x, model, norm, delta);
 
     // calculate loss
     losses += -log(sigmoid(y_true * y_pred));
   }
   return losses / data->row_length;
 }
+
+
 CrossEntropyLoss::~CrossEntropyLoss() = default;

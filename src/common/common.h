@@ -21,4 +21,7 @@ inline double GetTime() {
       std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 }
 
+#define FLOAT_MAX std::numeric_limits<float>::max()
+#define FLOAT_MIN std::numeric_limits<float>::min()
+
 #endif //FMLEARN_COMMON_COMMON_H_

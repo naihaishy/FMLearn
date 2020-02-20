@@ -32,6 +32,7 @@ class FMModel {
   explicit FMModel(const std::string& model_file);
 
   void InitWeights(float mean, float stddev);
+  void Reset();
   void Free();
   void Save(const std::string& filename);
   bool Load(const std::string& filename);

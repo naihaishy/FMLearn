@@ -1,6 +1,6 @@
 
 # Build solver static lib
-add_library(solver STATIC trainer.cpp predictor.cpp)
+add_library(solver STATIC trainer.cpp predictor.cpp solver.cpp)
 target_link_libraries(solver data common)
 set_target_properties(solver PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 install(TARGETS solver DESTINATION ${BUILD_RESULT_DIR}/libs)

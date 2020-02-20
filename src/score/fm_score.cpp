@@ -13,12 +13,12 @@
  * @param norm 归一化
  * @return
  */
-float FmScore::Calculate(SparseRow* row, FMModel* model, float norm) {
+float FmScore::Calculate(SparseRow* row, FMModel& model, float norm) {
   float result = 0.0;
 
-  float& w0 = model->GetBias();
-  float*& W = model->GetW();
-  float*& V = model->GetV();
+  float& w0 = model.GetBias();
+  float*& W = model.GetW();
+  float*& V = model.GetV();
 
   result += w0;
   // linear term
@@ -28,7 +28,7 @@ float FmScore::Calculate(SparseRow* row, FMModel* model, float norm) {
     result += W[i] * xi * norm;
   }
   // interaction term
-  int K = model->GetNumFactors();
+  int K = model.GetNumFactors();
   float inter1, inter2, d;
   for (int f = 0; f < K; ++f) {
     inter1 = 0.0;
@@ -45,9 +45,9 @@ float FmScore::Calculate(SparseRow* row, FMModel* model, float norm) {
     result += inter1 * inter1 - inter2;
   }
 
-  if (model->GetTask() == REGRESSION && model->HasLimitPredict()) {
-    result = std::max(model->GetMinTarget(), result);
-    result = std::min(model->GetMaxTarget(), result);
+  if (model.GetTask() == REGRESSION && model.HasLimitPredict()) {
+    result = std::max(model.GetMinTarget(), result);
+    result = std::min(model.GetMaxTarget(), result);
   }
   return result;
 }
@@ -56,24 +56,23 @@ float FmScore::Calculate(SparseRow* row, FMModel* model, float norm) {
  * 给定单个样本 基于SGD计算梯度并更新model参数
  * @param row
  * @param model
- * @param hyper_param
  * @param norm
  * @param delta
  */
-void FmScore::CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param, float norm, float delta) {
+void FmScore::CalGrad(SparseRow* row, FMModel& model, float norm, float delta) {
 
-  float lr = hyper_param->learning_rate;
-  float reg_w0 = hyper_param->reg_w0;
-  float reg_W = hyper_param->reg_W;
-  float reg_V = hyper_param->reg_V;
+  float lr = param_->learning_rate;
+  float reg_w0 = param_->reg_w0;
+  float reg_W = param_->reg_W;
+  float reg_V = param_->reg_V;
 
-  float& w0 = model->GetBias();
-  float*& W = model->GetW();
-  float*& V = model->GetV();
+  float& w0 = model.GetBias();
+  float*& W = model.GetW();
+  float*& V = model.GetV();
 
   // update bias
   w0 -= lr * (delta + 2 * reg_w0 * w0);
-  int K = model->GetNumFactors();
+  int K = model.GetNumFactors();
 
   // update linear
   for (auto& it:*row) {

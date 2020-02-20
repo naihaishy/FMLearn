@@ -12,25 +12,71 @@
 #include "loss/loss.h"
 #include "score/score.h"
 #include "data/reader.h"
+#include "metric/metric.h"
+
+/**
+ *
+ * Usage :
+ * Trainer trainer;
+ * trainer.Initialize();
+ * trainer.CVTrain(); // trainer.Train();
+ *
+ */
+
+struct LossMetric {
+  float loss_value;
+  float metric_value;
+};
 
 class Trainer {
  public:
   Trainer();
   ~Trainer();
 
-  void Initialize();
+  void Initialize(std::vector<DataReader*>& reader_list,
+                  Loss* loss, FMModel* model, Metric* metric,
+                  int epoch, bool early_stop, int stop_window, bool quiet);
+
   void Train();
   void CVTrain();
 
  private:
 
-  void train(std::vector<DataReader*>& train_reader,
-             std::vector<DataReader*>& test_reader);
+  void Train(std::vector<DataReader*>& train_reader,
+             std::vector<DataReader*>& valid_reader);
 
-  std::vector<DataReader *> reader_list_; // 既包括训练数据 也包括验证数据
+  /**
+   * 计算梯度并更新model参数
+   * @param train_reader 训练数据
+   * @return train loss 训练loss
+   */
+  float CalcGradient(std::vector<DataReader*>& train_reader);
 
+  /**
+   * 计算model的性能指标
+   * @param valid_reader 验证数据
+   * @return LossMetric
+   */
+  LossMetric CalcMetric(std::vector<DataReader*>& valid_reader);
+
+  /**
+   * 显示训练过程信息
+   * @param train_loss
+   * @param loss_metric
+   * @param epoch
+   */
+  void ShowTrainInfo(float train_loss, LossMetric& loss_metric, int epoch);
+
+  std::vector<DataReader*> reader_list_; // 既包括训练数据 也包括验证数据
   Loss* loss_;
   FMModel* model_;
+  Metric* metric_;
+  int epoch_;
+  bool early_stop_;
+  int stop_window_;
+  bool quiet_;
 };
+
+static void InitMetricValue(Metric* metric, float& best_result, float& prev_result, bool& less_is_better);
 
 #endif //FMLEARN_SOLVER_TRAINER_H_

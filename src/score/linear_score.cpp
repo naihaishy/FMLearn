@@ -19,7 +19,7 @@ float LinearScore::Calculate(SparseRow* row, FMModel* model, float norm) {
   }
   return result;
 }
-void LinearScore::CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param, float norm, float delta) {
+void LinearScore::CalGrad(SparseRow* row, FMModel& model, float norm, float delta) {
 
 }
 

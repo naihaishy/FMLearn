@@ -15,9 +15,9 @@
 class CrossEntropyLoss : public Loss {
  public:
   ~CrossEntropyLoss() override;
-  float Calculate(std::vector<float>& preds,
+  void Calculate(std::vector<float>& preds,
                   std::vector<float>& labels) override;
-  float CalGrad(DMatrix* data, FMModel* model, FMHyperParam* hyper_param, Score* score) override;
+  float CalGrad(DMatrix* data, FMModel* model) override;
   std::string GetType() override { return type_; }
 
  private:

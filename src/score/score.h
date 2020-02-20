@@ -13,6 +13,9 @@ class Score {
  public:
   Score() = default;
   virtual ~Score() = default;
+
+  void Initialize(FMHyperParam* hyper_param);
+
   /**
    * 给定单个样本 计算预测值
    * @param row 样本
@@ -20,22 +23,22 @@ class Score {
    * @param norm 归一化因子
    * @return 预测值 predicted value
    */
-  virtual float Calculate(SparseRow* row, FMModel* model, float norm) = 0;
+  virtual float Calculate(SparseRow* row, FMModel& model, float norm) = 0;
 
   /**
    * 给定单个样本 计算梯度并更新model参数 SGD
    * @param row 样本
    * @param model 当前模型
-   * @param hyper_param 超参数
    * @param norm 归一化因子
    * @param delta
    */
-  virtual void CalGrad(SparseRow* row, FMModel* model, FMHyperParam* hyper_param, float norm, float delta) = 0;
+  virtual void CalGrad(SparseRow* row, FMModel& model, float norm, float delta) = 0;
 
   virtual std::string GetType() { return type_; }
 
- private:
+ protected:
   std::string type_ = "Score";
+  FMHyperParam *param_;
 };
 
 #endif //FMLEARN_SCORE_SCORE_H_

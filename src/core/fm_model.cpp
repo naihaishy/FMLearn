@@ -56,6 +56,10 @@ void FMModel::InitWeights(float mean, float stddev) {
   LogDebug("FMModel InitWeights succeed");
 }
 
+void FMModel::Reset() {
+  this->InitWeights(0.0, 0.1);
+}
+
 void FMModel::Free() {
   delete[] W_;
   delete[] V_;
