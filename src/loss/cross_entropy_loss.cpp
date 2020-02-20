@@ -45,12 +45,12 @@ float CrossEntropyLoss::CalGrad(DMatrix* data, FMModel* model) {
     auto norm = data->norms[m];
 
     // predict instance
-    float y_pred = score_->Calculate(x, model, norm);
+    float y_pred = score_->Calculate(x, *model, norm);
     float y_true = data->labels[m];
 
     // calculate gradient and update weights
     float delta = (sigmoid(y_true * y_pred) - 1) * y_true;
-    score_->CalGrad(x, model, norm, delta);
+    score_->CalGrad(x, *model, norm, delta);
 
     // calculate loss
     losses += -log(sigmoid(y_true * y_pred));

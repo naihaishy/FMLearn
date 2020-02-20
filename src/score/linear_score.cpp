@@ -4,11 +4,11 @@
 
 #include "score/linear_score.h"
 
-float LinearScore::Calculate(SparseRow* row, FMModel* model, float norm) {
+float LinearScore::Calculate(SparseRow* row, FMModel& model, float norm) {
   float result = 0.0;
 
-  float& w0 = model->GetBias();
-  float*& W = model->GetW();
+  float& w0 = model.GetBias();
+  float*& W = model.GetW();
 
   result += w0;
   // linear term

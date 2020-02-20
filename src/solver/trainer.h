@@ -14,6 +14,12 @@
 #include "data/reader.h"
 #include "metric/metric.h"
 
+
+struct LossMetric {
+  float loss_value;
+  float metric_value;
+};
+
 /**
  *
  * Usage :
@@ -22,12 +28,6 @@
  * trainer.CVTrain(); // trainer.Train();
  *
  */
-
-struct LossMetric {
-  float loss_value;
-  float metric_value;
-};
-
 class Trainer {
  public:
   Trainer();

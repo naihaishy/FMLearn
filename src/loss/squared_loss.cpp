@@ -33,12 +33,12 @@ float SquaredLoss::CalGrad(DMatrix* data, FMModel* model) {
     auto norm = data->norms[m];
 
     // predict instance
-    float y_pred = score_->Calculate(x, model, norm);
+    float y_pred = score_->Calculate(x, *model, norm);
     float y_true = data->labels[m];
 
     // calculate gradient and update weights
     float delta = y_pred - y_true;
-    score_->CalGrad(x, model, norm, delta);
+    score_->CalGrad(x, *model, norm, delta);
 
     // calculate loss
     losses += 0.5f * (y_pred - y_true) * (y_pred - y_true);

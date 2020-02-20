@@ -67,7 +67,7 @@ class Modifier {
 
 }
 
-inline void PrintDefault(const std::string& out, bool important = false) {
+inline void PrintDefault(const std::string& out, bool important) {
   Color::Modifier bold(Color::FS_BOLD);
   Color::Modifier reset(Color::FR_ALL);
   if (important) {
@@ -77,7 +77,11 @@ inline void PrintDefault(const std::string& out, bool important = false) {
   }
 }
 
-inline void PrintInfo(const std::string& out, bool important = false) {
+inline void PrintDefault(const std::string& out){
+  PrintDefault(out, false);
+}
+
+inline void PrintInfo(const std::string& out, bool important) {
   Color::Modifier green(Color::FG_GREEN);
   Color::Modifier bold(Color::FS_BOLD);
   Color::Modifier reset(Color::FR_ALL);
@@ -88,7 +92,11 @@ inline void PrintInfo(const std::string& out, bool important = false) {
   }
 }
 
-inline void PrintWarning(const std::string& out, bool important = false) {
+inline void PrintInfo(const std::string& out){
+  PrintInfo(out, false);
+}
+
+inline void PrintWarning(const std::string& out, bool important) {
   Color::Modifier mag(Color::FG_MAGENTA);
   Color::Modifier bold(Color::FS_BOLD);
   Color::Modifier reset(Color::FR_ALL);
@@ -99,7 +107,11 @@ inline void PrintWarning(const std::string& out, bool important = false) {
   }
 }
 
-inline void PrintError(const std::string& out, bool important = false) {
+inline void PrintWarning(const std::string& out){
+  PrintWarning(out, false);
+}
+
+inline void PrintError(const std::string& out, bool important) {
   Color::Modifier red(Color::FG_RED);
   Color::Modifier bold(Color::FS_BOLD);
   Color::Modifier reset(Color::FR_ALL);
@@ -108,6 +120,10 @@ inline void PrintError(const std::string& out, bool important = false) {
   } else {
     std::cout << red << out << reset << std::endl;
   }
+}
+
+inline void PrintError(const std::string& out){
+  PrintError(out, false);
 }
 
 #endif //FMLEARN_COMMON_TERMINAL_H_
