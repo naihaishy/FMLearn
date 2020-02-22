@@ -32,6 +32,8 @@ OPTIONS:
 
   -m <model>           : 0 for linear model, 1 for fm model, default 1
 
+  -metric <metric>     : metric for evaluation, support acc, prec, recall, default none
+
   -v <validate_file>   :  Path of the validation data file. Empty by default,
 
   -k <n_factors>       :  Number of the latent factor used by fm and ffm tasks. Using 4 by default.

@@ -19,6 +19,7 @@ void Solver::Initialize(HyperParam* param) {
   } else {
     InitPredict();
   }
+  LogDebug("Solver Initialize done");
 }
 
 void Solver::SetTrain() {
@@ -84,6 +85,7 @@ void Solver::InitTrain() {
   }
 
   //
+  LogDebug("Solver InitTrain done");
 
 }
 
@@ -111,12 +113,16 @@ void Solver::InitPredict() {
   auto reader = new DataReader(prediction_param->test_file, false);
   reader_list_.clear();
   reader_list_.emplace_back(reader);
+
+  LogDebug("Solver InitPredict done");
 }
 
 void Solver::Start() {
   if (hyper_param_->is_train) {
+    LogDebug("Solver Start Train");
     StartTrain();
   } else {
+    LogDebug("Solver Start Predict");
     StartPredict();
   }
 }

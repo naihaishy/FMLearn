@@ -13,10 +13,11 @@ struct TrainParam {
   int task = REGRESSION; // 0 for regression , 1 for classification
   int model = FM_MODEL; //  0 for linear model, 1 for fm model
 
+  std::string metric = ""; // acc prec recall f1 rmse mae auc
+
   std::string train_file;
   std::string valid_file;
   std::string model_file;
-  std::string metric = ""; // acc prec recall f1 rmse mae auc
 
   int n_factors = 10;
   int n_epoch = 100;
