@@ -10,9 +10,9 @@
 #include "score/linear_score.h"
 #include "score/fm_score.h"
 
-void Solver::Initialize(FMLearnCliParam* param) {
-  param_ = param;
-  if (param_->IsTrain()) {
+void Solver::Initialize(HyperParam* param) {
+  hyper_param_ = param;
+  if (hyper_param_->is_train) {
     InitTrain();
   } else {
     InitPredict();
@@ -32,7 +32,7 @@ void Solver::SetPredict() {
  * 准备 Trainer 需要的初始化参数
  */
 void Solver::InitTrain() {
-  CliTrainParam* train_param = param_->GetTrainParam();
+  TrainParam* train_param = hyper_param_->GetTrainParam();
   // 初始化 model_ loss_ score_
   if (train_param->model == LINER_MODEL) {
     model_ = nullptr;
@@ -90,7 +90,7 @@ void Solver::InitTrain() {
  * 准备 Predictor 需要的初始化参数
  */
 void Solver::InitPredict() {
-  CliPredictionParam* prediction_param = param_->GetPredictionParam();
+  PredictionParam* prediction_param = hyper_param_->GetPredictionParam();
 
   // 初始化 model_ loss_ score_
   if (prediction_param->model == LINER_MODEL) {
@@ -120,7 +120,7 @@ void Solver::Start() {
 }
 
 void Solver::StartTrain() {
-  CliTrainParam* train_param = param_->GetTrainParam();
+  TrainParam* train_param = hyper_param_->GetTrainParam();
   Trainer trainer;
   trainer.Initialize(reader_list_,
                      loss_,
@@ -134,7 +134,7 @@ void Solver::StartTrain() {
 }
 
 void Solver::StartPredict() {
-  CliPredictionParam* prediction_param = param_->GetPredictionParam();
+  PredictionParam* prediction_param = hyper_param_->GetPredictionParam();
   Predictor predictor;
   predictor.Initialize(reader_list_.back(),
                        loss_,

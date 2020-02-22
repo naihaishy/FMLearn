@@ -7,7 +7,7 @@
 #include "common/utils.h"
 #include "common/log.h"
 
-#include "cli/validator.h"
+#include "core/validator.h"
 
 /**
  * 帮助 显示所有参数
@@ -72,7 +72,7 @@ OPTIONS:
                           instance-wise normalization for prediction.
 
 -----------------------------------------------------------------------------)");
-  param_ = new FMLearnCliParam();
+  param_ = new HyperParam();
   is_train_ = true;
 }
 
@@ -91,7 +91,7 @@ bool CmdLine::Parse(int argc, char** argv) {
     return false;
   }
 
-  if(is_train_) param_->SetTrain();
+  if(is_train_) param_->is_train = true;
 
   if (is_train_) {
     // parse training parameter
@@ -131,7 +131,7 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
   if (!file_exists(train_file)) {
     throw std::invalid_argument("Invalid input param: train_file, because training file don't exist");
   }
-  CliTrainParam* train_param = param_->GetTrainParam();
+  TrainParam* train_param = param_->GetTrainParam();
   if (train_param == nullptr) {
     LogError("train_param is nullptr");
     return;
@@ -232,7 +232,7 @@ void CmdLine::ParsePredictionParam(int argc, char* argv[]) {
   if (!file_exists(model_file)) {
     throw std::invalid_argument("Invalid input param: model_file, because model file don't exist");
   }
-  CliPredictionParam* prediction_param = param_->GetPredictionParam();
+  PredictionParam* prediction_param = param_->GetPredictionParam();
   if (prediction_param == nullptr) return;
   prediction_param->model_file = model_file;
   prediction_param->test_file = test_file;

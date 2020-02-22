@@ -82,7 +82,7 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
   int best_epoch = 0;
   int acc_stop_window = 0;
 
-  float best_result, prev_result;
+  float best_result = 0, prev_result = 0;
   bool less_is_better = true; // 标记是否值越小越好
   InitMetricValue(metric_, best_result, prev_result, less_is_better);
 

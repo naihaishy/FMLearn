@@ -1,13 +1,13 @@
 //
-// Created by naihai on 2020/1/30.
+// Created by naihai on 2020/2/22.
 //
 
-#include "cli/cli_param.h"
+#include "core/hyper_param.h"
 
-std::string CliTrainParam::to_string() {
+std::string TrainParam::to_string() {
   std::string result;
   // result.reserve(1024 * 4);
-  result.append("CliTrainParam: \n");
+  result.append("TrainParam: \n");
   result.append("task            : " + std::to_string(task) + "\n");
   result.append("model           : " + std::to_string(model) + "\n");
   result.append("train_file      : " + train_file + "\n");
@@ -28,10 +28,10 @@ std::string CliTrainParam::to_string() {
   return result;
 }
 
-std::string CliPredictionParam::to_string() {
+std::string PredictionParam::to_string() {
   std::string result;
   result.reserve(1024);
-  result.append("CliPredictionParam: \n");
+  result.append("PredictionParam: \n");
   result.append("test_file        : " + test_file + "\n");
   result.append("model_file       : " + model_file + "\n");
   result.append("output_file      : " + output_file + "\n");
@@ -40,17 +40,16 @@ std::string CliPredictionParam::to_string() {
   return result;
 }
 
-CliTrainParam* FMLearnCliParam::GetTrainParam() const {
-  return is_train_ ? train_param_ : nullptr;
+TrainParam* HyperParam::GetTrainParam() const {
+  return is_train ? train_param_ : nullptr;
 }
 
-CliPredictionParam* FMLearnCliParam::GetPredictionParam() const {
-  return !is_train_ ? prediction_param_ : nullptr;
+PredictionParam* HyperParam::GetPredictionParam() const {
+  return !is_train ? prediction_param_ : nullptr;
 }
 
-FMLearnCliParam::FMLearnCliParam() {
-  train_param_ = new CliTrainParam();
-  prediction_param_ = new CliPredictionParam();
+HyperParam::HyperParam() {
+  train_param_ = new TrainParam();
+  prediction_param_ = new PredictionParam();
 }
-
 

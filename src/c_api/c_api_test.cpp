@@ -6,10 +6,9 @@
 
 #include "c_api/c_api.h"
 #include "c_api/c_api_error.h"
-#include "core/fm_param.h"
 #include "core/model.h"
 #include "data/data.h"
-
+#include "core/hyper_param.h"
 
 TEST(C_API_TEST, FMMatrixCreateFromMat) {
   const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
@@ -87,18 +86,16 @@ TEST(C_API_TEST, FMCreate) {
   EXPECT_TRUE(model->GetV() != nullptr);
   EXPECT_FLOAT_EQ(model->GetBias(), 0.0);
 
-  auto param = new FMHyperParam(0.1,
-                                0.1, 0.1, 0.1,
-                                true, true);
-  EXPECT_FALSE(param->is_train);
-  EXPECT_FALSE(param->on_disk);
+  auto hyper_param = new HyperParam();
+  EXPECT_TRUE(hyper_param->is_train);
 
-  EXPECT_FLOAT_EQ(param->learning_rate, 0.1);
-  EXPECT_FLOAT_EQ(param->reg_W, 0.1);
-  EXPECT_FLOAT_EQ(param->reg_W, 0.1);
-  EXPECT_FLOAT_EQ(param->reg_V, 0.1);
-  EXPECT_TRUE(param->norm);
-  EXPECT_TRUE(param->verbose);
+  TrainParam *train_param=  hyper_param->GetTrainParam();
+  EXPECT_FLOAT_EQ(train_param->learning_rate, 0.1);
+  EXPECT_FLOAT_EQ(train_param->reg_W, 0.1);
+  EXPECT_FLOAT_EQ(train_param->reg_W, 0.1);
+  EXPECT_FLOAT_EQ(train_param->reg_V, 0.1);
+  EXPECT_TRUE(train_param->norm);
+  EXPECT_FALSE(train_param->quiet);
 }
 
 TEST(C_API_TEST, FMFit) {

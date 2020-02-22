@@ -6,7 +6,7 @@
 #define FMLEARN_SCORE_SCORE_H_
 
 #include "core/fm_model.h"
-#include "core/fm_param.h"
+#include "core/hyper_param.h"
 #include "data/data.h"
 
 class Score {
@@ -14,7 +14,7 @@ class Score {
   Score() = default;
   virtual ~Score() = default;
 
-  void Initialize(FMHyperParam* hyper_param);
+  void Initialize(HyperParam* hyper_param);
 
   /**
    * 给定单个样本 计算预测值
@@ -38,7 +38,7 @@ class Score {
 
  protected:
   std::string type_ = "Score";
-  FMHyperParam *param_;
+  HyperParam *hyper_param_;
 };
 
 #endif //FMLEARN_SCORE_SCORE_H_

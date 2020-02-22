@@ -3,6 +3,7 @@
 //
 
 #include "score/score.h"
-void Score::Initialize(FMHyperParam* hyper_param) {
-  param_ = hyper_param;
+
+void Score::Initialize(HyperParam* hyper_param) {
+  hyper_param_ = hyper_param;
 }

@@ -3,6 +3,7 @@
 //
 
 #include "score/fm_score.h"
+#include "core/hyper_param.h"
 
 #include <algorithm>
 
@@ -60,11 +61,11 @@ float FmScore::Calculate(SparseRow* row, FMModel& model, float norm) {
  * @param delta
  */
 void FmScore::CalGrad(SparseRow* row, FMModel& model, float norm, float delta) {
-
-  float lr = param_->learning_rate;
-  float reg_w0 = param_->reg_w0;
-  float reg_W = param_->reg_W;
-  float reg_V = param_->reg_V;
+  TrainParam *train_param = hyper_param_->GetTrainParam();
+  float lr = train_param->learning_rate;
+  float reg_w0 = train_param->reg_w0;
+  float reg_W = train_param->reg_W;
+  float reg_V = train_param->reg_V;
 
   float& w0 = model.GetBias();
   float*& W = model.GetW();

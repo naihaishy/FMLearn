@@ -9,11 +9,9 @@
 #include "loss/loss.h"
 #include "metric/metric.h"
 #include "core/fm_model.h"
-#include "core/fm_param.h"
+#include "core/hyper_param.h"
 #include "common/thread_pool.h"
 #include "data/reader.h"
-#include "cli/cli_param.h"
-#include "core/hyper_param.h"
 
 /**
  * Usage :
@@ -26,7 +24,7 @@
 class Solver {
 
  public:
-  void Initialize(FMLearnCliParam *param);
+  void Initialize(HyperParam *param);
   void SetTrain();
   void SetPredict();
   void Start();
@@ -43,8 +41,7 @@ class Solver {
   FMModel* model_;
   Loss* loss_;
   Metric *metric_;
-  FMHyperParam* hyper_param_;
-  FMLearnCliParam *param_;
+  HyperParam* hyper_param_;
   ThreadPool* pool_;
 };
 

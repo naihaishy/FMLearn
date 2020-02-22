@@ -34,7 +34,7 @@ FactorizationMachine::FactorizationMachine(int task,
                                            float mean, float stddev,
                                            bool norm, bool verbose) {
   this->model_ = new FMModel(task, n_features, n_factors, mean, stddev);
-  this->hyper_param_ = new FMHyperParam(lr, reg_w0, reg_W, reg_V, norm, verbose);
+  // this->hyper_param_ = new HyperParam(lr, reg_w0, reg_W, reg_V, norm, verbose);
 
   this->score_ = new FmScore();
   if (task == REGRESSION) {
@@ -68,7 +68,7 @@ FactorizationMachine::~FactorizationMachine() {
  */
 void FactorizationMachine::Fit(DMatrix* data, int epochs, bool multi_thread, int n_threads) {
   LogDebug("Start FactorizationMachine Fit");
-  LogDebug("FactorizationMachine Params: " + hyper_param_->to_string());
+  LogDebug("FactorizationMachine Params: " + hyper_param_->GetTrainParam()->to_string());
 
   if (model_->GetTask() == REGRESSION && model_->HasLimitPredict()) {
     model_->SetMaxTarget(data->max_label);
@@ -110,7 +110,7 @@ void FactorizationMachine::FitInSingleThread(DMatrix* data, int epochs) {
 
   for (int epoch = 0; epoch < epochs; ++epoch) {
     float ave_loss = loss_->CalGrad(data, model_);
-    if (hyper_param_->verbose) {
+    if (hyper_param_->GetTrainParam()->quiet) {
       LogDebug("epoch " + std::to_string(epoch) +
           " loss: " + std::to_string(ave_loss));
     }
@@ -124,7 +124,7 @@ void FMFitInSingleThread(const DMatrix* data,
 
   Score* score = fm->GetScore();
   FMModel* model = fm->GetModel();
-  FMHyperParam* param = fm->GetHyperParam();
+  HyperParam* param = fm->GetHyperParam();
 
   for (int m = start; m < end; ++m) {
     auto& x = data->rows[m];
@@ -168,7 +168,7 @@ void FactorizationMachine::FitInMultiThread(DMatrix* data, int epochs, int num_t
     float loss_sum = 0.0;
     for (float loss:losses) loss_sum += loss;
     float ave_loss = loss_sum / num_samples;
-    if (hyper_param_->verbose) {
+    if (!hyper_param_->GetTrainParam()->quiet) {
       LogDebug("epoch " + std::to_string(i) +
           " loss: " + std::to_string(ave_loss));
     }

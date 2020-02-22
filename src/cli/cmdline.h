@@ -9,9 +9,7 @@
 
 #include <string>
 
-#include "core/fm_param.h"
-
-#include "cli/cli_param.h"
+#include "core/hyper_param.h"
 
 class CmdLine {
  public:
@@ -20,7 +18,7 @@ class CmdLine {
 
   void Help();
   bool Parse(int argc, char* argv[]);
-  FMLearnCliParam* GetCliParam() const { return param_; };
+  HyperParam* GetParam() const { return param_; };
 
   // Setter functions
   void SetTrain() { is_train_ = true; };
@@ -33,7 +31,7 @@ class CmdLine {
   bool is_train_; // training or prediction
   std::string training_help_str_;
   std::string predict_help_str_;
-  FMLearnCliParam* param_;
+  HyperParam* param_;
 };
 
 #endif //FMLEARN_CLI_CMDLINE_H_

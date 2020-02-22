@@ -7,11 +7,12 @@
 
 #include "common/log.h"
 #include "common/utils.h"
+#include "core/hyper_param.h"
 
 class Validator {
  public:
-  static bool Validate(CliTrainParam& param);
-  static bool Validate(CliPredictionParam& param);
+  static bool Validate(TrainParam& param);
+  static bool Validate(PredictionParam& param);
 };
 
 /**
@@ -19,7 +20,7 @@ class Validator {
  * @param param CliTrainParam
  * @return
  */
-bool Validator::Validate(CliTrainParam& param) {
+bool Validator::Validate(TrainParam& param) {
   if (!file_exists(param.train_file)) {
     LogError("train file " + param.train_file + " not exists");
     return false;
@@ -68,7 +69,7 @@ bool Validator::Validate(CliTrainParam& param) {
  * @param param CliPredictionParam
  * @return
  */
-bool Validator::Validate(CliPredictionParam& param) {
+bool Validator::Validate(PredictionParam& param) {
   if (!file_exists(param.test_file)) {
     LogError(" test_file not exists");
     return false;

@@ -4,6 +4,7 @@
 
 #include "common/log.h"
 #include "core/model.h"
+#include "core/hyper_param.h"
 #include "data/data.h"
 
 #include <ctime>
@@ -17,7 +18,7 @@ int main(int argc, char* argv[]) {
 
   if (cmd_line.Parse(argc, argv)) {
 
-    CliTrainParam* param = cmd_line.GetCliParam()->GetTrainParam();
+    TrainParam* param = cmd_line.GetParam()->GetTrainParam();
     LogInfo(param->to_string());
 
     // 构造DMatrix

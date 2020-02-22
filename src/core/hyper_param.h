@@ -1,15 +1,15 @@
 //
-// Created by naihai on 2020/1/30.
-// command line parameter
+// Created by naihai on 2020/2/21.
+// 存储所有的超参数
 
-#ifndef FMLEARN_CLI_CLI_PARAM_H_
-#define FMLEARN_CLI_CLI_PARAM_H_
+#ifndef FMLEARN_CORE_HYPER_PARAM_H_
+#define FMLEARN_CORE_HYPER_PARAM_H_
 
 #include <string>
 
 #include "common/common.h"
 
-struct CliTrainParam {
+struct TrainParam {
   int task = REGRESSION; // 0 for regression , 1 for classification
   int model = FM_MODEL; //  0 for linear model, 1 for fm model
 
@@ -31,7 +31,7 @@ struct CliTrainParam {
   long seed = 0l;
 
   // true交叉验证 交叉验证时使用train_file做切分 valid_file为空
-  bool cross_validation = false; //
+  bool cross_validation = false;
   int num_folds = 5;
 
   bool early_stop = true;
@@ -42,7 +42,7 @@ struct CliTrainParam {
   std::string to_string();
 };
 
-struct CliPredictionParam {
+struct PredictionParam {
   int task = REGRESSION; // 0 for regression , 1 for classification
   int model = FM_MODEL; //  0 for linear model, 1 for fm model
 
@@ -56,19 +56,18 @@ struct CliPredictionParam {
   std::string to_string();
 };
 
-class FMLearnCliParam {
+class HyperParam {
  public:
-  FMLearnCliParam();
-  CliTrainParam* GetTrainParam() const;
-  CliPredictionParam* GetPredictionParam() const;
+  HyperParam();
+  TrainParam* GetTrainParam() const;
+  PredictionParam* GetPredictionParam() const;
 
-  bool IsTrain() const { return is_train_; }
-  void SetTrain() { is_train_ = true; }
+  bool is_train = true;
 
  private:
-  CliTrainParam* train_param_ = nullptr;
-  CliPredictionParam* prediction_param_ = nullptr;
-  bool is_train_ = false;
+  TrainParam* train_param_ = nullptr;
+  PredictionParam* prediction_param_ = nullptr;
 };
 
-#endif //FMLEARN_CLI_CLI_PARAM_H_
+
+#endif //FMLEARN_CORE_HYPER_PARAM_H_

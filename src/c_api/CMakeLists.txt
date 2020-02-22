@@ -16,6 +16,7 @@ add_library(fm_learn SHARED
         c_api_error.cpp
         ../core/model.cpp
         ../core/fm_model.cpp
+        ../core/hyper_param.cpp
         ../data/data.cpp
         ../data/reader.cpp
         ../common/log.cpp
@@ -27,7 +28,10 @@ add_library(fm_learn SHARED
         ../score/linear_score.cpp
         ../score/fm_score.cpp
         ../cli/cmdline.cpp
-        ../cli/cli_param.cpp)
+        ../solver/solver.cpp
+        ../solver/trainer.cpp
+        ../solver/predictor.cpp
+        )
 
 set_target_properties(fm_learn PROPERTIES PREFIX "")
 set_target_properties(fm_learn PROPERTIES OUTPUT_NAME "fm_learn")

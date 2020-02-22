@@ -12,7 +12,7 @@
 #include "score/score.h"
 
 #include "core/fm_model.h"
-#include "core/fm_param.h"
+#include "core/hyper_param.h"
 
 // Entry class for FM FM的入口类
 class FactorizationMachine {
@@ -36,7 +36,7 @@ class FactorizationMachine {
 
   std::vector<float> Predict(DMatrix* data);
 
-  FMHyperParam* GetHyperParam() const { return this->hyper_param_; }
+  HyperParam* GetHyperParam() const { return this->hyper_param_; }
   FMModel* GetModel() const { return this->model_; }
   Score* GetScore() const { return score_; }
   Loss* GetLoss() const { return loss_; }
@@ -48,7 +48,7 @@ class FactorizationMachine {
   void FitInMultiThread(DMatrix* data, int epochs, int num_threads);
   void FitInSingleThread(DMatrix* data, int epochs);
 
-  FMHyperParam* hyper_param_;
+  HyperParam* hyper_param_;
   FMModel* model_;
   Loss* loss_;
   Score* score_;
