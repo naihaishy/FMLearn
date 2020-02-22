@@ -17,9 +17,7 @@ class Metric {
   // 累计计算指标
   virtual void Calculate(std::vector<float>& pred, std::vector<float>& label) = 0;
   virtual std::string GetType() = 0;
-  virtual float GetMetric() = 0;
-
-  virtual float GetValue();
+  virtual float GetValue() = 0;
 
  private:
 
@@ -36,6 +34,10 @@ class ACCMetric : public Metric {
   std::string GetType() override {
     return "Accuracy";
   }
+  float GetValue() override {
+    return 0;
+  }
+
 };
 
 /**
@@ -45,6 +47,12 @@ class PrecMetric : public Metric {
  public:
   std::string GetType() override {
     return "Precision";
+  }
+  void Calculate(std::vector<float>& pred, std::vector<float>& label) override {
+
+  }
+  float GetValue() override {
+    return 0;
   }
 };
 
@@ -56,6 +64,12 @@ class RecallMetric : public Metric {
   std::string GetType() override {
     return "Recall";
   }
+  void Calculate(std::vector<float>& pred, std::vector<float>& label) override {
+
+  }
+  float GetValue() override {
+    return 0;
+  }
 };
 
 /**
@@ -66,6 +80,12 @@ class AUCMetric : public Metric {
   std::string GetType() override {
     return "AUC";
   }
+  void Calculate(std::vector<float>& pred, std::vector<float>& label) override {
+
+  }
+  float GetValue() override {
+    return 0;
+  }
 };
 
 /**
@@ -75,6 +95,12 @@ class MSEMetric : public Metric {
  public:
   std::string GetType() override {
     return "MSE";
+  }
+  void Calculate(std::vector<float>& pred, std::vector<float>& label) override {
+
+  }
+  float GetValue() override {
+    return 0;
   }
 };
 

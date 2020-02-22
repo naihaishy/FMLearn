@@ -13,6 +13,7 @@
 #include "common/thread_pool.h"
 #include "data/reader.h"
 #include "cli/cli_param.h"
+#include "core/hyper_param.h"
 
 /**
  * Usage :
@@ -25,7 +26,7 @@
 class Solver {
 
  public:
-  void Initialize(int argc, char* argv[]);
+  void Initialize(FMLearnCliParam *param);
   void SetTrain();
   void SetPredict();
   void Start();
@@ -36,12 +37,14 @@ class Solver {
   void StartTrain();
   void StartPredict();
 
+  // 存储训练数据和验证数据 或者存在测试数据
   std::vector<DataReader*> reader_list_;
   Score* score_;
   FMModel* model_;
   Loss* loss_;
   Metric *metric_;
   FMHyperParam* hyper_param_;
+  FMLearnCliParam *param_;
   ThreadPool* pool_;
 };
 

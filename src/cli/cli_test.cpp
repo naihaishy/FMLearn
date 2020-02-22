@@ -13,7 +13,7 @@ TEST(CLI_TEST, CliTrainParam) {
   EXPECT_EQ(param->model, 1);
 
   EXPECT_TRUE(param->train_file.empty());
-  EXPECT_TRUE(param->validation_file.empty());
+  EXPECT_TRUE(param->valid_file.empty());
   EXPECT_TRUE(param->model_file.empty());
 
   EXPECT_EQ(param->n_factors, 10);

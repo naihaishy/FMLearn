@@ -6,6 +6,7 @@
 
 #include "common/log.h"
 #include "common/check.h"
+#include "common/utils.h"
 
 TEST(COMMON_TEST, Logging) {
   Logging::SetLevel(0);
@@ -38,6 +39,12 @@ TEST(COMMON_TEST, Check){
   CHECK_EQ(12, 12);
   CHECK_EQ(true, true);
   CHECK_NE((12==12), false);
+}
+
+TEST(COMMON_TEST, Split_file){
+  std::vector<std::string> out_files;
+  split_file_in_lines("install_manifest.txt", 3, out_files);
+  EXPECT_EQ(out_files.size(), 3);
 }
 
 

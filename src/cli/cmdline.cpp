@@ -154,7 +154,7 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
       }
     } else if (str == "-v") {
       if (i + 1 < argc) {
-        train_param->validation_file = std::string(argv[i + 1]);
+        train_param->valid_file = std::string(argv[i + 1]);
         i++;
       }
     } else if (str == "-k") {

@@ -14,6 +14,9 @@
 #define SQUARE_LOSS 0
 #define CROSS_ENTROPY_LOSS 1
 
+#define LINER_MODEL 0
+#define FM_MODEL 1
+
 #define VERSION 0.1
 
 inline double GetTime() {

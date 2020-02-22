@@ -11,10 +11,10 @@
  * @param loss
  * @param model
  * @param metric 当metric为nullptr时使用loss作为判断标准
- * @param epoch
- * @param early_stop
- * @param stop_window
- * @param quiet
+ * @param epoch 迭代次数
+ * @param early_stop 是否早停
+ * @param stop_window 早停窗口长度
+ * @param quiet 为true时不对验证数据进行验证
  */
 void Trainer::Initialize(std::vector<DataReader*>& reader_list,
                          Loss* loss,

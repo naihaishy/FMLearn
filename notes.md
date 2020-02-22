@@ -28,3 +28,4 @@ FactorizationMachine
 * 所有的类都通过Initialize函数进行成员变量的初始化 
 而不是构造函数
 
+* 所有的Initialize()函数都需要CHECK检测参数的合法性

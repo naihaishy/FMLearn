@@ -11,7 +11,7 @@ std::string CliTrainParam::to_string() {
   result.append("task            : " + std::to_string(task) + "\n");
   result.append("model           : " + std::to_string(model) + "\n");
   result.append("train_file      : " + train_file + "\n");
-  result.append("validation_file : " + validation_file + "\n");
+  result.append("validation_file : " + valid_file + "\n");
   result.append("model_file      : " + model_file + "\n");
   result.append("n_factors       : " + std::to_string(n_factors) + "\n");
   result.append("n_epoch         : " + std::to_string(n_epoch) + "\n");

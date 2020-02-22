@@ -14,7 +14,6 @@
 #include "data/reader.h"
 #include "metric/metric.h"
 
-
 struct LossMetric {
   float loss_value;
   float metric_value;
@@ -34,8 +33,13 @@ class Trainer {
   ~Trainer();
 
   void Initialize(std::vector<DataReader*>& reader_list,
-                  Loss* loss, FMModel* model, Metric* metric,
-                  int epoch, bool early_stop, int stop_window, bool quiet);
+                  Loss* loss,
+                  FMModel* model,
+                  Metric* metric,
+                  int epoch,
+                  bool early_stop,
+                  int stop_window,
+                  bool quiet);
 
   void Train();
   void CVTrain();

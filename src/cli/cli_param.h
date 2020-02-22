@@ -7,13 +7,16 @@
 
 #include <string>
 
+#include "common/common.h"
+
 struct CliTrainParam {
-  int task = 0; // 0 for regression , 1 for classification
-  int model = 1; //  0 for linear model, 1 for fm model
+  int task = REGRESSION; // 0 for regression , 1 for classification
+  int model = FM_MODEL; //  0 for linear model, 1 for fm model
 
   std::string train_file;
-  std::string validation_file;
+  std::string valid_file;
   std::string model_file;
+  std::string metric = ""; // acc prec recall f1 rmse mae auc
 
   int n_factors = 10;
   int n_epoch = 100;
@@ -27,12 +30,22 @@ struct CliTrainParam {
   int n_thread = 1;
   long seed = 0l;
 
+  // true交叉验证 交叉验证时使用train_file做切分 valid_file为空
+  bool cross_validation = false; //
+  int num_folds = 5;
+
+  bool early_stop = true;
+  int stop_window = 3;
+
   bool norm = true;
   bool quiet = false;
   std::string to_string();
 };
 
 struct CliPredictionParam {
+  int task = REGRESSION; // 0 for regression , 1 for classification
+  int model = FM_MODEL; //  0 for linear model, 1 for fm model
+
   std::string test_file;
   std::string model_file;
   std::string output_file;
