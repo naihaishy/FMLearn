@@ -27,7 +27,7 @@ void Trainer::Initialize(std::vector<DataReader*>& reader_list,
   CHECK_EQ(reader_list.empty(), false);
   CHECK_FALSE(loss == nullptr);
   CHECK_FALSE(model == nullptr);
-  CHECK_LT(epoch, 0);
+  CHECK_GT(epoch, 0);
 
   reader_list_ = reader_list;
   loss_ = loss;
