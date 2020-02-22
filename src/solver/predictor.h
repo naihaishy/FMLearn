@@ -15,7 +15,7 @@
 class Predictor {
 
  public:
-  Predictor() {};
+  Predictor() = default;;
   ~Predictor() = default;;
 
   void Initialize(DataReader* reader,

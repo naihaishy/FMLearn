@@ -46,9 +46,9 @@ TEST(COMMON_TEST, Split_file){
   split_file_in_lines("data/house_price_train.txt", 3, out_files);
   EXPECT_EQ(out_files.size(), 3);
   // remove
-  EXPECT_TRUE(remove("data/house_price_train.txt_0"));
-  EXPECT_TRUE(remove("data/house_price_train.txt_1"));
-  EXPECT_TRUE(remove("data/house_price_train.txt_2"));
+  EXPECT_EQ(remove("data/house_price_train.txt_0"), 0);
+  EXPECT_EQ(remove("data/house_price_train.txt_1"), 0);
+  EXPECT_EQ(remove("data/house_price_train.txt_2"), 0);
 }
 
 

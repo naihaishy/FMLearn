@@ -64,7 +64,7 @@ else ()
     FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.sh"
             DESTINATION ${BUILD_RESULT_DIR})
 endif ()
-FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_train.txt"
+FILE(COPY "build/data/house_price_train.txt"
         DESTINATION ${BUILD_RESULT_DIR}/data)
 FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_test.txt"
         DESTINATION ${BUILD_RESULT_DIR}/data)

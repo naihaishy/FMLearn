@@ -10,7 +10,7 @@ import fmlearn as fl
 
 
 def test_regression():
-    data = pd.read_csv("house_price_train.txt", sep='\t', header=None)
+    data = pd.read_csv("../../build/data/house_price_train.txt", sep='\t', header=None)
     X = data[data.columns[1:]]
     y = data[0].values
 
