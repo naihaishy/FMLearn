@@ -2,7 +2,7 @@
 // Created by naihai on 2020/1/13.
 //
 
-#include "core/model.h"
+#include "model/model.h"
 
 #include <cmath>
 

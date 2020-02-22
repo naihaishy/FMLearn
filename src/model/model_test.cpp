@@ -4,10 +4,10 @@
 
 #include "gtest/gtest.h"
 
-#include "core/fm_model.h"
-#include "core/hyper_param.h"
-#include "core/model.h"
-#include "core/validator.h"
+#include "model/fm_model.h"
+#include "model/hyper_param.h"
+#include "model/model.h"
+#include "model/validator.h"
 
 TEST(MODEL_TEST, FMModel) {
   int task = 0;

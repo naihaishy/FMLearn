@@ -7,7 +7,7 @@
 #include "score/score.h"
 #include "score/fm_score.h"
 #include "score/linear_score.h"
-#include "core/hyper_param.h"
+#include "model/hyper_param.h"
 
 TEST(LOSS_TEST, Score) {
   Score* score1 = new FmScore();

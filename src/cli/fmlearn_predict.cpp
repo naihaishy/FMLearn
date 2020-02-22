@@ -4,9 +4,9 @@
 
 #include "common/log.h"
 #include "common/utils.h"
-#include "core/model.h"
+#include "model/model.h"
 #include "data/data.h"
-#include "core/hyper_param.h"
+#include "model/hyper_param.h"
 
 #include "cli/cmdline.h"
 

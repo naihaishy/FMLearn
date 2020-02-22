@@ -3,7 +3,7 @@
 //
 
 #include "score/fm_score.h"
-#include "core/hyper_param.h"
+#include "model/hyper_param.h"
 
 #include <algorithm>
 

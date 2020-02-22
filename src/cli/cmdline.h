@@ -9,7 +9,7 @@
 
 #include <string>
 
-#include "core/hyper_param.h"
+#include "model/hyper_param.h"
 
 class CmdLine {
  public:

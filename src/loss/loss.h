@@ -7,8 +7,8 @@
 
 #include <vector>
 
-#include "core/fm_model.h"
-#include "core/hyper_param.h"
+#include "model/fm_model.h"
+#include "model/hyper_param.h"
 #include "common/thread_pool.h"
 #include "data/data.h"
 #include "score/score.h"

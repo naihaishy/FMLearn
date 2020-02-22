@@ -5,8 +5,8 @@
 #ifndef FMLEARN_LOSS_CROSS_ENTROPY_LOSS_H_
 #define FMLEARN_LOSS_CROSS_ENTROPY_LOSS_H_
 
-#include "core/hyper_param.h"
-#include "core/fm_model.h"
+#include "model/hyper_param.h"
+#include "model/fm_model.h"
 #include "data/data.h"
 #include "score/score.h"
 

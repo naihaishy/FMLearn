@@ -8,7 +8,7 @@
 #include <memory>
 
 #include "common/log.h"
-#include "core/model.h"
+#include "model/model.h"
 #include "data/data.h"
 
 FM_DLL void hello() {

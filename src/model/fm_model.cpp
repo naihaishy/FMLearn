@@ -2,7 +2,7 @@
 // Created by naihai on 2020/1/18.
 //
 
-#include "core/fm_model.h"
+#include "model/fm_model.h"
 
 #include <ctime>
 #include <random>

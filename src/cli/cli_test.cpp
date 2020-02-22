@@ -4,7 +4,7 @@
 
 #include "gtest/gtest.h"
 
-#include "core/validator.h"
+#include "model/validator.h"
 
 
 int main(int argc, char* argv[]) {

@@ -3,7 +3,7 @@
 //
 
 #include "score/linear_score.h"
-#include "core/hyper_param.h"
+#include "model/hyper_param.h"
 
 float LinearScore::Calculate(SparseRow* row, FMModel& model, float norm) {
   float result = 0.0;

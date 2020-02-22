@@ -51,7 +51,7 @@ add_subdirectory(src/loss)
 add_subdirectory(src/score)
 add_subdirectory(src/solver)
 add_subdirectory(src/cli)
-add_subdirectory(src/core)
+add_subdirectory(src/model)
 add_subdirectory(src/c_api)
 
 # 拷贝测试脚本与测试数据

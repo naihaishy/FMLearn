@@ -5,8 +5,8 @@
 #ifndef FMLEARN_SCORE_SCORE_H_
 #define FMLEARN_SCORE_SCORE_H_
 
-#include "core/fm_model.h"
-#include "core/hyper_param.h"
+#include "model/fm_model.h"
+#include "model/hyper_param.h"
 #include "data/data.h"
 
 class Score {

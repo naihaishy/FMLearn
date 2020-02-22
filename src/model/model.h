@@ -11,8 +11,8 @@
 #include "loss/loss.h"
 #include "score/score.h"
 
-#include "core/fm_model.h"
-#include "core/hyper_param.h"
+#include "model/fm_model.h"
+#include "model/hyper_param.h"
 
 // Entry class for FM FM的入口类
 class FactorizationMachine {

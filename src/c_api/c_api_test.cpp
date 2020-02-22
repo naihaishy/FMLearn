@@ -6,9 +6,9 @@
 
 #include "c_api/c_api.h"
 #include "c_api/c_api_error.h"
-#include "core/model.h"
+#include "model/model.h"
 #include "data/data.h"
-#include "core/hyper_param.h"
+#include "model/hyper_param.h"
 
 TEST(C_API_TEST, FMMatrixCreateFromMat) {
   const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,

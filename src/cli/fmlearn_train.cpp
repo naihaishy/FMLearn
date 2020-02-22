@@ -3,8 +3,8 @@
 // main entry for fmlearn train in command line
 
 #include "common/log.h"
-#include "core/model.h"
-#include "core/hyper_param.h"
+#include "model/model.h"
+#include "model/hyper_param.h"
 #include "data/data.h"
 
 #include <ctime>

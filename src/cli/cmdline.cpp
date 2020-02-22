@@ -7,7 +7,7 @@
 #include "common/utils.h"
 #include "common/log.h"
 
-#include "core/validator.h"
+#include "model/validator.h"
 
 /**
  * 帮助 显示所有参数

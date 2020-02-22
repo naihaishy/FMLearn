@@ -2,7 +2,7 @@
 // Created by naihai on 2020/2/22.
 //
 
-#include "core/hyper_param.h"
+#include "model/hyper_param.h"
 
 std::string TrainParam::to_string() {
   std::string result;

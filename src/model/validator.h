@@ -7,7 +7,7 @@
 
 #include "common/log.h"
 #include "common/utils.h"
-#include "core/hyper_param.h"
+#include "model/hyper_param.h"
 
 class Validator {
  public:
