@@ -6,7 +6,7 @@
 
 #include "c_api/c_api.h"
 #include "c_api/c_api_error.h"
-#include "model/model.h"
+#include "model/model_back.h"
 #include "data/data.h"
 #include "model/hyper_param.h"
 

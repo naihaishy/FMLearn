@@ -3,10 +3,8 @@
 // main entry for fmlearn prediction in command line
 
 #include "common/log.h"
-#include "common/utils.h"
-#include "model/model.h"
-#include "data/data.h"
 #include "model/hyper_param.h"
+#include "solver/solver.h"
 
 #include "cli/cmdline.h"
 
@@ -16,22 +14,15 @@ int main(int argc, char* argv[]) {
   cmd_line.SetPredict();
 
   if (cmd_line.Parse(argc, argv)) {
-    // 构造DMatrix
-    PredictionParam * param = cmd_line.GetParam()->GetPredictionParam();
+    HyperParam* param = cmd_line.GetParam();
 
-    DMatrix* test_data = new DMatrix(param->test_file, false);
+    TrainParam* train_param = param->GetTrainParam();
+    LogInfo(train_param->to_string());
 
-    auto fm = new FactorizationMachine(param->model_file);
-
-    // fit
-    fm->Initialize();
-
-    // predict
-    std::vector<float> results = fm->Predict(test_data);
-
-    // save results to file
-    SaveVectorToFile(results, param->output_file);
-
+    Solver solver;
+    solver.Initialize(param);
+    solver.SetPredict();
+    solver.Start();
   } else {
     LogError("FMLearn command line parameter parse failed");
     exit(1);

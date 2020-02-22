@@ -3,12 +3,14 @@
 //
 
 #include "solver/solver.h"
-#include "solver/trainer.h"
-#include "solver/predictor.h"
+
 #include "loss/squared_loss.h"
 #include "loss/cross_entropy_loss.h"
 #include "score/linear_score.h"
 #include "score/fm_score.h"
+
+#include "solver/trainer.h"
+#include "solver/predictor.h"
 
 void Solver::Initialize(HyperParam* param) {
   hyper_param_ = param;

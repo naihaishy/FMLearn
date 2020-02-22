@@ -24,7 +24,12 @@
 class Solver {
 
  public:
-  void Initialize(HyperParam *param);
+  Solver() :
+      loss_(nullptr),
+      model_(nullptr),
+      score_(nullptr), metric_(nullptr) {};
+  ~Solver() = default;;
+  void Initialize(HyperParam* param);
   void SetTrain();
   void SetPredict();
   void Start();
@@ -40,7 +45,7 @@ class Solver {
   Score* score_;
   FMModel* model_;
   Loss* loss_;
-  Metric *metric_;
+  Metric* metric_;
   HyperParam* hyper_param_;
   ThreadPool* pool_;
 };

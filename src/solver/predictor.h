@@ -15,8 +15,8 @@
 class Predictor {
 
  public:
-  Predictor();
-  ~Predictor();
+  Predictor() {};
+  ~Predictor() = default;;
 
   void Initialize(DataReader* reader,
                   Loss* loss,
@@ -26,10 +26,10 @@ class Predictor {
   std::vector<float> GetResult() { return this->out_; };
 
  private:
-  DataReader* reader_;
+  DataReader* reader_{};
 
-  Loss* loss_;
-  FMModel* model_;
+  Loss* loss_{};
+  FMModel* model_{};
   std::vector<float> out_;
   std::string out_file_;
 };

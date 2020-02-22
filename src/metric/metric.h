@@ -4,15 +4,15 @@
 
 #ifndef FMLEARN_METRIC_METRIC_H_
 #define FMLEARN_METRIC_METRIC_H_
+
 #include <string>
-
-
+#include <vector>
 
 class Metric {
 
  public:
-  Metric();
-  ~Metric();
+  Metric()= default;;
+  ~Metric()= default;;
 
   // 累计计算指标
   virtual void Calculate(std::vector<float>& pred, std::vector<float>& label) = 0;

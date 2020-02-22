@@ -6,7 +6,7 @@
 
 #include "model/fm_model.h"
 #include "model/hyper_param.h"
-#include "model/model.h"
+#include "model/model_back.h"
 #include "model/validator.h"
 
 TEST(MODEL_TEST, FMModel) {

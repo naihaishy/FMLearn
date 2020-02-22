@@ -43,8 +43,12 @@ TEST(COMMON_TEST, Check){
 
 TEST(COMMON_TEST, Split_file){
   std::vector<std::string> out_files;
-  split_file_in_lines("install_manifest.txt", 3, out_files);
+  split_file_in_lines("data/house_price_train.txt", 3, out_files);
   EXPECT_EQ(out_files.size(), 3);
+  // remove
+  EXPECT_TRUE(remove("data/house_price_train.txt_0"));
+  EXPECT_TRUE(remove("data/house_price_train.txt_1"));
+  EXPECT_TRUE(remove("data/house_price_train.txt_2"));
 }
 
 

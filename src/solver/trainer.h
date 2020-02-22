@@ -29,8 +29,8 @@ struct LossMetric {
  */
 class Trainer {
  public:
-  Trainer();
-  ~Trainer();
+  Trainer() = default;;
+  ~Trainer() = default;;
 
   void Initialize(std::vector<DataReader*>& reader_list,
                   Loss* loss,
@@ -72,13 +72,13 @@ class Trainer {
   void ShowTrainInfo(float train_loss, LossMetric& loss_metric, int epoch);
 
   std::vector<DataReader*> reader_list_; // 既包括训练数据 也包括验证数据
-  Loss* loss_;
-  FMModel* model_;
-  Metric* metric_;
-  int epoch_;
-  bool early_stop_;
-  int stop_window_;
-  bool quiet_;
+  Loss* loss_{};
+  FMModel* model_{};
+  Metric* metric_{};
+  int epoch_{};
+  bool early_stop_{};
+  int stop_window_{};
+  bool quiet_{};
 };
 
 static void InitMetricValue(Metric* metric, float& best_result, float& prev_result, bool& less_is_better);

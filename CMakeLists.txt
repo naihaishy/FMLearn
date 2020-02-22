@@ -39,6 +39,7 @@ link_directories(
         "${PROJECT_BINARY_DIR}/src/loss"
         "${PROJECT_BINARY_DIR}/src/score"
         "${PROJECT_BINARY_DIR}/src/core"
+        "${PROJECT_BINARY_DIR}/src/metric"
         "${PROJECT_BINARY_DIR}/src/c_api"
         "${PROJECT_BINARY_DIR}/src/cli"
 )
@@ -50,6 +51,7 @@ add_subdirectory(src/data)
 add_subdirectory(src/loss)
 add_subdirectory(src/score)
 add_subdirectory(src/solver)
+add_subdirectory(src/metric)
 add_subdirectory(src/cli)
 add_subdirectory(src/model)
 add_subdirectory(src/c_api)
