@@ -65,7 +65,7 @@ void Trainer::CVTrain() {
       train_reader.emplace_back(reader_list_[j]);
     }
     // 初始化model 重置参数
-    model_->Reset();
+    // model_->Reset();
     this->Train(train_reader, valid_reader);
   }
 }
@@ -89,6 +89,8 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
     LogInfo("Epoch " + std::to_string(i) + " start iterate");
     // 计算梯度并更新model
     float train_loss = CalcGradient(train_reader);
+    LogInfo("Epoch " + std::to_string(i) + " CalcGradient is ok");
+
     // 计算验证数据的性能指标
     if (!quiet_ && !valid_reader.empty()) {
       LossMetric valid_info = CalcMetric(valid_reader);
@@ -117,24 +119,29 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
   }
 
   if (early_stop_ && best_epoch != epoch_) {
-    LogInfo("Early-stopping at epoch " + std::to_string(best_epoch) +
-        ", best " + metric_->GetType() + " is " + std::to_string(best_result));
+    std::string log_msg = "Early-stopping at epoch " + std::to_string(best_epoch);
+    if (metric_ == nullptr) {
+      log_msg += ", best loss is " + std::to_string(best_result);
+    } else {
+      log_msg += ", best " + metric_->GetType() + " is " + std::to_string(best_result);
+    }
+    LogInfo(log_msg);
   }
-
+  LogInfo("Train done");
 }
 
 float Trainer::CalcGradient(std::vector<DataReader*>& train_reader) {
-  DMatrix* data = new DMatrix();
-  for (auto reader : train_reader) {
-    data->Free();
+  for (auto& reader : train_reader) {
+    auto data = new DMatrix();
     reader->Initialize();
     reader->Read(data);
-    loss_->CalGrad(data, model_);
-  }
 
-  // 释放内存
-  data->Free();
-  delete data;
+    loss_->CalGrad(data, model_);
+    LogDebug("loss_->CalGrad ok");
+    // 释放内存
+    //data->Free();
+    // delete data;
+  }
   return loss_->GetValue();
 }
 

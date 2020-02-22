@@ -36,19 +36,35 @@ void Solver::SetPredict() {
  */
 void Solver::InitTrain() {
   TrainParam* train_param = hyper_param_->GetTrainParam();
-  // 初始化 model_ loss_ score_
+
+  // 获取num_feature
+  auto reader = new DataReader(train_param->train_file, true);
+  reader->Initialize();
+  auto data = new DMatrix();
+  reader->Read(data);
+
+  int num_feature = data->GetNumFeatures();
+
+  // 初始化 score_
+  if (train_param->model == LINER_MODEL) score_ = new LinearScore();
+  else score_ = new FmScore();
+  score_->Initialize(hyper_param_);
+
+  // 初始化 loss_
+  if (train_param->task == REGRESSION) loss_ = new SquaredLoss();
+  else loss_ = new CrossEntropyLoss();
+  loss_->Initialize(score_);
+
+
+  // 初始化 model_
   if (train_param->model == LINER_MODEL) {
     model_ = nullptr;
-    score_ = new LinearScore();
   } else {
-    model_ = new FMModel();
-    score_ = new FmScore();
-  }
-
-  if (train_param->task == REGRESSION) {
-    loss_ = new SquaredLoss();
-  } else {
-    loss_ = new CrossEntropyLoss();
+    model_ = new FMModel(train_param->task,
+                         num_feature,
+                         train_param->n_epoch,
+                         train_param->init_mean,
+                         train_param->init_stddev);
   }
 
   // 初始化 metric_
@@ -68,25 +84,32 @@ void Solver::InitTrain() {
   }
 
   // 初始化reader_list_
+  reader_list_.clear();
   if (train_param->cross_validation) {
-    reader_list_.clear();
     //交叉验证 将文件分割为多个子文件
     std::vector<std::string> all_files;
     split_file_in_lines(train_param->train_file, train_param->num_folds, all_files);
     for (const auto& file_name:all_files) {
-      auto reader = new DataReader(file_name, true);
-      reader_list_.emplace_back(reader);
+      reader_list_.emplace_back(new DataReader(file_name, true));
     }
   } else {
-    auto train_reader = new DataReader(train_param->train_file, true);
-    auto valid_reader = new DataReader(train_param->valid_file, true);
-    reader_list_.emplace_back(train_reader);
-    reader_list_.emplace_back(valid_reader);
+    reader_list_.emplace_back(new DataReader(train_param->train_file, true));
+    if (!train_param->valid_file.empty()) {
+      reader_list_.emplace_back(new DataReader(train_param->valid_file, true));
+    }
   }
 
-  //
   LogDebug("Solver InitTrain done");
-
+  std::string info;
+  info.append("Solver Info: \n");
+  info.append("task            : " + std::to_string(train_param->task) + "\n");
+  info.append("model           : " + std::to_string(train_param->model) + "\n");
+  info.append("train_file      : " + train_param->train_file + "\n");
+  info.append("validation_file : " + train_param->valid_file + "\n");
+  info.append("model_file      : " + train_param->model_file + "\n");
+  info.append("loss type       : " + loss_->GetType() + "\n");
+  info.append("score type      : " + score_->GetType() + "\n");
+  LogInfo(info);
 }
 
 /**
@@ -110,9 +133,8 @@ void Solver::InitPredict() {
   }
 
   // 初始化reader_list_
-  auto reader = new DataReader(prediction_param->test_file, false);
   reader_list_.clear();
-  reader_list_.emplace_back(reader);
+  reader_list_.emplace_back(new DataReader(prediction_param->test_file, false));
 
   LogDebug("Solver InitPredict done");
 }

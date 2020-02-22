@@ -145,6 +145,7 @@ void DMatrix::Free() {
   // delete rows
   std::vector<SparseRow*>().swap(this->rows);
   this->row_length = 0;
+  LogDebug("DMatrix Free done");
 }
 
 /**

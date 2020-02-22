@@ -11,8 +11,10 @@
 #include "common/log.h"
 
 FMModel::FMModel(int task,
-                 int n_features, int n_factors,
-                 float mean, float stddev) {
+                 int n_features,
+                 int n_factors,
+                 float mean,
+                 float stddev) {
   this->task_ = task;
   this->n_features_ = n_features;
   this->n_factors_ = n_factors;

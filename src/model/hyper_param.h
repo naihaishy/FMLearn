@@ -13,7 +13,9 @@ struct TrainParam {
   int task = REGRESSION; // 0 for regression , 1 for classification
   int model = FM_MODEL; //  0 for linear model, 1 for fm model
 
-  std::string metric = ""; // acc prec recall f1 rmse mae auc
+  // acc prec recall f1 rmse mae auc
+  // 当metric不为空时需要保证 验证数据valid_file 不为空
+  std::string metric = "";
 
   std::string train_file;
   std::string valid_file;

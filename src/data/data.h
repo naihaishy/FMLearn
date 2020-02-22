@@ -31,6 +31,10 @@ struct Node {
 typedef std::vector<Node> SparseRow;
 
 // Data Matrix 稀疏矩阵
+/**
+ * Usage:
+ * DMatrix *data = new DMatrix();
+ */
 class DMatrix {
  public:
   DMatrix() : row_length(0), has_label(true), rows(0), labels(0), norms(0) {}

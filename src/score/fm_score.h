@@ -7,6 +7,11 @@
 
 #include "score/score.h"
 
+/**
+ * Usage :
+ * FMScore *score = new FmScore();
+ * score.CalGrad();
+ */
 class FmScore : public Score {
  public:
   ~FmScore() override;

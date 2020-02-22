@@ -13,6 +13,11 @@
 #include "data/data.h"
 #include "score/score.h"
 
+/**
+ * Usage :
+ * Loss *loss = new Loss();
+ * loss->Initialize();
+ */
 class Loss {
 
  public:

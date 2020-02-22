@@ -140,7 +140,7 @@ void DataReader::Read(DMatrix* data) {
     LogError("file is closed before read data");
     throw std::runtime_error("input file is closed");
   }
-  LogDebug("Reader read succeed");
+  LogDebug("Reader read data succeed");
 }
 
 

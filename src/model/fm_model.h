@@ -13,20 +13,31 @@
 /**
  * FM 模型 主要用于存储参数矩阵
  * Usage:
- *  FMMdoel *modle = new FMModel();
+ *  FMMdoel *model = new FMModel();
+ *  model.Initialize();
+ *
  */
 class FMModel {
  public:
   FMModel() = default;
   ~FMModel() = default;
 
-  explicit FMModel(int task, int n_features, int n_factors,
-                   float w0, float* W, float* V) :
+  void Initialize();
+
+  explicit FMModel(int task,
+                   int n_features,
+                   int n_factors,
+                   float w0,
+                   float* W,
+                   float* V) :
       task_(task), n_features_(n_features), n_factors_(n_factors),
       w0_(w0), W_(W), V_(V) {};
 
-  FMModel(int task, int n_features, int n_factors,
-          float mean, float stddev);
+  FMModel(int task,
+          int n_features,
+          int n_factors,
+          float mean,
+          float stddev);
 
   // 从checkpoint file中初始化模型
   explicit FMModel(const std::string& model_file);

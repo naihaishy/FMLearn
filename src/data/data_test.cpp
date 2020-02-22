@@ -164,16 +164,19 @@ TEST(DMATRIX_TEST, EQ) {
 
 TEST(DATA_TEST, DataReader){
   std::string file_name = "data/house_price_train.txt";
-  DataReader *reader = new DataReader(file_name, true);
+  auto reader = new DataReader(file_name, true);
   reader->Initialize();
   EXPECT_EQ(reader->GetFileFormat(), "csv");
   EXPECT_EQ(reader->GetDelimiter(), '\t');
   EXPECT_FALSE(reader->HasHeader());
   EXPECT_TRUE(reader->HasLabel());
-  DMatrix *data = new DMatrix();
+  auto data = new DMatrix();
   reader->Read(data);
   EXPECT_EQ(data->GetNumFeatures(), 403);
   EXPECT_EQ(data->row_length, 1456);
+  EXPECT_EQ(data->rows.size(), 1456);
+  EXPECT_EQ(data->labels.size(), 1456);
+  EXPECT_EQ(data->norms.size(), 1456);
 }
 
 
