@@ -8,15 +8,22 @@
 #include <string>
 #include <vector>
 
+/**
+ * Usage :
+ * Metirc *metric = new AccMetric();
+ */
 class Metric {
 
  public:
-  Metric()= default;;
-  ~Metric()= default;;
+  Metric() = default;;
+  ~Metric() = default;;
 
   // 累计计算指标
-  virtual void Calculate(std::vector<float>& pred, std::vector<float>& label) = 0;
+  virtual void Calculate(std::vector<float>& pred,
+                         std::vector<float>& label) = 0;
+
   virtual std::string GetType() = 0;
+
   virtual float GetValue() = 0;
 
  private:
@@ -28,12 +35,15 @@ class Metric {
  */
 class ACCMetric : public Metric {
  public:
+
   void Calculate(std::vector<float>& pred, std::vector<float>& label) override {
 
   }
+
   std::string GetType() override {
     return "Accuracy";
   }
+
   float GetValue() override {
     return 0;
   }

@@ -30,7 +30,9 @@ class Predictor {
                   Loss* loss,
                   FMModel* model,
                   std::string& out_file);
+
   void Predict();
+
   std::vector<float> GetResult() { return this->out_; };
 
  private:

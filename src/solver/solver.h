@@ -29,7 +29,9 @@ class Solver {
       model_(nullptr),
       metric_(nullptr) {};
   ~Solver() = default;;
+
   void Initialize(HyperParam* param);
+
   void Start();
 
  private:

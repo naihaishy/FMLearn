@@ -15,8 +15,16 @@
 class FmScore : public Score {
  public:
   ~FmScore() override;
-  float Calculate(const SparseRow* row, FMModel& model, float norm) override;
-  void CalGrad(const SparseRow* row, FMModel& model, float norm, float delta) override;
+
+  float Calculate(const SparseRow* row,
+                  FMModel& model,
+                  float norm) override;
+
+  void CalGrad(const SparseRow* row,
+               FMModel& model,
+               float norm,
+               float delta) override;
+
   std::string GetType() override { return type_; }
 
  private:

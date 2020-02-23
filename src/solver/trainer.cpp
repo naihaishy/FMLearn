@@ -86,7 +86,7 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
   bool less_is_better = true; // 标记是否值越小越好
   InitMetricValue(metric_, &best_result, &prev_result, &less_is_better);
 
-  for (int i = 0; i < epoch_; ++i) {
+  for (int i = 1; i <= epoch_; ++i) {
     // 计算梯度并更新model
     float train_loss = CalcGradient(train_reader);
     LogInfo("Epoch " + std::to_string(i) + " Train loss is " + std::to_string(train_loss));
