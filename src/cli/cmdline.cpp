@@ -51,9 +51,11 @@ OPTIONS:
 
   -nt <thread_number>  :  Number of thread for multi-thread training.
 
-  -n_fold              : Number of Cross-Validation file folds, default is 0
+  -n_fold              : Number of Cross-Validation file folds, default is 0, which means no cv
 
   -seed <random_seed>  :  Random Seed to shuffle training data set. 0 by default.
+
+  -n_stop              : Number of stop windows for early stop, default is 3, 0 mean don't use early stop.
 
   --no-norm            :  Disable instance-wise normalization. By default, FMLearn will use
                           instance-wise normalization for training.
@@ -227,6 +229,12 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
       if (i + 1 < argc) {
         train_param->num_folds = std::stoi(argv[i + 1]);
         train_param->cross_validation = train_param->num_folds > 0;
+        i++;
+      }
+    } else if (str == "-n_stop") {
+      if (i + 1 < argc) {
+        train_param->stop_window = std::stoi(argv[i + 1]);
+        train_param->early_stop = train_param->num_folds > 0;
         i++;
       }
     } else if (str == "--no-norm") {
