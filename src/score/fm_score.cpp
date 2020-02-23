@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <common/log.h>
+#include <assert.h>
 
 /**
  * 给定单个样本 计算FM 预测值
@@ -63,7 +64,7 @@ float FmScore::Calculate(const SparseRow* row, FMModel& model, float norm) {
  */
 void FmScore::CalGrad(const SparseRow* row, FMModel& model, float norm, float delta) {
 
-  TrainParam *train_param = hyper_param_->GetTrainParam();
+  TrainParam* train_param = hyper_param_->GetTrainParam();
 
   float lr = train_param->learning_rate;
   float reg_w0 = train_param->reg_w0;

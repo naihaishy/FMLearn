@@ -52,20 +52,27 @@ class CSVParser : public Parser {
     std::vector<float> line_arr = split_in_float(line, delimiter_);
 
     int n_cols = line_arr.size();
-    int feature_start = 0;
     if (has_label_) {
       float label = line_arr[0];// 第一列是 label
       data->labels[i] = label;
       data->min_label = std::min(data->min_label, label);
       data->max_label = std::max(data->max_label, label);
-      feature_start = 1;
     }
 
-    for (int j = feature_start; j < n_cols; ++j) {
-      float value = line_arr[j];
-      data->AddNode(i, j, value);
-      norm += value * value;
+    if (has_label_) {
+      for (int j = 1; j < n_cols; ++j) {
+        float value = line_arr[j];
+        data->AddNode(i, j - 1, value);
+        norm += value * value;
+      }
+    } else {
+      for (int j = 0; j < n_cols; ++j) {
+        float value = line_arr[j];
+        data->AddNode(i, j, value);
+        norm += value * value;
+      }
     }
+
     norm = 1.0f / norm;
     data->norms[i] = norm;
   }
