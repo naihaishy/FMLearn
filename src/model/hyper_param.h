@@ -33,9 +33,9 @@ struct TrainParam {
   int n_thread = 1;
   long seed = 0l;
 
-  // true交叉验证 交叉验证时使用train_file做切分 valid_file为空
+  // 交叉验证时使用train_file做切分 valid_file不起作用
   bool cross_validation = false;
-  int num_folds = 5;
+  int num_folds = 0;
 
   bool early_stop = true;
   int stop_window = 3;

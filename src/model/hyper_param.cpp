@@ -10,6 +10,7 @@ std::string TrainParam::to_string() {
   result.append("TrainParam: \n");
   result.append("task            : " + std::to_string(task) + "\n");
   result.append("model           : " + std::to_string(model) + "\n");
+  result.append("metric          : " + metric + "\n");
   result.append("train_file      : " + train_file + "\n");
   result.append("validation_file : " + valid_file + "\n");
   result.append("model_file      : " + model_file + "\n");
@@ -23,6 +24,10 @@ std::string TrainParam::to_string() {
   result.append("init_stddev     : " + std::to_string(init_stddev) + "\n");
   result.append("n_thread        : " + std::to_string(n_thread) + "\n");
   result.append("seed            : " + std::to_string(seed) + "\n");
+  result.append("cross_validation: " + std::to_string(cross_validation) + "\n");
+  result.append("num_folds       : " + std::to_string(num_folds) + "\n");
+  result.append("early_stop      : " + std::to_string(early_stop) + "\n");
+  result.append("stop_window     : " + std::to_string(stop_window) + "\n");
   result.append("norm            : " + std::to_string(norm) + "\n");
   result.append("quiet           : " + std::to_string(quiet) + "\n");
   return result;
