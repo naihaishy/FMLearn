@@ -70,6 +70,9 @@ void Trainer::CVTrain() {
     model_->Reset();
     this->Train(train_reader, valid_reader);
   }
+
+  // Average metric for cross-validation
+  ShowAverageMetric();
 }
 
 /**
@@ -87,6 +90,7 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
   bool less_is_better = true; // 标记是否值越小越好
   InitMetricValue(metric_, &best_result, &prev_result, &less_is_better);
 
+  LossMetric valid_info;
   for (int i = 1; i <= epoch_; ++i) {
     // 计算梯度并更新model
     float train_loss = CalcGradient(train_reader);
@@ -94,7 +98,8 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
 
     // 计算验证数据的性能指标
     if (!quiet_ && !valid_reader.empty()) {
-      LossMetric valid_info = CalcMetric(valid_reader);
+      valid_info = CalcMetric(valid_reader);
+
 
       // show evaluation metric info
       ShowTrainInfo(train_loss, valid_info, i);
@@ -128,6 +133,8 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
         log_msg += ", best " + metric_->GetType() + " is " + std::to_string(best_result);
       }
       LogInfo(log_msg);
+    }else{
+      loss_metrics_.push_back(valid_info);// cv
     }
   }
   LogInfo("Train done");
@@ -139,12 +146,10 @@ float Trainer::CalcGradient(std::vector<DataReader*>& train_reader) {
     auto data = new DMatrix();
     reader->Initialize();
     reader->Read(data);
-    LogDebug("ok");
     loss_->CalGrad(data, model_);
-    LogDebug("loss_->CalGrad ok");
     // 释放内存
-    //data->Free();
-    // delete data;
+    data->Free();
+    delete data;
   }
   return loss_->GetValue();
 }
@@ -156,24 +161,22 @@ float Trainer::CalcGradient(std::vector<DataReader*>& train_reader) {
  */
 LossMetric Trainer::CalcMetric(std::vector<DataReader*>& valid_reader) {
   std::vector<float> preds;
-  auto data = new DMatrix();
   for (auto& reader:valid_reader) {
-    data->Free();
+    auto data = new DMatrix();
     reader->Initialize();
     reader->Read(data);
     loss_->Predict(data, *model_, preds);
 
     if (metric_ == nullptr) loss_->Calculate(preds, data->labels);
     else metric_->Calculate(preds, data->labels);
+    // 释放内存
+    data->Free();
+    delete data;
   }
 
   LossMetric info;
   info.loss_value = loss_->GetValue();
   if (metric_ != nullptr) info.metric_value = metric_->GetValue();
-
-  // 释放内存
-  data->Free();
-  delete data;
 
   return info;
 }
@@ -187,6 +190,25 @@ void Trainer::ShowTrainInfo(float train_loss, LossMetric& loss_metric, int epoch
     LogInfo("Epoch : " + std::to_string(epoch) +
         ", Train Loss : " + std::to_string(train_loss) +
         ", Metric Value : " + std::to_string(loss_metric.metric_value));
+  }
+}
+
+void Trainer::ShowAverageMetric() {
+  float loss_value = 0;
+  float metric_value = 0;
+
+  for (auto& loss_metric:loss_metrics_) {
+    loss_value += loss_metric.loss_value;
+    if (metric_ != nullptr) {
+      metric_value += loss_metric.metric_value;
+    }
+  }
+
+  LogInfo("Average Loss : " +
+      std::to_string(loss_value / loss_metrics_.size()));
+  if (metric_ != nullptr) {
+    LogInfo("Average " + metric_->GetType() + " : " +
+        std::to_string(loss_value / loss_metrics_.size()));
   }
 }
 

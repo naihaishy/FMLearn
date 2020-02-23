@@ -71,6 +71,9 @@ class Trainer {
    */
   void ShowTrainInfo(float train_loss, LossMetric& loss_metric, int epoch);
 
+  // 显示交叉验证的结果
+  void ShowAverageMetric();
+
   std::vector<DataReader*> reader_list_; // 既包括训练数据 也包括验证数据
   Loss* loss_{};
   FMModel* model_{};
@@ -79,6 +82,7 @@ class Trainer {
   bool early_stop_{};
   int stop_window_{};
   bool quiet_{};
+  std::vector<LossMetric> loss_metrics_;
 };
 
 void InitMetricValue(Metric* metric,
