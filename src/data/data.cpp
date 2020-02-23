@@ -181,7 +181,7 @@ int DMatrix::GetNumFeatures() {
   for (const Node& node: *(rows[0])) {
     num_features = std::max(num_features, node.feature_id);
   }
-  return num_features;
+  return num_features + 1;
 }
 
 
