@@ -71,11 +71,11 @@ bool Validator::Validate(TrainParam& param) {
  */
 bool Validator::Validate(PredictionParam& param) {
   if (!file_exists(param.test_file)) {
-    LogError(" test_file not exists");
+    LogError("test_file not exists");
     return false;
   }
   if (!file_exists(param.model_file)) {
-    LogError(" model_file not exists");
+    LogError("model_file not exists");
     return false;
   }
   return true;

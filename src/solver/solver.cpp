@@ -161,6 +161,10 @@ void Solver::StartTrain() {
                      train_param->stop_window,
                      train_param->quiet);
   trainer.Train();
+  // 保存模型
+  if (!train_param->cross_validation && !train_param->model_file.empty()) {
+    model_->Save(train_param->model_file);
+  }
 }
 
 void Solver::StartPredict() {

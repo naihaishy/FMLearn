@@ -34,6 +34,7 @@ FMModel::FMModel(const std::string& model_file) {
   } catch (std::exception& e) {
     LogError(e.what());
   }
+  LogDebug("Construct FMModel succeed");
 }
 
 void FMModel::InitWeights(float mean, float stddev) {

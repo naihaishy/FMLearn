@@ -16,8 +16,8 @@ int main(int argc, char* argv[]) {
   if (cmd_line.Parse(argc, argv)) {
     HyperParam* param = cmd_line.GetParam();
 
-    TrainParam* train_param = param->GetTrainParam();
-    LogInfo(train_param->to_string());
+    PredictionParam* prediction_param = param->GetPredictionParam();
+    LogInfo(prediction_param->to_string());
 
     Solver solver;
     solver.Initialize(param);

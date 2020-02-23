@@ -23,13 +23,16 @@ float FmScore::Calculate(const SparseRow* row, FMModel& model, float norm) {
   float*& W = model.GetW();
   float*& V = model.GetV();
 
+  // bias
   result += w0;
   // linear term
+  float sqrt_norm = sqrt(norm);
   for (auto& it : *row) {
     int i = it.feature_id;
-    float xi = it.feature_val;
-    result += W[i] * xi * norm;
+    float xi = it.feature_val * sqrt_norm;
+    result += W[i] * xi;
   }
+
   // interaction term
   int K = model.GetNumFactors();
   float inter1, inter2, d;
@@ -38,8 +41,7 @@ float FmScore::Calculate(const SparseRow* row, FMModel& model, float norm) {
     inter2 = 0.0;
     for (auto& it:*row) {
       int i = it.feature_id;
-      float xi = it.feature_val;
-      xi = xi * norm;
+      float xi = it.feature_val * norm;
       float vif = V[i * K + f];
       d = vif * xi;
       inter1 += d;
@@ -80,10 +82,10 @@ void FmScore::CalGrad(const SparseRow* row, FMModel& model, float norm, float de
   int K = model.GetNumFactors();
 
   // update linear
+  float sqrt_norm = sqrt(norm);
   for (auto& it:*row) {
     int i = it.feature_id;
-    float xi = it.feature_val;
-    xi = xi * norm;
+    float xi = it.feature_val * sqrt_norm;
     float gradient_w = delta * xi;
     W[i] -= lr * (gradient_w + 2 * reg_W * W[i]);
   }
@@ -94,8 +96,7 @@ void FmScore::CalGrad(const SparseRow* row, FMModel& model, float norm, float de
     inter_sum[f] = 0.0;
     for (auto& it:*row) {
       int i = it.feature_id;
-      float xi = it.feature_val;
-      xi = xi * norm;
+      float xi = it.feature_val * norm;
       float vif = V[i * K + f];
       inter_sum[f] += vif * xi;
     }

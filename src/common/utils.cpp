@@ -27,8 +27,13 @@ std::vector<float> split_in_float(const std::string& str, const char pattern) {
 }
 
 bool file_exists(const std::string& file_path) {
-  std::ifstream ifs(file_path);
-  return ifs.is_open();
+  std::ifstream ifs(file_path, std::ifstream::in);
+  if (ifs.is_open()) {
+    ifs.close();
+    return true;
+  } else {
+    return false;
+  }
 }
 
 void split_file_in_size(const std::string& file_path, int num) {

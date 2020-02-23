@@ -50,6 +50,7 @@ void Trainer::Train() {
     valid_reader.emplace_back(reader_list_[1]);
   }
   this->Train(train_reader, valid_reader);
+
 }
 
 /**

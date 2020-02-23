@@ -93,7 +93,7 @@ bool CmdLine::Parse(int argc, char** argv) {
     return false;
   }
 
-  if(is_train_) param_->is_train = true;
+  param_->is_train = is_train_;
 
   if (is_train_) {
     // parse training parameter
@@ -116,6 +116,8 @@ bool CmdLine::Parse(int argc, char** argv) {
       if (!Validator::Validate(*param_->GetPredictionParam())) {
         LogError("Validate command line prediction parameter failed");
         return false;
+      }else{
+        LogDebug("Validate command line prediction parameter succeed");
       }
     } catch (std::exception& e) {
       LogError(e.what());
