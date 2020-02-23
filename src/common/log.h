@@ -18,14 +18,13 @@ enum LoggingLevel {
   FATAL = 4
 };
 
-
 class Logging {
  public:
   static LoggingLevel log_level;
 
   static void SetLevel(int level);
   static void SetLevel(const std::string& level);
-  friend void SetLoggingDir(const std::string &log_dir);
+  friend void SetLoggingDir(const std::string& log_dir);
 
   static void log(LoggingLevel level,
                   const std::string& msg,
@@ -43,7 +42,13 @@ class Logging {
   // static std::string log_dir_; //log日志保存目录
 };
 
-void SetLoggingDir(const std::string &log_dir);
+void SetLoggingDir(const std::string& log_dir);
+
+#if defined(_MSC_VER) || defined(_WIN32)
+#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+#else
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#endif
 
 #define LogDebug(msg) Logging::log(DEBUG, msg, __FILENAME__, __LINE__, __FUNCTION__)
 #define LogInfo(msg) Logging::log(INFO, msg, __FILENAME__, __LINE__, __FUNCTION__)

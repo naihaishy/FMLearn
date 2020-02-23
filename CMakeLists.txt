@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.12)
 project(FMLearn)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(subst  ${CMAKE_SOURCE_DIR}/src/,,$(abspath $<))\"'")
 #set(CMAKE_BUILD_TYPE RELEASE)
 set(CMAKE_BUILD_TYPE DEBUG)
 set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
@@ -18,8 +17,10 @@ if (WIN32)
             add_definitions("/WX- /MD")
         endif ()
     endif ()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__=__FILE__")
 else ()
     #Linux
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(subst  ${CMAKE_SOURCE_DIR}/src/,,$(abspath $<))\"'")
     add_definitions("-Wall -Wno-sign-compare -march=native -Wno-strict-aliasing -Wno-comment")
 endif ()
 
