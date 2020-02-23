@@ -26,7 +26,6 @@ TEST(MODEL_TEST, FMModel) {
   EXPECT_FLOAT_EQ(model->GetBias(), 0.0);
 }
 
-
 TEST(MODEL_TEST, TrainParam) {
   TrainParam* param = new TrainParam();
   EXPECT_EQ(param->task, 0);
@@ -75,13 +74,13 @@ TEST(MODEL_TEST, HyperParam) {
   EXPECT_TRUE(param->GetTrainParam() == nullptr);
 }
 
-TEST(MODEL_TEST, Validate){
-  TrainParam *param1  =new TrainParam();
+TEST(MODEL_TEST, Validate) {
+  TrainParam* param1 = new TrainParam();
   EXPECT_FALSE(Validator::Validate(*param1));
   param1->train_file = "data/house_price_train.txt";
   EXPECT_TRUE(Validator::Validate(*param1));
 
-  PredictionParam *param2 = new PredictionParam();
+  PredictionParam* param2 = new PredictionParam();
   EXPECT_FALSE(Validator::Validate(*param2));
 }
 
