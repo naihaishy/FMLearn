@@ -9,6 +9,7 @@
 
 void Predictor::Predict() {
   auto data = new DMatrix();
+  reader_->Initialize();
   reader_->Read(data);
   out_.clear();
   loss_->Predict(data, *model_, out_);
