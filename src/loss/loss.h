@@ -28,7 +28,7 @@ class Loss {
    * 初始化
    * @param score
    */
-  void Initialize(Score* score){
+  void Initialize(Score* score) {
     score_ = score;
   }
 
@@ -54,17 +54,16 @@ class Loss {
    * @param model FMModel模型
    * @param preds 预测结果输出
    */
-  virtual void Predict(const DMatrix* data, FMModel& model, std::vector<float>& preds);
+  virtual void Predict(const DMatrix* data,
+                       FMModel& model,
+                       std::vector<float>& preds);
 
   /**
    * 给定数据集 计算损失函数对所有样本的梯度并更新参数
    * @param data 训练数据
    * @param model FMModel模型
-   * @return
    */
-  virtual float CalGrad(const DMatrix* data, FMModel* model) = 0;
-  // 更新参数
-  // virtual void UpdateWeights(FMModel* model) = 0;
+  virtual void CalGrad(const DMatrix* data, FMModel* model) = 0;
 
   virtual std::string GetType() = 0;
 

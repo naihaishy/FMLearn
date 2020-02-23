@@ -23,7 +23,7 @@ void SquaredLoss::Calculate(std::vector<float>& preds,
  * @param score
  * @return
  */
-float SquaredLoss::CalGrad(const DMatrix* data, FMModel* model) {
+void SquaredLoss::CalGrad(const DMatrix* data, FMModel* model) {
   // check
   assert(model->GetTask() == REGRESSION);
 
@@ -44,7 +44,6 @@ float SquaredLoss::CalGrad(const DMatrix* data, FMModel* model) {
     // calculate loss
     losses += 0.5f * (y_pred - y_true) * (y_pred - y_true);
   }
-  return losses / data->row_length;
 }
 
 SquaredLoss::~SquaredLoss() = default;

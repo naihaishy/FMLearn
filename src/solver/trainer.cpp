@@ -86,10 +86,9 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
   InitMetricValue(metric_, &best_result, &prev_result, &less_is_better);
 
   for (int i = 0; i < epoch_; ++i) {
-    LogInfo("Epoch " + std::to_string(i) + " start iterate");
     // 计算梯度并更新model
     float train_loss = CalcGradient(train_reader);
-    LogInfo("Epoch " + std::to_string(i) + " CalcGradient is ok");
+    LogInfo("Epoch " + std::to_string(i) + " Train loss is " + std::to_string(train_loss));
 
     // 计算验证数据的性能指标
     if (!quiet_ && !valid_reader.empty()) {

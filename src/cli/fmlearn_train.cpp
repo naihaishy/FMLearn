@@ -12,7 +12,7 @@
 
 
 int main(int argc, char* argv[]) {
-  Logging::SetLevel(0);
+  Logging::SetLevel(1);
   CmdLine cmd_line;
   cmd_line.SetTrain();
 

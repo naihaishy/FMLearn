@@ -20,7 +20,7 @@
 class FMModel {
  public:
   FMModel() = default;
-  ~FMModel() = default;
+  ~FMModel();
 
   void Initialize();
 
@@ -68,9 +68,9 @@ class FMModel {
   int task_ = REGRESSION;
   int n_features_ = 0;
   int n_factors_ = 0;
-  float w0_ = 0.0;
-  float* W_ = nullptr;
-  float* V_ = nullptr;
+  float w0_ = 0.0; // bias
+  float* W_ = nullptr; // linear_weights
+  float* V_ = nullptr; // intersection_weights
 
   // 是否对predict结果进行范围限制 在task==REGRESSION情况下有效
   bool limit_predict = false;

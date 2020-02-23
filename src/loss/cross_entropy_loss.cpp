@@ -29,13 +29,13 @@ void CrossEntropyLoss::Calculate(std::vector<float>& preds,
 }
 
 /**
- *
+ * 计算梯度并更新参数
  * @param data
  * @param model
  * @param score
  * @return
  */
-float CrossEntropyLoss::CalGrad(const DMatrix* data, FMModel* model) {
+void CrossEntropyLoss::CalGrad(const DMatrix* data, FMModel* model) {
   // check
   assert(model->GetTask() == CLASSIFICATION);
 
@@ -57,7 +57,6 @@ float CrossEntropyLoss::CalGrad(const DMatrix* data, FMModel* model) {
     // calculate loss
     losses += -log(sigmoid(y_true * y_pred));
   }
-  return losses / data->row_length;
 }
 
 
