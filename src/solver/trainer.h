@@ -15,8 +15,8 @@
 #include "metric/metric.h"
 
 struct LossMetric {
-  float loss_value;
-  float metric_value;
+  float loss_value = 0;
+  float metric_value = 0;
 };
 
 /**

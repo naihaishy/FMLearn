@@ -12,6 +12,7 @@
 
 /**
  * Reader初始化
+ * 解析文件格式 初始化parser_
  * @return
  */
 void DataReader::Initialize() {
@@ -22,7 +23,7 @@ void DataReader::Initialize() {
     exit(0);
   }
 
-  if (file_format_ == "csv")parser_ = new CSVParser();
+  if (file_format_ == "csv") parser_ = new CSVParser();
   else if (file_format_ == "libsvm") parser_ = new LibSVMParser();
   else if (file_format_ == "libffm") parser_ = new LibFFMParser();
   parser_->Initialize(delimiter_, has_header_, has_label_);

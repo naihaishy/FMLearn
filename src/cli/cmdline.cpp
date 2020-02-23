@@ -32,7 +32,7 @@ OPTIONS:
 
   -m <model>           : 0 for linear model, 1 for fm model, default 1
 
-  -metric <metric>     : metric for evaluation, support acc, prec, recall, default none
+  -me <metric>     : metric for evaluation, support acc, prec, recall, default none
 
   -v <validate_file>   :  Path of the validation data file. Empty by default,
 
@@ -117,7 +117,7 @@ bool CmdLine::Parse(int argc, char** argv) {
       if (!Validator::Validate(*param_->GetPredictionParam())) {
         LogError("Validate command line prediction parameter failed");
         return false;
-      }else{
+      } else {
         LogDebug("Validate command line prediction parameter succeed");
       }
     } catch (std::exception& e) {
@@ -155,6 +155,11 @@ void CmdLine::ParseTrainParam(int argc, char* argv[]) {
     } else if (str == "-m") {
       if (i + 1 < argc) {
         train_param->model = std::stoi(argv[i + 1]);
+        i++;
+      }
+    } else if (str == "-me") {
+      if (i + 1 < argc) {
+        train_param->metric = std::string(argv[i + 1]);
         i++;
       }
     } else if (str == "-v") {

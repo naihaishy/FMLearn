@@ -26,7 +26,9 @@
 
 class Parser {
  public:
-  void Initialize(char delimiter, bool has_header, bool has_label) {
+  void Initialize(char delimiter,
+                  bool has_header,
+                  bool has_label) {
     delimiter_ = delimiter;
     has_header_ = has_header;
     has_label_ = has_label;

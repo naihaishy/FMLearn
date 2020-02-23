@@ -2,9 +2,16 @@ cmake_minimum_required(VERSION 3.12)
 project(FMLearn)
 
 set(CMAKE_CXX_STANDARD 11)
-#set(CMAKE_BUILD_TYPE RELEASE)
-set(CMAKE_BUILD_TYPE DEBUG)
-set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+
+set(DEBUG_GDB ON)
+
+if(${DEBUG_GDB} STREQUAL "ON")
+    set(CMAKE_BUILD_TYPE DEBUG)
+    set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+else ()
+    set(CMAKE_BUILD_TYPE RELEASE)
+    add_definitions("-O3")
+endif ()
 
 if (WIN32)
     #Windows
@@ -65,6 +72,8 @@ else ()
 endif ()
 
 FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_train.txt"
+        DESTINATION ${BUILD_RESULT_DIR}/data)
+FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_valid.txt"
         DESTINATION ${BUILD_RESULT_DIR}/data)
 FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_test.txt"
         DESTINATION ${BUILD_RESULT_DIR}/data)

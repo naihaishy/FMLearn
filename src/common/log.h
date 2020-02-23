@@ -44,12 +44,6 @@ class Logging {
 
 void SetLoggingDir(const std::string& log_dir);
 
-#if defined(_MSC_VER) || defined(_WIN32)
-#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
-#else
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#endif
-
 #define LogDebug(msg) Logging::log(DEBUG, msg, __FILENAME__, __LINE__, __FUNCTION__)
 #define LogInfo(msg) Logging::log(INFO, msg, __FILENAME__, __LINE__, __FUNCTION__)
 #define LogWarn(msg) Logging::log(WARNING, msg, __FILENAME__, __LINE__, __FUNCTION__)

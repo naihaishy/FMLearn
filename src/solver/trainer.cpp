@@ -118,7 +118,7 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
     }
   }
 
-  if(!quiet_ && !valid_reader.empty()){
+  if (!quiet_ && !valid_reader.empty()) {
     if (early_stop_ && best_epoch != epoch_) {
       std::string log_msg = "Early-stopping at epoch " + std::to_string(best_epoch);
       if (metric_ == nullptr) {
@@ -154,18 +154,21 @@ float Trainer::CalcGradient(std::vector<DataReader*>& train_reader) {
  * @return LossMetric
  */
 LossMetric Trainer::CalcMetric(std::vector<DataReader*>& valid_reader) {
-  DMatrix* data = new DMatrix();
   std::vector<float> preds;
+  auto data = new DMatrix();
   for (auto& reader:valid_reader) {
     data->Free();
+    reader->Initialize();
     reader->Read(data);
     loss_->Predict(data, *model_, preds);
-    loss_->Calculate(preds, data->labels);
-    metric_->Calculate(preds, data->labels);
+
+    if (metric_ == nullptr) loss_->Calculate(preds, data->labels);
+    else metric_->Calculate(preds, data->labels);
   }
+
   LossMetric info;
   info.loss_value = loss_->GetValue();
-  info.metric_value = metric_->GetValue();
+  if (metric_ != nullptr) info.metric_value = metric_->GetValue();
 
   // 释放内存
   data->Free();
@@ -187,9 +190,9 @@ void Trainer::ShowTrainInfo(float train_loss, LossMetric& loss_metric, int epoch
 }
 
 void InitMetricValue(Metric* metric,
-                            float* best_result,
-                            float* prev_result,
-                            bool* less_is_better) {
+                     float* best_result,
+                     float* prev_result,
+                     bool* less_is_better) {
   if (metric == nullptr) {
     *best_result = FLOAT_MAX;
     *prev_result = FLOAT_MIN;
