@@ -5,6 +5,7 @@
 #include "loss/cross_entropy_loss.h"
 
 #include <cassert>
+#include <common/log.h>
 
 inline float sigmoid(float x) {
   return 1.0f / (1.0f + expf(-x));
@@ -34,7 +35,7 @@ void CrossEntropyLoss::Calculate(std::vector<float>& preds,
  * @param score
  * @return
  */
-float CrossEntropyLoss::CalGrad(DMatrix* data, FMModel* model) {
+float CrossEntropyLoss::CalGrad(const DMatrix* data, FMModel* model) {
   // check
   assert(model->GetTask() == CLASSIFICATION);
 
@@ -50,6 +51,7 @@ float CrossEntropyLoss::CalGrad(DMatrix* data, FMModel* model) {
 
     // calculate gradient and update weights
     float delta = (sigmoid(y_true * y_pred) - 1) * y_true;
+    // LogInfo(score_->GetType());
     score_->CalGrad(x, *model, norm, delta);
 
     // calculate loss

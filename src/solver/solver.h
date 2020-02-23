@@ -25,9 +25,10 @@ class Solver {
 
  public:
   Solver() :
+      score_(nullptr),
       loss_(nullptr),
       model_(nullptr),
-      score_(nullptr), metric_(nullptr) {};
+      metric_(nullptr) {};
   ~Solver() = default;;
   void Initialize(HyperParam* param);
   void SetTrain();
@@ -43,8 +44,8 @@ class Solver {
   // 存储训练数据和验证数据 或者存在测试数据
   std::vector<DataReader*> reader_list_;
   Score* score_;
-  FMModel* model_;
   Loss* loss_;
+  FMModel* model_;
   Metric* metric_;
   HyperParam* hyper_param_;
   ThreadPool* pool_;

@@ -23,7 +23,7 @@ class Score {
    * @param norm 归一化因子
    * @return 预测值 predicted value
    */
-  virtual float Calculate(SparseRow* row, FMModel& model, float norm) = 0;
+  virtual float Calculate(const SparseRow* row, FMModel& model, float norm) = 0;
 
   /**
    * 给定单个样本 计算梯度并更新model参数 SGD
@@ -32,7 +32,7 @@ class Score {
    * @param norm 归一化因子
    * @param delta
    */
-  virtual void CalGrad(SparseRow* row, FMModel& model, float norm, float delta) = 0;
+  virtual void CalGrad(const SparseRow* row, FMModel& model, float norm, float delta) = 0;
 
   virtual std::string GetType() { return type_; }
 

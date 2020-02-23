@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 project(FMLearn)
 
 set(CMAKE_CXX_STANDARD 11)
-# set(CMAKE_C_FLAGS -m64)
-# set(CMAKE_CXX_FLAGS -m64)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(subst  ${CMAKE_SOURCE_DIR}/src/,,$(abspath $<))\"'")
+set(CMAKE_BUILD_TYPE DEBUG)
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 
 if (WIN32)
     #Windows
@@ -19,8 +19,7 @@ if (WIN32)
     endif ()
 else ()
     #Linux
-    add_definitions("-Wall -Wno-sign-compare -O3 -std=c++11
--march=native -Wno-strict-aliasing -Wno-comment")
+    add_definitions("-Wall -Wno-sign-compare -march=native -Wno-strict-aliasing -Wno-comment")
 endif ()
 
 # 保存编译结果的目录
@@ -58,13 +57,12 @@ add_subdirectory(src/c_api)
 
 # 拷贝测试脚本与测试数据
 if (WIN32)
-    FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.bat"
-            DESTINATION ${BUILD_RESULT_DIR})
+    FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.bat" DESTINATION ${BUILD_RESULT_DIR})
 else ()
-    FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.sh"
-            DESTINATION ${BUILD_RESULT_DIR})
+    FILE(COPY "${PROJECT_SOURCE_DIR}/scripts/run_test.sh" DESTINATION ${BUILD_RESULT_DIR})
 endif ()
-FILE(COPY "build/data/house_price_train.txt"
+
+FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_train.txt"
         DESTINATION ${BUILD_RESULT_DIR}/data)
 FILE(COPY "${PROJECT_SOURCE_DIR}/python-package/fmlearn/house_price_test.txt"
         DESTINATION ${BUILD_RESULT_DIR}/data)

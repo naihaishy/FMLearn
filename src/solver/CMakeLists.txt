@@ -7,5 +7,5 @@ install(TARGETS solver DESTINATION ${BUILD_RESULT_DIR}/libs)
 
 # Build unit tests
 add_executable(solver_test solver_test.cpp)
-target_link_libraries(solver_test gtest_main gtest model data loss score)
+target_link_libraries(solver_test gtest_main gtest model data loss score solver)
 install(TARGETS solver_test DESTINATION ${BUILD_RESULT_DIR}/test)

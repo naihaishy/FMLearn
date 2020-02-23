@@ -5,7 +5,7 @@
 #include "score/linear_score.h"
 #include "model/hyper_param.h"
 
-float LinearScore::Calculate(SparseRow* row, FMModel& model, float norm) {
+float LinearScore::Calculate(const SparseRow* row, FMModel& model, float norm) {
   float result = 0.0;
 
   float& w0 = model.GetBias();
@@ -20,7 +20,7 @@ float LinearScore::Calculate(SparseRow* row, FMModel& model, float norm) {
   }
   return result;
 }
-void LinearScore::CalGrad(SparseRow* row, FMModel& model, float norm, float delta) {
+void LinearScore::CalGrad(const SparseRow* row, FMModel& model, float norm, float delta) {
 
 }
 

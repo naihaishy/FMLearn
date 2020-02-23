@@ -10,8 +10,8 @@
 class LinearScore : public Score {
  public:
   ~LinearScore() override = default;
-  float Calculate(SparseRow* row, FMModel& model, float norm) override;
-  void CalGrad(SparseRow* row, FMModel& model, float norm, float delta) override;
+  float Calculate(const SparseRow* row, FMModel& model, float norm) override;
+  void CalGrad(const SparseRow* row, FMModel& model, float norm, float delta) override;
   std::string GetType() override { return type_; }
 
  private:

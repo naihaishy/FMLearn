@@ -81,6 +81,9 @@ class Trainer {
   bool quiet_{};
 };
 
-static void InitMetricValue(Metric* metric, float& best_result, float& prev_result, bool& less_is_better);
+void InitMetricValue(Metric* metric,
+                     float* best_result,
+                     float* prev_result,
+                     bool* less_is_better);
 
 #endif //FMLEARN_SOLVER_TRAINER_H_

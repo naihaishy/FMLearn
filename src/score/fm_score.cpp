@@ -6,6 +6,7 @@
 #include "model/hyper_param.h"
 
 #include <algorithm>
+#include <common/log.h>
 
 /**
  * 给定单个样本 计算FM 预测值
@@ -14,7 +15,7 @@
  * @param norm 归一化
  * @return
  */
-float FmScore::Calculate(SparseRow* row, FMModel& model, float norm) {
+float FmScore::Calculate(const SparseRow* row, FMModel& model, float norm) {
   float result = 0.0;
 
   float& w0 = model.GetBias();
@@ -60,8 +61,10 @@ float FmScore::Calculate(SparseRow* row, FMModel& model, float norm) {
  * @param norm
  * @param delta
  */
-void FmScore::CalGrad(SparseRow* row, FMModel& model, float norm, float delta) {
+void FmScore::CalGrad(const SparseRow* row, FMModel& model, float norm, float delta) {
+
   TrainParam *train_param = hyper_param_->GetTrainParam();
+
   float lr = train_param->learning_rate;
   float reg_w0 = train_param->reg_w0;
   float reg_W = train_param->reg_W;

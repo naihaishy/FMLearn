@@ -83,7 +83,7 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
 
   float best_result = 0, prev_result = 0;
   bool less_is_better = true; // 标记是否值越小越好
-  InitMetricValue(metric_, best_result, prev_result, less_is_better);
+  InitMetricValue(metric_, &best_result, &prev_result, &less_is_better);
 
   for (int i = 0; i < epoch_; ++i) {
     LogInfo("Epoch " + std::to_string(i) + " start iterate");
@@ -118,14 +118,16 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
     }
   }
 
-  if (early_stop_ && best_epoch != epoch_) {
-    std::string log_msg = "Early-stopping at epoch " + std::to_string(best_epoch);
-    if (metric_ == nullptr) {
-      log_msg += ", best loss is " + std::to_string(best_result);
-    } else {
-      log_msg += ", best " + metric_->GetType() + " is " + std::to_string(best_result);
+  if(!quiet_ && !valid_reader.empty()){
+    if (early_stop_ && best_epoch != epoch_) {
+      std::string log_msg = "Early-stopping at epoch " + std::to_string(best_epoch);
+      if (metric_ == nullptr) {
+        log_msg += ", best loss is " + std::to_string(best_result);
+      } else {
+        log_msg += ", best " + metric_->GetType() + " is " + std::to_string(best_result);
+      }
+      LogInfo(log_msg);
     }
-    LogInfo(log_msg);
   }
   LogInfo("Train done");
 }
@@ -135,7 +137,7 @@ float Trainer::CalcGradient(std::vector<DataReader*>& train_reader) {
     auto data = new DMatrix();
     reader->Initialize();
     reader->Read(data);
-
+    LogDebug("ok");
     loss_->CalGrad(data, model_);
     LogDebug("loss_->CalGrad ok");
     // 释放内存
@@ -183,28 +185,28 @@ void Trainer::ShowTrainInfo(float train_loss, LossMetric& loss_metric, int epoch
   }
 }
 
-static void InitMetricValue(Metric* metric,
-                            float& best_result,
-                            float& prev_result,
-                            bool& less_is_better) {
+void InitMetricValue(Metric* metric,
+                            float* best_result,
+                            float* prev_result,
+                            bool* less_is_better) {
   if (metric == nullptr) {
-    best_result = FLOAT_MAX;
-    prev_result = FLOAT_MIN;
-    less_is_better = true;
+    *best_result = FLOAT_MAX;
+    *prev_result = FLOAT_MIN;
+    *less_is_better = true;
   } else {
     std::string metric_type = metric->GetType();
 
     if (metric_type == "Accuracy" || metric_type == "Precision" ||
         metric_type == "Recall" || metric_type == "F1" || metric_type == "AUC") {
       // Classification
-      best_result = FLOAT_MIN;
-      prev_result = FLOAT_MAX;
-      less_is_better = false;
+      *best_result = FLOAT_MIN;
+      *prev_result = FLOAT_MAX;
+      *less_is_better = false;
     } else if (metric_type == "MAE" || metric_type == "MAPE" || metric_type == "RMSD") {
       // regression
-      best_result = FLOAT_MAX;
-      prev_result = FLOAT_MIN;
-      less_is_better = true;
+      *best_result = FLOAT_MAX;
+      *prev_result = FLOAT_MIN;
+      *less_is_better = true;
     }
   }
 }
