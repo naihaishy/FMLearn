@@ -6,7 +6,6 @@
 
 #include "c_api/c_api.h"
 #include "c_api/c_api_error.h"
-#include "model/model_back.h"
 #include "data/data.h"
 #include "model/hyper_param.h"
 
@@ -68,92 +67,7 @@ TEST(C_API_TEST, FMMatrixFree) {
   EXPECT_TRUE(matrix->norms.empty());
 }
 
-TEST(C_API_TEST, FMCreate) {
-  FactorizationMachine* dfm = nullptr;
-  FM* out = reinterpret_cast<FM*>(&dfm);
-  FMCreate(out, 0, 10, 20,
-           0.1, 0.1, 0.1, 0.1,
-           0.1, 0.1,
-           true, true);
 
-  FactorizationMachine* fm = reinterpret_cast<FactorizationMachine*>(*out);
-
-  auto model = fm->GetModel();
-  EXPECT_EQ(model->GetTask(), 0);
-  EXPECT_EQ(model->GetNumFeatures(), 10);
-  EXPECT_EQ(model->GetNumFactors(), 20);
-  EXPECT_TRUE(model->GetW() != nullptr);
-  EXPECT_TRUE(model->GetV() != nullptr);
-  EXPECT_FLOAT_EQ(model->GetBias(), 0.0);
-
-  auto hyper_param = new HyperParam();
-  EXPECT_TRUE(hyper_param->is_train);
-
-  TrainParam *train_param=  hyper_param->GetTrainParam();
-  EXPECT_FLOAT_EQ(train_param->learning_rate, 0.1);
-  EXPECT_FLOAT_EQ(train_param->reg_W, 0.1);
-  EXPECT_FLOAT_EQ(train_param->reg_W, 0.1);
-  EXPECT_FLOAT_EQ(train_param->reg_V, 0.1);
-  EXPECT_TRUE(train_param->norm);
-  EXPECT_FALSE(train_param->quiet);
-}
-
-TEST(C_API_TEST, FMFit) {
-  // build data
-  std::vector<std::vector<float >> data;
-  data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-  data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-  data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-
-  int n_rows = 3;
-  std::vector<float> label = {1.0, 2.0, 3.0};
-  DMatrix* matrix = new DMatrix(&data, &label);
-  DataHandle* data_out = reinterpret_cast<DataHandle*>(&matrix);
-
-  // create fm
-  FactorizationMachine* dfm = nullptr;
-  FM* fm_out = reinterpret_cast<FM*>(&dfm);
-  FMCreate(fm_out, 0, 10, 20,
-           0.1, 0.1, 0.1, 0.1,
-           0.1, 0.1, true, false);
-
-  FactorizationMachine* fm = reinterpret_cast<FactorizationMachine*>(*fm_out);
-
-  FMFit(fm_out, data_out, 100);
-}
-
-TEST(C_API_TEST, FMPredict) {
-  // build data
-  std::vector<std::vector<float >> data;
-  data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-  data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-  data.push_back({1.0, 2.0, 3.0, 4.0, 5.0});
-
-  int n_rows = 3;
-  DMatrix* matrix = new DMatrix(&data, nullptr);
-  DataHandle* data_out = reinterpret_cast<DataHandle*>(&matrix);
-
-  // create fm
-  FactorizationMachine* dfm = nullptr;
-  FM* fm_out = reinterpret_cast<FM*>(&dfm);
-  FMCreate(fm_out, 0, 10, 20,
-           0.1, 0.1, 0.1, 0.1,
-           0.1, 0.1, true, false);
-
-  FactorizationMachine* fm = reinterpret_cast<FactorizationMachine*>(*fm_out);
-
-  float* dresult = new float[3];
-  DataHandle* result_out = reinterpret_cast<DataHandle*>(&dresult);
-  FMPredict(fm_out, data_out, result_out);
-  const float** result = reinterpret_cast<const float**>(*result_out);
-  for (int i = 0; i < 3; ++i) {
-    std::cout << (*result)[i] << std::endl;
-  }
-}
-
-TEST(C_API_TEST, FMGetLastError) {
-
-}
 
 int main(int argc, char* argv[]) {
 

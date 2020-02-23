@@ -8,7 +8,6 @@
 #include <memory>
 
 #include "common/log.h"
-#include "model/model_back.h"
 #include "data/data.h"
 
 FM_DLL void hello() {
@@ -66,11 +65,7 @@ FM_DLL int FMCreate(FM* out, int task, int n_features, int n_factors,
                     float mean, float stddev,
                     bool norm, bool verbose) {
   API_BEGIN()
-    auto model = new FactorizationMachine(task, n_features, n_factors,
-                                          lr, reg_w0, reg_W, reg_V,
-                                          mean, stddev,
-                                          norm, verbose);
-    *out = model;
+
     LogDebug("FMCreate succeed");
   API_END()
 }
@@ -84,11 +79,7 @@ FM_DLL int FMCreate(FM* out, int task, int n_features, int n_factors,
 FM_DLL int FMFit(FM* out, DataHandle* data, int iterations) {
   API_BEGIN()
     // 强制将out类型转换为FactorizationMachine
-    auto model = reinterpret_cast<FactorizationMachine*>(*out);
-    // 数据类型转换
-    auto train_data = reinterpret_cast<DMatrix*>(*data);
-    model->Initialize();
-    model->Fit(train_data, iterations, false);
+
     LogDebug("FMFit succeed");
   API_END()
 }
@@ -96,12 +87,7 @@ FM_DLL int FMFit(FM* out, DataHandle* data, int iterations) {
 FM_DLL int FMPredict(FM* out, DataHandle* data, DataHandle* out_result) {
   API_BEGIN()
     // 模型类型转换
-    auto model = reinterpret_cast<FactorizationMachine*>(*out);
-    // 数据类型转换
-    auto test_data = reinterpret_cast<DMatrix*>(*data);
-    auto results = reinterpret_cast<const float**>(*out_result);
-    auto y_preds =  model->Predict(test_data);
-    *results = &y_preds[0];
+
     LogDebug("FMPredict succeed");
   API_END()
 }

@@ -6,7 +6,6 @@
 
 #include "model/fm_model.h"
 #include "model/hyper_param.h"
-#include "model/model_back.h"
 #include "model/validator.h"
 
 TEST(MODEL_TEST, FMModel) {
@@ -26,80 +25,6 @@ TEST(MODEL_TEST, FMModel) {
   EXPECT_TRUE(model->GetV() != nullptr);
   EXPECT_FLOAT_EQ(model->GetBias(), 0.0);
 }
-
-TEST(MODEL_TEST, FactorizationMachine) {
-  // Constructor
-  FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
-                                                      0.1, 0.1, 0.1, 0.1,
-                                                      0.0, 0.1, true, true);
-
-  EXPECT_TRUE(fm != nullptr);
-
-  // FMModel
-  EXPECT_TRUE(fm->GetModel() != nullptr);
-
-  // FMHyperParam
-  EXPECT_TRUE(fm->GetHyperParam() != nullptr);
-}
-
-TEST(MODEL_TEST, FactorizationMachineFit) {
-
-  // fm
-  FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
-                                                      0.1, 0.1, 0.1, 0.1,
-                                                      0.0, 0.1,
-                                                      true, true);
-
-  // build data
-  const float data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
-                        1.0, 2.0, 3.0, 4.0, 5.0,
-                        1.0, 2.0, 3.0, 4.0, 5.0,
-  };
-  const float label[] = {1.0, 2.0, 3.0};
-
-  int n_rows = 3;
-  DMatrix* matrix = new DMatrix(data, label, n_rows, 5);
-
-  // fit
-  fm->Initialize();
-  fm->Fit(matrix, 100);
-}
-
-TEST(MODEL_TEST, FactorizationMachinePredict){
-  // fm
-  FactorizationMachine* fm = new FactorizationMachine(0, 10, 10,
-                                                      0.1, 0.1, 0.1, 0.1,
-                                                      0.0, 0.1,
-                                                      true, true);
-
-  // build data
-  const float train_data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
-                        1.0, 2.0, 3.0, 4.0, 5.0,
-                        1.0, 2.0, 3.0, 4.0, 5.0,
-  };
-  const float train_label[] = {1.0, 2.0, 3.0};
-
-  int n_rows = 3;
-  DMatrix* train_matrix = new DMatrix(train_data, train_label, n_rows, 5);
-
-  // fit
-  fm->Initialize();
-  fm->Fit(train_matrix, 100);
-
-  // build test data
-  const float test_data[] = {1.0, 2.0, 3.0, 4.0, 5.0,
-                        1.0, 2.0, 3.0, 4.0, 5.0,
-                        1.0, 2.0, 3.0, 4.0, 5.0,
-  };
-  DMatrix* test_matrix = new DMatrix(test_data, nullptr, 3, 5);
-
-  const float* out = new float[3];
-
-  std::vector<float > results = fm->Predict(test_matrix);
-  out = &results[0];
-  // fm->Predict(test_matrix, &out);
-}
-
 
 
 TEST(MODEL_TEST, TrainParam) {

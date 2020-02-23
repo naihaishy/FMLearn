@@ -14,7 +14,6 @@ install(TARGETS c_api_test DESTINATION ${BUILD_RESULT_DIR}/test)
 add_library(fm_learn SHARED
         c_api.cpp
         c_api_error.cpp
-        ../model/model_back.cpp
         ../model/fm_model.cpp
         ../model/hyper_param.cpp
         ../data/data.cpp
