@@ -44,6 +44,9 @@ void SquaredLoss::CalGrad(const DMatrix* data, FMModel* model) {
     // calculate loss
     losses += 0.5f * (y_pred - y_true) * (y_pred - y_true);
   }
+
+  loss_sum_ += losses;
+  num_samples_ += data->row_length;
 }
 
 SquaredLoss::~SquaredLoss() = default;

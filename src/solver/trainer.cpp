@@ -132,6 +132,7 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
 }
 
 float Trainer::CalcGradient(std::vector<DataReader*>& train_reader) {
+  loss_->Reset();
   for (auto& reader : train_reader) {
     auto data = new DMatrix();
     reader->Initialize();

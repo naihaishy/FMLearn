@@ -18,7 +18,7 @@ inline float sigmoid(float x) {
  * @return
  */
 void CrossEntropyLoss::Calculate(std::vector<float>& preds,
-                                  std::vector<float>& labels) {
+                                 std::vector<float>& labels) {
   float result = 0.0f;
   assert(preds.size() == labels.size());
   for (int i = 0; i < preds.size(); ++i) {
@@ -55,9 +55,11 @@ void CrossEntropyLoss::CalGrad(const DMatrix* data, FMModel* model) {
     score_->CalGrad(x, *model, norm, delta);
 
     // calculate loss
-    losses += -log(sigmoid(y_true * y_pred));
+    losses += static_cast<float> (-log(sigmoid(y_true * y_pred)));
   }
-}
 
+  loss_sum_ += losses;
+  num_samples_ += data->row_length;
+}
 
 CrossEntropyLoss::~CrossEntropyLoss() = default;

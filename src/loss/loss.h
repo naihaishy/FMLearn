@@ -33,7 +33,10 @@ class Loss {
   }
 
   /**
-   * 重置
+   * 重置 Calculate 与  CalGrad都会计算loss, 因此两个需要单独使用
+   * Calculate一般用于测试数据
+   * CalGrad一般用于训练时的loss
+   * 使用前需要 Reset()
    */
   void Reset() {
     loss_sum_ = 0.0f;
@@ -68,7 +71,7 @@ class Loss {
   virtual std::string GetType() = 0;
 
   // 返回loss结果
-  float GetValue() { return loss_sum_ / num_samples_; }
+  float GetValue() { return loss_sum_ / static_cast<float >(num_samples_); }
 
  protected:
   float loss_sum_ = 0.0f;
