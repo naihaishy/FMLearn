@@ -80,17 +80,21 @@ void split_file_in_lines(const std::string& file_path,
   while (std::getline(ifs, line)) {
     file_lines++;
   }
-  long long average_file_line = file_lines / num + 1;
+  long long average_file_line = file_lines / num;
   ifs.close();
   ifs.open(file_path);
 
   for (int i = 0; i < num; ++i) {
+    ifs.seekg(i * average_file_line, std::ifstream::beg);
+
     std::string out_file = file_path + "_" + std::to_string(i);
     std::ofstream ofs(out_file, std::ofstream::out);
-    for (int j = 0; j < average_file_line; ++j) {
-      std::string text_line;
-      ifs >> text_line;
-      if (!text_line.empty()) ofs << text_line << "\n";
+    std::string text_line;
+    int cnt = 0;
+    while (std::getline(ifs, text_line)) {
+      cnt++;
+      ofs << text_line << "\n";
+      if (cnt == average_file_line) break;
     }
     ofs.flush();
     ofs.close();
@@ -99,7 +103,15 @@ void split_file_in_lines(const std::string& file_path,
   ifs.close();
 }
 
-
+int get_file_lines(const std::string& file_path) {
+  int num_lines = 0;
+  std::ifstream ifs(file_path);
+  std::string line;
+  while (std::getline(ifs, line)) {
+    num_lines++;
+  }
+  return num_lines;
+}
 
 
 

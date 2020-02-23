@@ -62,11 +62,12 @@ void Trainer::CVTrain() {
     // 构造训练数据与验证数据
     std::vector<DataReader*> train_reader, valid_reader;
     valid_reader.emplace_back(reader_list_[i]);
-    for (int j = 0; j < num_readers && j != i; ++j) {
+    for (int j = 0; j < num_readers; ++j) {
+      if (i == j) continue;
       train_reader.emplace_back(reader_list_[j]);
     }
     // 初始化model 重置参数
-    // model_->Reset();
+    model_->Reset();
     this->Train(train_reader, valid_reader);
   }
 }

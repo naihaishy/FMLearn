@@ -26,7 +26,7 @@ TEST(COMMON_TEST, Logging) {
 
 }
 
-TEST(COMMON_TEST, Check){
+TEST(COMMON_TEST, Check) {
   CHECK_LT(9, 12);
   CHECK_LT(12, 9);
 
@@ -38,25 +38,36 @@ TEST(COMMON_TEST, Check){
 
   CHECK_EQ(12, 12);
   CHECK_EQ(true, true);
-  CHECK_NE((12==12), false);
+  CHECK_NE((12 == 12), false);
 }
 
-TEST(COMMON_TEST, Split_file){
+TEST(COMMON_TEST, Split_file) {
   std::vector<std::string> out_files;
-  split_file_in_lines("data/house_price_train.txt", 3, out_files);
-  EXPECT_EQ(out_files.size(), 3);
-  // remove
-  EXPECT_EQ(remove("data/house_price_train.txt_0"), 0);
-  EXPECT_EQ(remove("data/house_price_train.txt_1"), 0);
-  EXPECT_EQ(remove("data/house_price_train.txt_2"), 0);
-}
 
+  std::string base_file = "data/house_price_train.txt";
+
+  int all_lines = get_file_lines(base_file); //1164
+  int num_split = 3;
+  LogInfo("all_lines " + std::to_string(all_lines) + " num_split "
+               + std::to_string(num_split));
+
+  split_file_in_lines(base_file, num_split, out_files);
+  EXPECT_EQ(out_files.size(), num_split);
+
+  std::vector<int> num_lines;
+  for (const auto& file:out_files) {
+    num_lines.push_back(get_file_lines(file));
+    EXPECT_EQ(remove(file.c_str()), 0);
+  }
+
+  for (auto num_line:num_lines) {
+    EXPECT_EQ(num_line, all_lines / num_split);
+  }
+}
 
 void func(int id) {
   printf("Hello %i\n", id);
 }
-
-
 
 int main(int argc, char* argv[]) {
 

@@ -38,4 +38,5 @@ void split_file_in_lines(const std::string& file_path,
                          int num,
                          std::vector<std::string>& out_files);
 
+int get_file_lines(const std::string& file_path);
 #endif //FMLEARN_COMMON_UTILS_H_
