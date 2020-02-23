@@ -9,6 +9,10 @@
 #include "common/utils.h"
 #include "model/hyper_param.h"
 
+/**
+ * Usage:
+ * Validator::Validate();
+ */
 class Validator {
  public:
   static bool Validate(TrainParam& param);

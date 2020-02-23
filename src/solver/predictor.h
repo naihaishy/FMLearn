@@ -12,6 +12,14 @@
 #include "score/score.h"
 #include "data/reader.h"
 
+/**
+ *
+ * Usage :
+ * Predictor predictor;
+ * predictor.Initialize();
+ * predictor.Predict();
+ *
+ */
 class Predictor {
 
  public:

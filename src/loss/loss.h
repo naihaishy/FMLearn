@@ -16,7 +16,7 @@
 /**
  * Usage :
  * Loss *loss = new Loss();
- * loss->Initialize();
+ * loss->Initialize(score);
  */
 class Loss {
 

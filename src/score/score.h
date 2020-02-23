@@ -9,6 +9,11 @@
 #include "model/hyper_param.h"
 #include "data/data.h"
 
+/**
+ * Usage :
+ * Score *score = new Score();
+ * score->Initialize(hyper_param);
+ */
 class Score {
  public:
   Score() = default;
