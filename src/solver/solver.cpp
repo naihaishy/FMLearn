@@ -22,14 +22,6 @@ void Solver::Initialize(HyperParam* param) {
   LogDebug("Solver Initialize done");
 }
 
-void Solver::SetTrain() {
-  hyper_param_->is_train = true;
-}
-
-void Solver::SetPredict() {
-  hyper_param_->is_train = false;
-}
-
 /**
  * 初始化训练参数
  * 准备 Trainer 需要的初始化参数
@@ -119,18 +111,18 @@ void Solver::InitTrain() {
 void Solver::InitPredict() {
   PredictionParam* prediction_param = hyper_param_->GetPredictionParam();
 
-  // 初始化 model_ loss_ score_
-  if (prediction_param->model == LINER_MODEL) {
-    model_ = nullptr;
-  } else {
-    model_ = new FMModel(prediction_param->model_file);
-  }
+  // 初始化 model_
+  model_ = new FMModel(prediction_param->model_file);
 
-  if (prediction_param->task == REGRESSION) {
-    loss_ = new SquaredLoss();
-  } else {
-    loss_ = new CrossEntropyLoss();
-  }
+  // 初始化 score_
+  if (model_->GetModel() == LINER_MODEL) score_ = new LinearScore();
+  else score_ = new FmScore();
+  score_->Initialize(hyper_param_);
+
+  // 初始化 loss_
+  if (model_->GetTask() == REGRESSION) loss_ = new SquaredLoss();
+  else loss_ = new CrossEntropyLoss();
+  loss_->Initialize(score_);
 
   // 初始化reader_list_
   reader_list_.clear();

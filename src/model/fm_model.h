@@ -50,6 +50,7 @@ class FMModel {
 
   // Getter Functions
   int GetTask() const { return task_; }
+  int GetModel() const { return model_; }
   int GetNumFeatures() const { return n_features_; }
   int GetNumFactors() const { return n_factors_; }
   bool HasLimitPredict() const { return limit_predict; }
@@ -66,6 +67,7 @@ class FMModel {
 
  private:
   int task_ = REGRESSION;
+  int model_ = FM_MODEL;
   int n_features_ = 0;
   int n_factors_ = 0;
   float w0_ = 0.0; // bias

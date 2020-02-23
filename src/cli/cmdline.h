@@ -11,6 +11,12 @@
 
 #include "model/hyper_param.h"
 
+/**
+ * Usage :
+ * CmdLine cmd_line;
+ * cmd_line.SetTrain(); // cmd_line.SetPredict();
+ * cmd_line.Parse(argc, argv)
+ */
 class CmdLine {
  public:
   CmdLine();

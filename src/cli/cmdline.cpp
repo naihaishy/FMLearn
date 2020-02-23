@@ -93,6 +93,7 @@ bool CmdLine::Parse(int argc, char** argv) {
     return false;
   }
 
+  // important!
   param_->is_train = is_train_;
 
   if (is_train_) {

@@ -81,6 +81,7 @@ void FMModel::Save(const std::string& filename) {
   ofs << std::to_string(VERSION) << std::endl;
   // task
   ofs << task_ << std::endl;
+  ofs << model_ << std::endl;
   ofs << n_features_ << std::endl;
   ofs << n_factors_ << std::endl;
   // weights
@@ -130,6 +131,9 @@ bool FMModel::Load(const std::string& filename) {
 
   if (!std::getline(ifs, line)) return false;
   task_ = std::stoi(line);
+
+  if (!std::getline(ifs, line)) return false;
+  model_ = std::stoi(line);
 
   if (!std::getline(ifs, line)) return false;
   n_features_ = std::stoi(line);

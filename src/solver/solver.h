@@ -16,8 +16,7 @@
 /**
  * Usage :
  *  Solver solver;
- *  solver.SetTrain(); // solver.SetPredict();
- *  solver.Initialize();
+ *  solver.Initialize(param);
  *  solver.Start();
  */
 
@@ -31,8 +30,6 @@ class Solver {
       metric_(nullptr) {};
   ~Solver() = default;;
   void Initialize(HyperParam* param);
-  void SetTrain();
-  void SetPredict();
   void Start();
 
  private:

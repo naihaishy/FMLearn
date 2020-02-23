@@ -19,12 +19,10 @@ int main(int argc, char* argv[]) {
   if (cmd_line.Parse(argc, argv)) {
     HyperParam* param = cmd_line.GetParam();
 
-    TrainParam* train_param = param->GetTrainParam();
-    LogInfo(train_param->to_string());
+    LogInfo(param->GetTrainParam()->to_string());
 
     Solver solver;
     solver.Initialize(param);
-    solver.SetTrain();
     solver.Start();
   } else {
     LogError("FMLearn command line parameter parse failed");

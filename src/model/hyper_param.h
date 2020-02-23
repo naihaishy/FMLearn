@@ -46,8 +46,6 @@ struct TrainParam {
 };
 
 struct PredictionParam {
-  int task = REGRESSION; // 0 for regression , 1 for classification
-  int model = FM_MODEL; //  0 for linear model, 1 for fm model
 
   std::string test_file;
   std::string model_file;
