@@ -22,7 +22,7 @@ void CrossEntropyLoss::Calculate(std::vector<float>& preds,
   float result = 0.0f;
   assert(preds.size() == labels.size());
   for (int i = 0; i < preds.size(); ++i) {
-    result += log1p(exp(preds[i] * labels[i]));
+    result += log1p(exp(preds[i] * labels[i])); // -ln sigmoid(yy^)
   }
   loss_sum_ += result;
   num_samples_ += preds.size();

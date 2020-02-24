@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cassert>
 
 namespace Color {
 
@@ -77,7 +78,7 @@ inline void PrintDefault(const std::string& out, bool important) {
   }
 }
 
-inline void PrintDefault(const std::string& out){
+inline void PrintDefault(const std::string& out) {
   PrintDefault(out, false);
 }
 
@@ -92,7 +93,7 @@ inline void PrintInfo(const std::string& out, bool important) {
   }
 }
 
-inline void PrintInfo(const std::string& out){
+inline void PrintInfo(const std::string& out) {
   PrintInfo(out, false);
 }
 
@@ -107,7 +108,7 @@ inline void PrintWarning(const std::string& out, bool important) {
   }
 }
 
-inline void PrintWarning(const std::string& out){
+inline void PrintWarning(const std::string& out) {
   PrintWarning(out, false);
 }
 
@@ -122,8 +123,31 @@ inline void PrintError(const std::string& out, bool important) {
   }
 }
 
-inline void PrintError(const std::string& out){
+inline void PrintError(const std::string& out) {
   PrintError(out, false);
+}
+
+//------------------------------------------------------------------------------
+// Example:
+//
+//  column ->  "Name", "ID", "Count", "Price"
+//  width -> 10, 10, 10, 10
+//
+// Output:
+//
+//   Name       ID        Count   Price
+//   Fruit      0x101       50     5.27
+//   Juice      0x102       20     8.73
+//   Meat       0x104       30    10.13
+//------------------------------------------------------------------------------
+template<typename T>
+void PrintRow(const std::vector<T>& column, const std::vector<int>& width) {
+  assert(column.size() == width.size());
+  for (size_t i = 0; i < column.size(); ++i) {
+    std::cout.width(width[i]);
+    std::cout << column[i];
+  }
+  std::cout << "\n";
 }
 
 #endif //FMLEARN_COMMON_TERMINAL_H_

@@ -63,13 +63,23 @@ class Trainer {
    */
   LossMetric CalcMetric(std::vector<DataReader*>& valid_reader);
 
-  /**
-   * 显示训练过程信息
-   * @param train_loss
-   * @param loss_metric
-   * @param epoch
-   */
-  void ShowTrainInfo(float train_loss, LossMetric& loss_metric, int epoch);
+  void ShowHeadInfo(bool validate);
+
+   /**
+    * 显示训练过程信息
+    * @param epoch
+    * @param train_loss
+    * @param valid_loss
+    * @param valid_metric
+    * @param time_cost
+    * @param validate
+    */
+  void ShowTrainInfo(int epoch,
+                     float train_loss,
+                     float valid_loss,
+                     float valid_metric,
+                     int time_cost,
+                     bool validate);
 
   // 显示交叉验证的结果
   void ShowAverageMetric();
@@ -83,6 +93,7 @@ class Trainer {
   int stop_window_{};
   bool quiet_{};
   std::vector<LossMetric> loss_metrics_;
+
 };
 
 void InitMetricValue(Metric* metric,

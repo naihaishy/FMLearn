@@ -14,6 +14,8 @@ void SquaredLoss::Calculate(std::vector<float>& preds,
   for (int i = 0; i < preds.size(); ++i) {
     result += (labels[i] - preds[i]) * (labels[i] - preds[i]);
   }
+  loss_sum_ += result;
+  num_samples_ += preds.size();
 }
 
 /**

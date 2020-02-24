@@ -8,6 +8,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <chrono>
 
 #include "common/log.h"
 
@@ -39,4 +40,10 @@ void split_file_in_lines(const std::string& file_path,
                          std::vector<std::string>& out_files);
 
 int get_file_lines(const std::string& file_path);
+
+inline long long timestamps_in_ms() {
+  auto now = std::chrono::system_clock::now().time_since_epoch();
+  return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+}
+
 #endif //FMLEARN_COMMON_UTILS_H_

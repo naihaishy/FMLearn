@@ -1,6 +1,6 @@
 
 # Build common static lib
-add_library(common STATIC log.cpp utils.cpp)
+add_library(common STATIC log.cpp utils.cpp stringprintf.cc)
 set_target_properties(common PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 install(TARGETS common DESTINATION ${BUILD_RESULT_DIR}/libs)
 

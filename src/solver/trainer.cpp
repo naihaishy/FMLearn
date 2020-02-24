@@ -2,6 +2,8 @@
 // Created by naihai on 2020/2/19.
 //
 
+#include <common/stringprintf.h>
+#include <common/terminal.h>
 #include "solver/trainer.h"
 
 #include "common/check.h"
@@ -90,19 +92,26 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
   bool less_is_better = true; // 标记是否值越小越好
   InitMetricValue(metric_, &best_result, &prev_result, &less_is_better);
 
+  if (!quiet_) ShowHeadInfo(!valid_reader.empty());
+
   LossMetric valid_info;
   for (int i = 1; i <= epoch_; ++i) {
+    auto time_start = timestamps_in_ms();
     // 计算梯度并更新model
     float train_loss = CalcGradient(train_reader);
-    LogInfo("Epoch " + std::to_string(i) + " Train loss is " + std::to_string(train_loss));
 
     // 计算验证数据的性能指标
     if (!quiet_ && !valid_reader.empty()) {
       valid_info = CalcMetric(valid_reader);
 
-
+      int time_cost = static_cast<int>(timestamps_in_ms() - time_start);
       // show evaluation metric info
-      ShowTrainInfo(train_loss, valid_info, i);
+      ShowTrainInfo(i,
+                    train_loss,
+                    valid_info.loss_value,
+                    valid_info.metric_value,
+                    time_cost,
+                    !valid_reader.empty());
 
       // Early-stopping
       if (early_stop_) {
@@ -133,7 +142,7 @@ void Trainer::Train(std::vector<DataReader*>& train_reader,
         log_msg += ", best " + metric_->GetType() + " is " + std::to_string(best_result);
       }
       LogInfo(log_msg);
-    }else{
+    } else {
       loss_metrics_.push_back(valid_info);// cv
     }
   }
@@ -161,14 +170,19 @@ float Trainer::CalcGradient(std::vector<DataReader*>& train_reader) {
  */
 LossMetric Trainer::CalcMetric(std::vector<DataReader*>& valid_reader) {
   std::vector<float> preds;
+  // 重置loss统计
+  loss_->Reset();
   for (auto& reader:valid_reader) {
     auto data = new DMatrix();
     reader->Initialize();
     reader->Read(data);
-    loss_->Predict(data, *model_, preds);
 
-    if (metric_ == nullptr) loss_->Calculate(preds, data->labels);
-    else metric_->Calculate(preds, data->labels);
+    loss_->Predict(data, *model_, preds);
+    loss_->Calculate(preds, data->labels);
+
+    if (metric_ != nullptr) {
+      metric_->Calculate(preds, data->labels);
+    }
     // 释放内存
     data->Free();
     delete data;
@@ -176,21 +190,81 @@ LossMetric Trainer::CalcMetric(std::vector<DataReader*>& valid_reader) {
 
   LossMetric info;
   info.loss_value = loss_->GetValue();
-  if (metric_ != nullptr) info.metric_value = metric_->GetValue();
+  if (metric_ != nullptr) {
+    info.metric_value = metric_->GetValue();
+  }
 
   return info;
 }
 
-void Trainer::ShowTrainInfo(float train_loss, LossMetric& loss_metric, int epoch) {
-  if (metric_ == nullptr) {
-    LogInfo("Epoch : " + std::to_string(epoch) +
-        ", Train Loss : " + std::to_string(train_loss) +
-        ", Valid Loss : " + std::to_string(loss_metric.loss_value));
-  } else {
-    LogInfo("Epoch : " + std::to_string(epoch) +
-        ", Train Loss : " + std::to_string(train_loss) +
-        ", Metric Value : " + std::to_string(loss_metric.metric_value));
+void Trainer::ShowHeadInfo(bool validate) {
+  std::vector<std::string> str_list;
+  std::vector<int> width_list;
+
+  str_list.emplace_back("Epoch");
+  width_list.push_back(6);
+  str_list.emplace_back("Train " + loss_->GetType());
+  width_list.push_back(20);
+
+  if (validate) {
+    str_list.push_back("Test " + loss_->GetType());
+    width_list.push_back(20);
+    if (metric_ != nullptr) {
+      str_list.push_back("Test " + metric_->GetType());
+      width_list.push_back(20);
+    }
   }
+
+  str_list.emplace_back("Time cost (sec)");
+  width_list.push_back(20);
+
+  // 打印
+  Color::Modifier green(Color::FG_GREEN);
+  Color::Modifier reset(Color::FR_ALL);
+  std::cout << green << "[------------]" << reset;
+  PrintRow(str_list, width_list);
+}
+
+void Trainer::ShowTrainInfo(int epoch,
+                            float train_loss,
+                            float valid_loss,
+                            float valid_metric,
+                            int time_cost,
+                            bool validate) {
+
+  std::vector<std::string> str_list;
+  std::vector<int> width_list;
+
+  // 显示epoch
+  str_list.push_back(StringPrintf("%d", epoch));
+  width_list.push_back(6);
+
+  // 显示train loss
+  str_list.push_back(StringPrintf("%.6f", train_loss));
+  width_list.push_back(20);
+
+  // 显示验证数据结果
+  if (validate) {
+    str_list.push_back(StringPrintf("%.6f", valid_loss));
+    width_list.push_back(20);
+    if (metric_ != nullptr) {
+      str_list.push_back(StringPrintf("%.6f", valid_metric));
+      width_list.push_back(20);
+    }
+  }
+
+  // 显示每次迭代的花费时间
+  str_list.push_back(StringPrintf("%d", time_cost));
+  width_list.push_back(20);
+
+  // 打印
+  // 显示进度 百分比
+  Color::Modifier green(Color::FG_GREEN);
+  Color::Modifier reset(Color::FR_ALL);
+  std::cout << green << "[ " << reset;
+  std::cout.width(4);
+  std::cout << static_cast<int>(epoch * 1.0 / epoch_ * 100) << "%" << green << "      ]" << reset;
+  PrintRow(str_list, width_list);
 }
 
 void Trainer::ShowAverageMetric() {
