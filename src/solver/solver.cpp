@@ -71,6 +71,10 @@ void Solver::InitTrain() {
     metric_ = new AUCMetric();
   } else if (train_param->metric == "mse") {
     metric_ = new MSEMetric();
+  } else if (train_param->metric == "rmse") {
+    metric_ = new RMSEMetric();
+  } else if (train_param->metric == "mae") {
+    metric_ = new MAEMetric();
   } else {
     metric_ = nullptr;
   }
