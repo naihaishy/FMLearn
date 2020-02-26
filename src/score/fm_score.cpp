@@ -34,6 +34,7 @@ float FmScore::Calculate(const SparseRow* row, FMModel& model, float norm) {
   }
 
   // interaction term
+  float sum_inter = 0;
   int K = model.GetNumFactors();
   float inter1, inter2, d;
   for (int f = 0; f < K; ++f) {
@@ -47,13 +48,11 @@ float FmScore::Calculate(const SparseRow* row, FMModel& model, float norm) {
       inter1 += d;
       inter2 += d * d;
     }
-    result += inter1 * inter1 - inter2;
+    sum_inter += inter1 * inter1 - inter2;
   }
+  sum_inter *= 0.5;
+  result += sum_inter;
 
-  if (model.GetTask() == REGRESSION && model.HasLimitPredict()) {
-    result = std::max(model.GetMinTarget(), result);
-    result = std::min(model.GetMaxTarget(), result);
-  }
   return result;
 }
 

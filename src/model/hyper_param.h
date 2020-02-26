@@ -24,9 +24,9 @@ struct TrainParam {
   int n_factors = 10;
   int n_epoch = 100;
   float learning_rate = 0.1;
-  float reg_w0 = 0.1;
-  float reg_W = 0.1;
-  float reg_V = 0.1;
+  float reg_w0 = 0.00002;
+  float reg_W = 0.00002;
+  float reg_V = 0.00002;
   float init_mean = 0.0;
   float init_stddev = 0.1;
 

@@ -215,7 +215,7 @@ void Trainer::ShowHeadInfo(bool validate) {
     }
   }
 
-  str_list.emplace_back("Time cost (mill-sec)");
+  str_list.emplace_back("Time cost (ms)");
   width_list.push_back(20);
 
   // 打印

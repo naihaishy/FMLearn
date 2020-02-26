@@ -53,17 +53,10 @@ class FMModel {
   int GetModel() const { return model_; }
   int GetNumFeatures() const { return n_features_; }
   int GetNumFactors() const { return n_factors_; }
-  bool HasLimitPredict() const { return limit_predict; }
-  float GetMaxTarget() const { return max_target_; }
-  float GetMinTarget() const { return min_target_; }
 
   float& GetBias() { return w0_; }
   float*& GetW() { return W_; }
   float*& GetV() { return V_; }
-
-  // Setter Functions
-  void SetMaxTarget(float value) { max_target_ = value; }
-  void SetMinTarget(float value) { min_target_ = value; }
 
  private:
   int task_ = REGRESSION;
@@ -74,10 +67,6 @@ class FMModel {
   float* W_ = nullptr; // linear_weights
   float* V_ = nullptr; // intersection_weights
 
-  // 是否对predict结果进行范围限制 在task==REGRESSION情况下有效
-  bool limit_predict = false;
-  float min_target_ = 0.0;
-  float max_target_ = 0.0;
 };
 
 #endif //FMLEARN_CORE_FM_MODEL_H_
