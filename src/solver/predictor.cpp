@@ -36,3 +36,14 @@ void Predictor::Initialize(DataReader* reader,
   model_ = model;
   out_file_ = out_file;
 }
+
+Predictor::~Predictor() {
+  delete reader_;
+  delete loss_;
+  delete model_;
+
+  reader_ = nullptr;
+  loss_ = nullptr;
+  model_ = nullptr;
+  std::vector<float>().swap(out_);
+}

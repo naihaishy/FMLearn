@@ -58,3 +58,11 @@ HyperParam::HyperParam() {
   prediction_param_ = new PredictionParam();
 }
 
+HyperParam::~HyperParam() {
+  delete train_param_;
+  delete prediction_param_;
+
+  train_param_ = nullptr;
+  prediction_param_ = nullptr;
+}
+

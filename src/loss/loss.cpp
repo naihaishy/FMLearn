@@ -18,3 +18,8 @@ void Loss::Predict(const DMatrix* data,
     preds.emplace_back(y_pred);
   }
 }
+
+Loss::~Loss() {
+  delete score_;
+  score_ = nullptr;
+}

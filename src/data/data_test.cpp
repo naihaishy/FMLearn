@@ -98,7 +98,6 @@ TEST(DMATRIX_TEST, Init) {
  */
 TEST(DMATRIX_TEST, AddData) {
   DMatrix matrix;
-  matrix.Free();
 
   for (int i = 0; i < 10; ++i) {
     matrix.AddRow();
@@ -124,7 +123,6 @@ TEST(DMATRIX_TEST, AddData) {
  */
 TEST(DMATRIX_TEST, Free) {
   DMatrix matrix;
-  matrix.Free();
   EXPECT_TRUE(matrix.has_label);
   EXPECT_EQ(matrix.row_length, 0);
   EXPECT_TRUE(matrix.rows.empty());

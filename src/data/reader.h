@@ -26,6 +26,8 @@ class DataReader {
       file_path_(file_path),
       has_label_(has_label) {};
 
+  ~DataReader();
+
   void Initialize();
   void Read(DMatrix* data);
   std::string GetFileFormat() { return file_format_; };

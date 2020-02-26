@@ -37,14 +37,20 @@ typedef std::vector<Node> SparseRow;
  */
 class DMatrix {
  public:
-  DMatrix() : row_length(0), has_label(true), rows(0), labels(0), norms(0) {}
-  ~DMatrix() = default;
+  DMatrix() :
+      row_length(0),
+      has_label(true),
+      rows(0),
+      labels(0),
+      norms(0) {}
+  ~DMatrix();
 
   explicit DMatrix(const float* data, const float* label, int n_rows, int n_cols);
   explicit DMatrix(std::vector<std::vector<float>>* data, std::vector<float>* labels);
   explicit DMatrix(const std::string& file_name, bool has_label = true);
 
   DMatrix(const DMatrix& other) = delete;
+
   void operator=(const DMatrix& other) = delete;
   bool operator==(const DMatrix& other) const;
   bool operator!=(const DMatrix& other) const;
@@ -52,7 +58,6 @@ class DMatrix {
   void Init(int n_rows); // pre alloc memory for rows, labels, norms
   void AddNode(int row_id, int feature_id, float feature_val);
   void AddRow();
-  void Free(); // Free memory for DMatrix
   int GetNumFeatures();
   int row_length = 0;
   bool has_label = true;

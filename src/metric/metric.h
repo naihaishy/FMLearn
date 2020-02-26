@@ -18,7 +18,7 @@ class Metric {
 
  public:
   Metric() = default;;
-  ~Metric() = default;;
+  virtual ~Metric() = default;
 
   // 累计计算指标
   virtual void Calculate(std::vector<float>& pred,
@@ -161,7 +161,6 @@ class AUCMetric : public Metric {
   }
   void Calculate(std::vector<float>& pred, std::vector<float>& label) override {
     assert(pred.size() == label.size());
-    int n = pred.size();
   }
 
   float GetValue() override {

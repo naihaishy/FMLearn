@@ -60,6 +60,7 @@ struct PredictionParam {
 class HyperParam {
  public:
   HyperParam();
+  ~HyperParam();
   TrainParam* GetTrainParam() const;
   PredictionParam* GetPredictionParam() const;
 
@@ -69,6 +70,5 @@ class HyperParam {
   TrainParam* train_param_ = nullptr;
   PredictionParam* prediction_param_ = nullptr;
 };
-
 
 #endif //FMLEARN_CORE_HYPER_PARAM_H_

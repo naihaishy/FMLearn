@@ -157,7 +157,6 @@ float Trainer::CalcGradient(std::vector<DataReader*>& train_reader) {
     reader->Read(data);
     loss_->CalGrad(data, model_);
     // 释放内存
-    data->Free();
     delete data;
   }
   return loss_->GetValue();
@@ -184,7 +183,6 @@ LossMetric Trainer::CalcMetric(std::vector<DataReader*>& valid_reader) {
       metric_->Calculate(preds, data->labels);
     }
     // 释放内存
-    data->Free();
     delete data;
   }
 

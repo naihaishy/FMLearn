@@ -17,7 +17,7 @@
 class Score {
  public:
   Score() = default;
-  virtual ~Score() = default;
+  virtual ~Score();
 
   void Initialize(HyperParam* hyper_param);
 

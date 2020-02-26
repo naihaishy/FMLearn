@@ -144,4 +144,8 @@ void DataReader::Read(DMatrix* data) {
   LogDebug("Reader read data succeed");
 }
 
+DataReader::~DataReader() {
+  delete parser_;
+}
+
 

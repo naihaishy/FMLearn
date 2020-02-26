@@ -22,7 +22,7 @@ class Loss {
 
  public:
   Loss() = default;
-  virtual ~Loss() = default;
+  virtual ~Loss();
 
   /**
    * 初始化

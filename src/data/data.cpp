@@ -126,27 +126,6 @@ void DMatrix::AddRow() {
   this->labels.emplace_back(0.0);
 }
 
-/**
- * 释放DMatrix内存
- */
-void DMatrix::Free() {
-  this->has_label = true;
-  // delete labels
-  std::vector<float>().swap(this->labels);
-  // delete norms
-  std::vector<float>().swap(this->norms);
-
-  // delete nodes
-  for (int i = 0; i < this->row_length; ++i) {
-    SparseRow* row = this->rows[i];
-    delete row;
-  }
-
-  // delete rows
-  std::vector<SparseRow*>().swap(this->rows);
-  this->row_length = 0;
-  LogDebug("DMatrix Free done");
-}
 
 /**
  * 比较两个DMatrix内容是否相等
@@ -182,6 +161,22 @@ int DMatrix::GetNumFeatures() {
     num_features = std::max(num_features, node.feature_id);
   }
   return num_features + 1;
+}
+
+DMatrix::~DMatrix() {
+  // delete labels
+  std::vector<float>().swap(this->labels);
+  // delete norms
+  std::vector<float>().swap(this->norms);
+
+  // delete nodes
+  for (int i = 0; i < this->row_length; ++i) {
+    SparseRow* row = this->rows[i];
+    delete row;
+  }
+
+  // delete rows
+  std::vector<SparseRow*>().swap(this->rows);
 }
 
 

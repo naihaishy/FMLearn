@@ -176,4 +176,25 @@ void Solver::StartPredict() {
   predictor.Predict();
 }
 
+Solver::~Solver() {
+
+  for (auto &reader : reader_list_) {
+    delete reader;
+    reader = nullptr;
+  }
+  std::vector<DataReader*>().swap(reader_list_);
+
+  delete score_;
+  delete loss_;
+  delete model_;
+  delete metric_;
+  delete hyper_param_;
+
+  score_ = nullptr;
+  loss_ = nullptr;
+  model_ = nullptr;
+  metric_ = nullptr;
+  hyper_param_ = nullptr;
+}
+
 

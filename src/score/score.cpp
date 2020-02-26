@@ -7,3 +7,8 @@
 void Score::Initialize(HyperParam* hyper_param) {
   hyper_param_ = hyper_param;
 }
+
+Score::~Score() {
+  delete hyper_param_;
+  hyper_param_ = nullptr;
+}

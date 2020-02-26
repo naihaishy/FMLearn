@@ -28,7 +28,7 @@ class Solver {
       loss_(nullptr),
       model_(nullptr),
       metric_(nullptr) {};
-  ~Solver() = default;;
+  ~Solver();
 
   void Initialize(HyperParam* param);
 

@@ -175,3 +175,11 @@ bool FMModel::Load(const std::string& filename) {
   }
   return true;
 }
+
+FMModel::~FMModel() {
+  delete[] W_;
+  delete[] V_;
+
+  W_ = nullptr;
+  V_ = nullptr;
+}
