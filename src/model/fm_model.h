@@ -30,8 +30,12 @@ class FMModel {
                    float w0,
                    float* W,
                    float* V) :
-      task_(task), n_features_(n_features), n_factors_(n_factors),
-      w0_(w0), W_(W), V_(V) {};
+      task_(task),
+      n_features_(n_features),
+      n_factors_(n_factors),
+      w0_(w0),
+      W_(W),
+      V_(V) {};
 
   FMModel(int task,
           int n_features,

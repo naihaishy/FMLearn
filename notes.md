@@ -14,8 +14,14 @@
 
 ### 项目的结构
 本项目只有唯一的入口点 Entry Point
-FactorizationMachine
- 
+Solver
+整体的流程是：
+Solver-> Trainer   -> Loss -> Score
+Solver-> Predictor -> Loss -> Score
+
+Loss模块针对数据集操作 DMatrix *data
+Score模块针对单个样本操作 SparseRow *row 
+
 ### 开发规范
 尽量遵守谷歌C++开发规范
  
