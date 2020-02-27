@@ -27,7 +27,9 @@ class Solver {
       score_(nullptr),
       loss_(nullptr),
       model_(nullptr),
-      metric_(nullptr) {};
+      metric_(nullptr),
+      param_(nullptr),
+      pool_(nullptr) {};
   ~Solver();
 
   void Initialize(HyperParam* param);
@@ -46,7 +48,7 @@ class Solver {
   Loss* loss_;
   FMModel* model_;
   Metric* metric_;
-  HyperParam* hyper_param_;
+  HyperParam* param_;
   ThreadPool* pool_;
 };
 

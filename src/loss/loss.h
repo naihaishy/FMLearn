@@ -76,8 +76,8 @@ class Loss {
  protected:
   float loss_sum_ = 0.0f;
   int num_samples_ = 0;
-  Score* score_;
-  ThreadPool* pool_;
+  Score* score_ = nullptr;
+  ThreadPool* pool_ = nullptr;
 };
 
 #endif //FMLEARN_LOSS_LOSS_H_

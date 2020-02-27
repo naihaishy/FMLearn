@@ -13,8 +13,8 @@
 #include "solver/predictor.h"
 
 void Solver::Initialize(HyperParam* param) {
-  hyper_param_ = param;
-  if (hyper_param_->is_train) {
+  param_ = param;
+  if (param_->is_train) {
     InitTrain();
   } else {
     InitPredict();
@@ -27,7 +27,7 @@ void Solver::Initialize(HyperParam* param) {
  * 准备 Trainer 需要的初始化参数
  */
 void Solver::InitTrain() {
-  TrainParam* train_param = hyper_param_->GetTrainParam();
+  TrainParam* train_param = param_->GetTrainParam();
 
   // 获取num_feature
   auto reader = new DataReader(train_param->train_file, true);
@@ -40,7 +40,7 @@ void Solver::InitTrain() {
   // 初始化 score_
   if (train_param->model == LINER_MODEL) score_ = new LinearScore();
   else score_ = new FmScore();
-  score_->Initialize(hyper_param_);
+  score_->Initialize(param_);
 
   // 初始化 loss_
   if (train_param->task == REGRESSION) loss_ = new SquaredLoss();
@@ -113,7 +113,7 @@ void Solver::InitTrain() {
  * 准备 Predictor 需要的初始化参数
  */
 void Solver::InitPredict() {
-  PredictionParam* prediction_param = hyper_param_->GetPredictionParam();
+  PredictionParam* prediction_param = param_->GetPredictionParam();
 
   // 初始化 model_
   model_ = new FMModel(prediction_param->model_file);
@@ -121,7 +121,7 @@ void Solver::InitPredict() {
   // 初始化 score_
   if (model_->GetModel() == LINER_MODEL) score_ = new LinearScore();
   else score_ = new FmScore();
-  score_->Initialize(hyper_param_);
+  score_->Initialize(param_);
 
   // 初始化 loss_
   if (model_->GetTask() == REGRESSION) loss_ = new SquaredLoss();
@@ -136,7 +136,7 @@ void Solver::InitPredict() {
 }
 
 void Solver::Start() {
-  if (hyper_param_->is_train) {
+  if (param_->is_train) {
     LogDebug("Solver Start Train");
     StartTrain();
   } else {
@@ -146,7 +146,7 @@ void Solver::Start() {
 }
 
 void Solver::StartTrain() {
-  TrainParam* train_param = hyper_param_->GetTrainParam();
+  TrainParam* train_param = param_->GetTrainParam();
   Trainer trainer;
   trainer.Initialize(reader_list_,
                      loss_,
@@ -167,7 +167,7 @@ void Solver::StartTrain() {
 }
 
 void Solver::StartPredict() {
-  PredictionParam* prediction_param = hyper_param_->GetPredictionParam();
+  PredictionParam* prediction_param = param_->GetPredictionParam();
   Predictor predictor;
   predictor.Initialize(reader_list_.back(),
                        loss_,
@@ -178,23 +178,23 @@ void Solver::StartPredict() {
 
 Solver::~Solver() {
 
-  for (auto &reader : reader_list_) {
+  for (auto& reader : reader_list_) {
     delete reader;
     reader = nullptr;
   }
   std::vector<DataReader*>().swap(reader_list_);
 
-  delete score_;
-  delete loss_;
-  delete model_;
-  delete metric_;
-  delete hyper_param_;
+  if (loss_ != nullptr) delete loss_;
+  if (score_ != nullptr) delete score_;
+  if (model_ != nullptr) delete model_;
+  if (metric_ != nullptr) delete metric_;
+  if (param_ != nullptr) delete param_;
 
   score_ = nullptr;
   loss_ = nullptr;
   model_ = nullptr;
   metric_ = nullptr;
-  hyper_param_ = nullptr;
+  param_ = nullptr;
 }
 
 

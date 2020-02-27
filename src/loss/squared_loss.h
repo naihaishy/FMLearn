@@ -9,7 +9,6 @@
 
 class SquaredLoss : public Loss {
  public:
-  ~SquaredLoss() override;
   void Calculate(std::vector<float>& preds,
                   std::vector<float>& labels) override;
 

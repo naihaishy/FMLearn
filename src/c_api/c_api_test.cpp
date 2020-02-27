@@ -40,11 +40,11 @@ TEST(C_API_TEST, FMMatrixCreateFromFile) {
   std::cout << "dMatrix address" << &dMatrix << std::endl;
   std::cout << "outMatrix address" << &matrix << std::endl;
   EXPECT_EQ(dMatrix, matrix);
-  EXPECT_EQ(matrix->row_length, 1456);
+  EXPECT_EQ(matrix->row_length, 1164);
   EXPECT_TRUE(matrix->has_label);
-  EXPECT_EQ(matrix->labels.size(), 1456);
-  EXPECT_EQ(matrix->rows.size(), 1456);
-  EXPECT_EQ(matrix->norms.size(), 1456);
+  EXPECT_EQ(matrix->labels.size(), 1164);
+  EXPECT_EQ(matrix->rows.size(), 1164);
+  EXPECT_EQ(matrix->norms.size(), 1164);
 }
 
 TEST(C_API_TEST, FMMatrixFree) {

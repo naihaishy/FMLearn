@@ -113,4 +113,3 @@ void FmScore::CalGrad(const SparseRow* row, FMModel& model, float norm, float de
   // 释放内存
   delete[] inter_sum;
 }
-FmScore::~FmScore() = default;

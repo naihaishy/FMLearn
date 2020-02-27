@@ -14,7 +14,6 @@
  */
 class FmScore : public Score {
  public:
-  ~FmScore() override;
 
   float Calculate(const SparseRow* row,
                   FMModel& model,

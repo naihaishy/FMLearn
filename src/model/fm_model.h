@@ -20,7 +20,7 @@
 class FMModel {
  public:
   FMModel() = default;
-  ~FMModel();
+  ~FMModel ();
 
   void Initialize();
 

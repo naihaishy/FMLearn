@@ -43,7 +43,7 @@ class Score {
 
  protected:
   std::string type_ = "Score";
-  HyperParam *hyper_param_;
+  HyperParam *hyper_param_ = nullptr;
 };
 
 #endif //FMLEARN_SCORE_SCORE_H_

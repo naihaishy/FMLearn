@@ -38,9 +38,9 @@ TEST(MODEL_TEST, TrainParam) {
   EXPECT_EQ(param->n_factors, 10);
   EXPECT_EQ(param->n_epoch, 100);
   EXPECT_FLOAT_EQ(param->learning_rate, 0.1);
-  EXPECT_FLOAT_EQ(param->reg_w0, 0.1);
-  EXPECT_FLOAT_EQ(param->reg_W, 0.1);
-  EXPECT_FLOAT_EQ(param->reg_V, 0.1);
+  EXPECT_FLOAT_EQ(param->reg_w0, 0.00002);
+  EXPECT_FLOAT_EQ(param->reg_W, 0.00002);
+  EXPECT_FLOAT_EQ(param->reg_V, 0.00002);
   EXPECT_FLOAT_EQ(param->init_mean, 0.0);
   EXPECT_FLOAT_EQ(param->init_stddev, 0.1);
 

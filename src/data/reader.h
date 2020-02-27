@@ -46,7 +46,7 @@ class DataReader {
   char delimiter_; // 数据项分隔符 \t , space
   bool has_header_ = false;
   bool has_label_ = false; // 如果有label,一定要放在头部 即第一列
-  Parser* parser_; // 解析每行内容
+  Parser* parser_ = nullptr; // 解析每行内容
 };
 
 #endif //FMLEARN_DATA_READER_H_

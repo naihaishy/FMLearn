@@ -51,4 +51,3 @@ void SquaredLoss::CalGrad(const DMatrix* data, FMModel* model) {
   num_samples_ += data->row_length;
 }
 
-SquaredLoss::~SquaredLoss() = default;

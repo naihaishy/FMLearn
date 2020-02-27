@@ -73,10 +73,10 @@ TEST(DMATRIX_TEST, Construct_Explicit_File) {
   std::string file_name = "data/house_price_train.txt";
   DMatrix* matrix = new DMatrix(file_name, true);
   EXPECT_EQ(matrix->GetNumFeatures(), 403);
-  EXPECT_EQ(matrix->rows.size(), 1456);
-  EXPECT_EQ(matrix->row_length, 1456);
-  EXPECT_EQ(matrix->labels.size(), 1456);
-  EXPECT_EQ(matrix->norms.size(), 1456);
+  EXPECT_EQ(matrix->rows.size(), 1164);
+  EXPECT_EQ(matrix->row_length, 1164);
+  EXPECT_EQ(matrix->labels.size(), 1164);
+  EXPECT_EQ(matrix->norms.size(), 1164);
   EXPECT_TRUE(matrix->has_label);
 }
 
@@ -171,10 +171,10 @@ TEST(DATA_TEST, DataReader){
   auto data = new DMatrix();
   reader->Read(data);
   EXPECT_EQ(data->GetNumFeatures(), 403);
-  EXPECT_EQ(data->row_length, 1456);
-  EXPECT_EQ(data->rows.size(), 1456);
-  EXPECT_EQ(data->labels.size(), 1456);
-  EXPECT_EQ(data->norms.size(), 1456);
+  EXPECT_EQ(data->row_length, 1164);
+  EXPECT_EQ(data->rows.size(), 1164);
+  EXPECT_EQ(data->labels.size(), 1164);
+  EXPECT_EQ(data->norms.size(), 1164);
 }
 
 

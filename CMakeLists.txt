@@ -3,7 +3,7 @@ project(FMLearn)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(DEBUG_GDB OFF)
+set(DEBUG_GDB ON)
 
 if(${DEBUG_GDB} STREQUAL "ON")
     set(CMAKE_BUILD_TYPE DEBUG)
