@@ -37,15 +37,16 @@ void Solver::InitTrain() {
 
   int num_feature = data->GetNumFeatures();
 
-  // 初始化 score_
-  if (train_param->model == LINER_MODEL) score_ = new LinearScore();
-  else score_ = new FmScore();
-  score_->Initialize(param_);
-
   // 初始化 loss_
+  // 初始化 score
+  Score *score = nullptr;
+  if (train_param->model == LINER_MODEL) score = new LinearScore();
+  else score = new FmScore();
+  score->Initialize(param_);
+
   if (train_param->task == REGRESSION) loss_ = new SquaredLoss();
   else loss_ = new CrossEntropyLoss();
-  loss_->Initialize(score_);
+  loss_->Initialize(score);
 
 
   // 初始化 model_
@@ -104,7 +105,7 @@ void Solver::InitTrain() {
   info.append("validation_file : " + train_param->valid_file + "\n");
   info.append("model_file      : " + train_param->model_file + "\n");
   info.append("loss type       : " + loss_->GetType() + "\n");
-  info.append("score type      : " + score_->GetType() + "\n");
+  info.append("score type      : " + score->GetType() + "\n");
   LogInfo(info);
 }
 
@@ -118,15 +119,16 @@ void Solver::InitPredict() {
   // 初始化 model_
   model_ = new FMModel(prediction_param->model_file);
 
-  // 初始化 score_
-  if (model_->GetModel() == LINER_MODEL) score_ = new LinearScore();
-  else score_ = new FmScore();
-  score_->Initialize(param_);
-
   // 初始化 loss_
+  // 初始化 score
+  Score *score = nullptr;
+  if (model_->GetModel() == LINER_MODEL) score = new LinearScore();
+  else score = new FmScore();
+  score->Initialize(param_);
+
   if (model_->GetTask() == REGRESSION) loss_ = new SquaredLoss();
   else loss_ = new CrossEntropyLoss();
-  loss_->Initialize(score_);
+  loss_->Initialize(score);
 
   // 初始化reader_list_
   reader_list_.clear();
@@ -184,13 +186,10 @@ Solver::~Solver() {
   }
   std::vector<DataReader*>().swap(reader_list_);
 
-  if (loss_ != nullptr) delete loss_;
-  if (score_ != nullptr) delete score_;
-  if (model_ != nullptr) delete model_;
-  if (metric_ != nullptr) delete metric_;
-  if (param_ != nullptr) delete param_;
+  delete loss_;
+  delete model_;
+  delete metric_;
 
-  score_ = nullptr;
   loss_ = nullptr;
   model_ = nullptr;
   metric_ = nullptr;

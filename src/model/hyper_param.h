@@ -60,7 +60,6 @@ struct PredictionParam {
 class HyperParam {
  public:
   HyperParam();
-  ~HyperParam();
   TrainParam* GetTrainParam() const;
   PredictionParam* GetPredictionParam() const;
 

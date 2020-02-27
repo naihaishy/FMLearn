@@ -20,7 +20,6 @@
 class CmdLine {
  public:
   CmdLine();
-  ~CmdLine();
 
   void Help();
   bool Parse(int argc, char* argv[]);

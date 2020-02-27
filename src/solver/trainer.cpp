@@ -284,6 +284,7 @@ void Trainer::ShowAverageMetric() {
   }
 }
 
+
 void InitMetricValue(Metric* metric,
                      float* best_result,
                      float* prev_result,
@@ -308,6 +309,23 @@ void InitMetricValue(Metric* metric,
       *less_is_better = true;
     }
   }
+}
+
+Trainer::~Trainer() {
+  for (auto& reader : reader_list_) {
+    delete reader;
+    reader = nullptr;
+  }
+  std::vector<DataReader*>().swap(reader_list_);
+  std::vector<LossMetric>().swap(loss_metrics_);
+
+  delete loss_;
+  delete model_;
+  delete metric_;
+
+  loss_ = nullptr;
+  model_ = nullptr;
+  metric_ = nullptr;
 }
 
 

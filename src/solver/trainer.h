@@ -29,8 +29,8 @@ struct LossMetric {
  */
 class Trainer {
  public:
-  Trainer() = default;;
-  ~Trainer() = default;;
+  Trainer() = default;
+  ~Trainer();
 
   void Initialize(std::vector<DataReader*>& reader_list,
                   Loss* loss,

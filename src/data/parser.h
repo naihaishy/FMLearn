@@ -26,8 +26,8 @@
 
 class Parser {
  public:
-
-  virtual ~Parser() = default;
+  Parser() = default;
+  virtual ~Parser()= default;
 
   void Initialize(char delimiter,
                   bool has_header,

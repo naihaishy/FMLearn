@@ -24,7 +24,6 @@ class Solver {
 
  public:
   Solver() :
-      score_(nullptr),
       loss_(nullptr),
       model_(nullptr),
       metric_(nullptr),
@@ -44,7 +43,6 @@ class Solver {
 
   // 存储训练数据和验证数据 或者存在测试数据
   std::vector<DataReader*> reader_list_;
-  Score* score_;
   Loss* loss_;
   FMModel* model_;
   Metric* metric_;

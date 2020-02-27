@@ -7,6 +7,21 @@
 #include "data/data.h"
 #include "common/check.h"
 
+void Predictor::Initialize(DataReader* reader,
+                           Loss* loss,
+                           FMModel* model,
+                           std::string& out_file) {
+
+  CHECK_FALSE(reader == nullptr);
+  CHECK_FALSE(loss == nullptr);
+  CHECK_FALSE(model == nullptr);
+
+  reader_ = reader;
+  loss_ = loss;
+  model_ = model;
+  out_file_ = out_file;
+}
+
 void Predictor::Predict() {
   auto data = new DMatrix();
   reader_->Initialize();
@@ -21,20 +36,6 @@ void Predictor::Predict() {
     ofs.flush();
     ofs.close();
   }
-}
-void Predictor::Initialize(DataReader* reader,
-                           Loss* loss,
-                           FMModel* model,
-                           std::string& out_file) {
-
-  CHECK_FALSE(reader == nullptr);
-  CHECK_FALSE(loss == nullptr);
-  CHECK_FALSE(model == nullptr);
-
-  reader_ = reader;
-  loss_ = loss;
-  model_ = model;
-  out_file_ = out_file;
 }
 
 Predictor::~Predictor() {

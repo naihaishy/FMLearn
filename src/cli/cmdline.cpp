@@ -285,11 +285,4 @@ void CmdLine::ParsePredictionParam(int argc, char* argv[]) {
   }
 }
 
-CmdLine::~CmdLine() {
-  if (param_) {
-    delete param_;
-    param_ = nullptr;
-  }
-}
-
 

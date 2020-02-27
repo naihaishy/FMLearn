@@ -8,6 +8,7 @@
 #include <limits>
 #include <string>
 
+#include "model/model.h"
 #include "common/common.h"
 
 /**
@@ -17,10 +18,10 @@
  *  model.Initialize();
  *
  */
-class FMModel {
+class FMModel : public Model {
  public:
   FMModel() = default;
-  ~FMModel ();
+  ~FMModel();
 
   void Initialize();
 
